@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#b9e5ff">
+
+    <ImageView
+        android:id="@+id/introImageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        tools:ignore="MissingConstraints"
+        ></ImageView>
+
+    <TextView
+        android:id="@+id/introMemberName"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="MemberName"
+        android:textAlignment="center"
+        android:textSize="30dp"
+        android:layout_toEndOf="@id/introImageView"
+        android:layout_marginLeft="5dp"
+        tools:ignore="MissingConstraints"></TextView>
+
+    <TextView
+        android:id="@+id/shortIntroText"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_below="@id/introMemberName"
+        android:layout_marginLeft="205dp"
+        android:layout_marginTop="5dp"
+        android:textSize="15dp"
+        android:text="@string/Error"></TextView>
+
+    <ImageButton
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/shortIntroText"
+        android:layout_toRightOf="@id/introImageView"
+        android:layout_marginLeft="10dp"
+        android:background="#00000000"
+        android:scaleType="fitCenter"
+        android:id="@+id/youtubeLogo"
+        android:src="@drawable/youtube_ripple"></ImageButton>
+
+    <ImageButton
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/shortIntroText"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/youtubeLogo"
+        android:background="#00000000"
+        android:scaleType="fitCenter"
+        android:id="@+id/twitterLogo"
+        android:src="@drawable/twitter_ripple"></ImageButton>
+
+    <ImageButton
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_below="@id/shortIntroText"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/twitterLogo"
+        android:background="#00000000"
+        android:scaleType="fitCenter"
+        android:id="@+id/hololiveLogo"
+        android:src="@drawable/hololive_ripple"></ImageButton>
+
+    <TextView
+        android:id="@+id/introduseText"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/introImageView"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/introtext_stroke"
+        android:paddingLeft="10dp"
+        android:scrollbars="vertical"
+        android:text="@string/ErrorT"></TextView>
+
+    <TextView
+        android:id="@+id/translatedText"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/introduseText"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/translatedtext_stroke"
+        android:scrollbars="vertical"
+        android:paddingLeft="10dp"
+        android:paddingBottom="3dp"
+        android:text="@string/ErrorT"></TextView>
+
+    <TextView
+        android:id="@+id/liveTitle"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/translatedText"
+        android:background="@drawable/livetext_stroke"
+        android:gravity="center"
+        android:text="방송 중이 아닙니다 ㅠㅠ"
+        android:textAlignment="center"></TextView>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/liveTitle"
+        android:id="@+id/liveThumbnails"
+        android:src="@drawable/default_image"
+        android:background="@drawable/liveimage_stroke"
+        android:paddingTop="3dp"></ImageView>
+
+
+
+</RelativeLayout>

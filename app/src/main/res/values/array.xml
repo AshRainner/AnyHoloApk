@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="country">
+        <item>전체</item>
+        <item>JP</item>
+        <item>EN</item>
+        <item>ID</item>
+    </string-array>
+</resources>
