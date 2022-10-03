@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.hololivefinder" >
+    package="com.example.anyholo" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,7 +13,7 @@
         android:theme="@style/Theme.HololiveFinderTest"
         android:usesCleartextTraffic="true" >
         <activity
-            android:name=".LodingActivity"
+            android:name="com.example.anyholo.LodingActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,11 +22,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.anyholo.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustNothing" >
         </activity>
-        <activity android:name=".MemberIntroActivity" />
+        <activity android:name="com.example.anyholo.MemberIntroActivity" />
     </application>
 
 </manifest>
