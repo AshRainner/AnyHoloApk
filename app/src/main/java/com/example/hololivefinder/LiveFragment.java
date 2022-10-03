@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.example.hololivefinder.MemberModel.MemberModel;
 import com.example.hololivefinder.MemberModel.MemberView;
@@ -60,6 +61,19 @@ public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         swipeRefreshLayout.setOnRefreshListener(this);
         return view;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("resume실행", "실행");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("start실행", "실행");
+    }
+
     private void assortMember(){
         liveList.clear();
         noLiveList.clear();
@@ -81,11 +95,9 @@ public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             @Override
             public void run() {
                 try {
-                    Log.d("시작","시작");
                     Socket socket = new Socket("222.237.255.159",9091);
                     ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
                     JSONObject obj = (JSONObject) is.readObject();
-                    Log.d("시작2","시작2");
                     is.close();
                     socket.close();
                     Gson gson = new Gson();
@@ -99,11 +111,11 @@ public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                             gridAdapter.notifyDataSetChanged();
                         }
                     });
-                    Log.d("새로고침 : ","새로고침 완료");
-                    //swipeRefreshLayout.setRefreshing(false);
+                    swipeRefreshLayout.setRefreshing(false);
                 } catch (IOException | ClassNotFoundException e) {
-                    Log.d("연결오류","연결오류");
                     e.printStackTrace();
+                    Toast.makeText(getActivity(), "새고초림 오류", Toast.LENGTH_SHORT).show();
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
         }).start();

@@ -4,112 +4,222 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#b9e5ff">
+    android:background="#bae4ff">
 
-    <ImageView
-        android:id="@+id/introImageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        tools:ignore="MissingConstraints"
-        ></ImageView>
-
-    <TextView
-        android:id="@+id/introMemberName"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:text="MemberName"
-        android:textAlignment="center"
-        android:textSize="30dp"
-        android:layout_toEndOf="@id/introImageView"
-        android:layout_marginLeft="5dp"
-        tools:ignore="MissingConstraints"></TextView>
-
-    <TextView
-        android:id="@+id/shortIntroText"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:layout_below="@id/introMemberName"
-        android:layout_marginLeft="205dp"
-        android:layout_marginTop="5dp"
-        android:textSize="15dp"
-        android:text="@string/Error"></TextView>
-
-    <ImageButton
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_below="@id/shortIntroText"
-        android:layout_toRightOf="@id/introImageView"
-        android:layout_marginLeft="10dp"
-        android:background="#00000000"
-        android:scaleType="fitCenter"
-        android:id="@+id/youtubeLogo"
-        android:src="@drawable/youtube_ripple"></ImageButton>
-
-    <ImageButton
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_below="@id/shortIntroText"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/youtubeLogo"
-        android:background="#00000000"
-        android:scaleType="fitCenter"
-        android:id="@+id/twitterLogo"
-        android:src="@drawable/twitter_ripple"></ImageButton>
-
-    <ImageButton
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_below="@id/shortIntroText"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/twitterLogo"
-        android:background="#00000000"
-        android:scaleType="fitCenter"
-        android:id="@+id/hololiveLogo"
-        android:src="@drawable/hololive_ripple"></ImageButton>
-
-    <TextView
-        android:id="@+id/introduseText"
+    <RelativeLayout
+        android:id="@+id/topLayout"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@id/introImageView"
-        android:layout_marginTop="0dp"
-        android:background="@drawable/introtext_stroke"
-        android:paddingLeft="10dp"
-        android:scrollbars="vertical"
-        android:text="@string/ErrorT"></TextView>
+        android:layout_height="200dp">
 
-    <TextView
-        android:id="@+id/translatedText"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@id/introduseText"
-        android:layout_marginTop="3dp"
-        android:background="@drawable/translatedtext_stroke"
-        android:scrollbars="vertical"
-        android:paddingLeft="10dp"
-        android:paddingBottom="3dp"
-        android:text="@string/ErrorT"></TextView>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardImage"
+            android:layout_width="190dp"
+            android:layout_height="190dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            app:cardCornerRadius="50dp"
+            app:strokeColor="#5e91d7"
+            app:strokeWidth="3dp">
 
-    <TextView
-        android:id="@+id/liveTitle"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@id/translatedText"
-        android:background="@drawable/livetext_stroke"
-        android:gravity="center"
-        android:text="방송 중이 아닙니다 ㅠㅠ"
-        android:textAlignment="center"></TextView>
+            <ImageView
+                android:id="@+id/introImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:ignore="MissingConstraints"></ImageView>
+        </com.google.android.material.card.MaterialCardView>
 
-    <ImageView
+        <androidx.cardview.widget.CardView
+            android:layout_width="190dp"
+            android:layout_height="190dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            app:cardCornerRadius="50dp">
+
+            <RelativeLayout
+                android:id="@+id/nameLayout"
+                android:layout_width="190dp"
+                android:layout_height="190dp"
+                android:background="#d6efff">
+
+                <TextView
+                    android:id="@+id/introMemberName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_horizontal"
+                    android:text="Name"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="30dp"
+                    android:textStyle="bold"
+                    tools:ignore="MissingConstraints"></TextView>
+
+                <TextView
+                    android:id="@+id/shortIntroText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/introMemberName"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/Error"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"></TextView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/shortIntroText">
+
+                    <ImageButton
+                        android:id="@+id/youtubeLogo"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/twitterLogo"
+                        android:background="#00000000"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/youtube_ripple"></ImageButton>
+
+                    <ImageButton
+                        android:id="@+id/twitterLogo"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#00000000"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/twitter_ripple"></ImageButton>
+
+                    <ImageButton
+                        android:id="@+id/hololiveLogo"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/twitterLogo"
+                        android:background="#00000000"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/hololive_ripple"></ImageButton>
+                </RelativeLayout>
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/belowLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/liveTitle"
-        android:id="@+id/liveThumbnails"
-        android:src="@drawable/default_image"
-        android:background="@drawable/liveimage_stroke"
-        android:paddingTop="3dp"></ImageView>
+        android:layout_below="@id/topLayout">
 
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="#d6efff"
+            app:cardCornerRadius="25dp">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#d6efff">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/liveTitleLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="10dp"
+                    app:cardCornerRadius="20dp"
+                    app:strokeColor="#929292"
+                    app:strokeWidth="1dp">
+
+                    <TextView
+                        android:id="@+id/liveTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:background="#b9b9b9"
+                        android:gravity="center"
+                        android:text="현재 방송중이 아닙니다"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"></TextView>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/introduseTextLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/liveTitleLayout"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    app:cardCornerRadius="25dp"
+                    app:strokeColor="#929292"
+                    app:strokeWidth="1dp">
+
+                    <TextView
+                        android:id="@+id/introduseText"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_below="@id/topLayout"
+                        android:background="#eaf6fd"
+                        android:paddingLeft="15dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="10dp"
+                        android:scrollbars="vertical"
+                        android:text="@string/ErrorT"></TextView>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/transitionTextLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/introduseTextLayout"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:cardCornerRadius="25dp"
+                    app:strokeColor="#929292"
+                    app:strokeWidth="1dp">
+
+                    <TextView
+                        android:id="@+id/translatedText"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:background="#eaf6fd"
+                        android:paddingLeft="15dp"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="10dp"
+                        android:scrollbars="vertical"
+                        android:text="@string/ErrorT"></TextView>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/transitionTextLayout"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardCornerRadius="25dp"
+                    app:strokeColor="#929292"
+                    app:strokeWidth="1dp"
+                    android:background="#eaf6fd">
+
+                    <ImageView
+                        android:id="@+id/liveThumbnails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/default_image"></ImageView>
+                </com.google.android.material.card.MaterialCardView>
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
 </RelativeLayout>

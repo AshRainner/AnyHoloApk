@@ -188,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {//스피너 클릭해서 아이템 클릭하면 서치 메서드 실행
                 //search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
+                liveFragment.onResume();
             }
 
             @Override
@@ -228,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {//검색창에 텍스트가 업데이트 될 때마다 작동
                 //search(search.getText().toString(), countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
+                liveFragment.onResume();
             }
         });
     }
@@ -237,143 +239,6 @@ public class MainActivity extends AppCompatActivity {
         testFragment = new test_fragment();
         Log.d("testFragmet생성","!");
     }
-    /*private String getliveIds(){ //56명은 멤버중 live 스트리밍이 열려있는 멤버들의 video id를 가져와서 쿼리문에 적합한 형태로 바꿔서 반환함
-        String liveIds="";
-        for(int i=0;i<parsLiveId.size();i++){//한번에 50개까지 밖에 안됨 //라이브 방송은 대체로 각기 다른시간에 하기에 최대 허용 수 인 50에 도달하지 않음
-            liveIds+=parsLiveId.get(i)+",";
-        }
-        liveIds = liveIds.substring(0,liveIds.length()-1);
-        return liveIds;
-    }
-    private void onAirApiCall(String liveIds){ //live 스트리밍이 열려있는 멤버 중 예약된 스트리밍인지 현재 방송중인지 알아내야하기에 api를 이용하여 여부를 알아냄
-        OnAirAPI onAirAPI = YoutubeRetrofitObject.getInstance().create(OnAirAPI.class);
-        Call<OnAirModel> getOnAirInfo = onAirAPI.getOnAir(
-                "snippet",
-                liveIds,
-                "items",
-                API_KEY);
-        try {
-            OnItems[] temp = getOnAirInfo.execute().body().getItems();
-            for(int i=0;i<temp.length;i++){
-                String onAir = temp[i].getSnippet().getLiveBroadcastContent(); // 방송이 live라면 live를 반환함
-                int index = getIndex(temp[i].getSnippet());
-                if(onAir.equals("live")){
-                    String onAirTitle=temp[i].getSnippet().getTitle();
-                    String onAirthumnailsUrl=temp[i].getSnippet().getThumbnails().getMedium().getUrl();
-                    String onAirVideoUrl="https://www.youtube.com/watch?v="+temp[i].getId();
-                    list.get(index).setOnAir(onAir);
-                    list.get(index).setOnAirTitle(onAirTitle);
-                    list.get(index).setOnAirthumnailsUrl(onAirthumnailsUrl);
-                    list.get(index).setOnAirVideoUrl(onAirVideoUrl);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    private void profileApiCall(String ChannelIds) {  //profile을 받아오는 쿼리문을 실행하여 list에 다 담음
-        ProfileAPI profileAPI = YoutubeRetrofitObject.getInstance().create(ProfileAPI.class);
-        Call<ProfileModel> getProfileInfo = profileAPI.getProfile(
-                "snippet",
-                ChannelIds,
-                "items",
-                API_KEY);
-        Log.d("url",getProfileInfo.request().url()+"");
-        try {
-            Items[] temp = getProfileInfo.execute().body().getItems();
-            for(int i=0;i<temp.length;i++) {
-                //이름 이미지url 국적, live 여부, 소개글, live제목, live썸네일, live영상url,채널id, 트위터url, hololiveUrl, 정렬할 번호
-                int index = getIndex(temp[i].getSnippet());
-                String country;
-                if (index < 35)
-                    country = "JP";
-                else if (index < 46)
-                    country = "EN";
-                else
-                    country = "ID";
-                list.add(new MemberView(KRName[index], temp[i].getSnippet().getThumbnails().getHigh().getUrl(),
-                        country, "", temp[i].getSnippet().getDescription(), "", "","", temp[i].getId(), twitterUrl[index], hololiveUrl[index], index));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    private void liveParseing(){//api에서 search기능을 사용하면 쉽게 알아 낼 수 있지만 api 할당량을 많이 사용하기에 live 스트리밍이 열려있는지를 html을 파싱해서 알아냄
-        for(int i=0;i<channelId.length;i++){
-            Log.d("liveParseing",String.valueOf(i));
-            Document doc = null;
-            try {
-                doc = Jsoup.connect("https://www.youtube.com/channel/"+channelId[i]+"/live").get();
-                Elements links = doc.select("link[rel=\"canonical\"]");//;
-                if(links.attr("href").contains("watch")){
-                    parsLiveId.add(links.attr("href").substring(32));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    private int getIndex(Snippet s){ // 멤버 번호 넘겨주기 이름 비교해서
-        for(int i=0;i<memberNameT.length;i++){
-            if(s.getTitle().contains(memberNameT[i])){
-                return i;
-            }
-        }
-        return 0;
-    }
-    private int getIndex(OnSnippet s){ // ChannelTite == 채널 이름 모든 채널들은 채널 이름에 자기 이름을 넣었음
-        for(int i=0;i<memberNameT.length;i++){
-            if(s.getChannelTitle().contains(memberNameT[i])){
-                return i;
-            }
-        }
-        return 0;
-    }
-    private String getChannelIds(){//api를 이용하여 검색할 수 있는 id수는 최대 50개여서 끊음
-        String ChannelIds="";
-        for(int i=0;i<50;i++){//한번에 50개까지 밖에 안됨
-            ChannelIds+=(channelId[i]+",");
-        }
-        ChannelIds = ChannelIds.substring(0,ChannelIds.length()-1);
-        return ChannelIds;
-    }
-    private String getRemainderChannelIds(){//나머지
-        String ChannelIds="";
-        for(int i=50;i<channelId.length;i++){
-            ChannelIds+=(channelId[i]+",");
-        }
-        ChannelIds = ChannelIds.substring(0,ChannelIds.length()-1);
-        return ChannelIds;
-    }*/
-    /*private void sortList(){ // 모든 작업이 끝난 뒤 list를 live여부에 따라 나누고 정렬함 live하는 멤버를 먼저 보여주기 위해 해야하는 작업
-        for(int i=0;i<list.size();i++){
-            if(list.get(i).getOnAir().equals("live"))
-                liveList.add(list.get(i));
-            else
-                noLiveList.add(list.get(i));
-        }
-        Collections.sort(liveList);
-        Collections.sort(noLiveList);
-        list.clear();
-        list.addAll(liveList);
-        list.addAll(noLiveList);
-    }*/
-
-    /*private void assortMember(){
-        liveList.clear();
-        noLiveList.clear();
-        for(int i=0;i<list.size();i++){
-            if(list.get(i).getOnAir().equals("live"))
-                liveList.add(list.get(i));
-            else
-                noLiveList.add(list.get(i));
-        }
-        Collections.sort(liveList);
-        Collections.sort(noLiveList);
-        list.clear();
-        list.addAll(liveList);
-        list.addAll(noLiveList);
-    }*/
     /*private void search(String keyword, String country) {
         list.clear();
         if (keyword.length() == 0) {
@@ -415,42 +280,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         gridAdapter.notifyDataSetChanged();
-    }*/
-    /*public void updateView(){
-        gridAdapter.notifyDataSetChanged();
-        swipeRefreshLayout.setRefreshing(false);
-    }*/
-    /*@Override
-    public void onRefresh() {
-            new Thread(new Runnable(){ // 네트워크 작업은 쓰레드를 이용하여 해야함
-                @Override
-                public void run() {
-                    try {
-                        Log.d("시작","시작");
-                        Socket socket = new Socket("222.237.255.159",9091);
-                        ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
-                        JSONObject obj = (JSONObject) is.readObject();
-                        Log.d("시작2","시작2");
-                        is.close();
-                        socket.close();
-                        Gson gson = new Gson();
-                        MemberModel m = gson.fromJson(obj.toString(),MemberModel.class); // gson으로 json데이터를 직렬화
-                        list.clear();
-                        list.addAll(m.getMemberList());
-                        assortMember();
-                        runOnUiThread(new Runnable() { // 메인 스레드 이외에서 바꾸려고하면 오류나서 이걸 써야함
-                            @Override
-                            public void run() {
-                                gridAdapter.notifyDataSetChanged();
-                            }
-                        });
-                        Log.d("새로고침 : ","새로고침 완료");
-                        swipeRefreshLayout.setRefreshing(false);
-                    } catch (IOException | ClassNotFoundException e) {
-                        Log.d("연결오류","연결오류");
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
     }*/
 }
