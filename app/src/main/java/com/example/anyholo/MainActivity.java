@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             "UCYz_5n-uDuChHtLo7My1HnQ","UC727SQYUvx5pDDGQpTICNWg","UChgTyjG-pdNvxxhdsXfHQ5Q",//ID2기생
             "UCTvHWSfBZgtxE4sILOaurIQ","UCZLZ8Jjx_RN2CXloOmgTHVg","UCjLEmnpCNeisMxy134KPwWw"//ID3기생
     };
-    private String[] memberNameT={//멤버들의 채널 제목에 있는 이름
+    private String[] memberNameT={//멤버들의 채널 제목에 있는 <b>이름</b>
             "Sora","Roboco","AZKi","Miko","Suisei",//0기생
             "夜空","アキロゼ","HAACHAMA","フブキ","Matsuri",//1기생
             "Aqua","Shion","Ayame","Choco","Subaru",//2기생
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             "Ollie","Anya","Reine",//ID2기생
             "Zeta","Kaela","Kobo"//ID3기생
     };
-    private String[] KRName={//멤버들의 한국식 이름
+    private String[] KRName={//멤버들의 한국식 <b>이름</b>
             "소라","로보코","아즈키","미코","스이세이",
             "멜","아키로젠탈","하아토","후부키","마츠리",
             "아쿠아","시온","아야메","쵸코","스바루",
@@ -139,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = new Bundle();
         ArrayList<MemberView> list = (ArrayList<MemberView>) intent.getSerializableExtra("MemberList");
-        Log.d("사이즈 : ",String.valueOf(list.size()));
         bundle.putSerializable("MemberList",list);
         pagerAdapter = new CustomViewPagerAdapter(this);
         createFragment();

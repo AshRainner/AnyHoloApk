@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gridView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/gridView">
-    <ImageView
-        android:layout_marginTop="5dp"
-        android:layout_width="wrap_content"
-        android:maxWidth="20dp"
-        android:layout_height="100dp"
-        android:id="@+id/memberImage"
-        android:layout_gravity="center"/>
-    <TextView
+    android:layout_height="match_parent">
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/memberName"
-        android:gravity="center"
-        android:textSize="10pt"
-        />
-</LinearLayout>
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/memberImage"
+            android:layout_marginTop="10dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/memberName"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/memberImage"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="9.5pt"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/aramgodic"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

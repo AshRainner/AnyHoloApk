@@ -57,7 +57,7 @@ public class GridAdapter extends BaseAdapter {
         else//아니면 푸른색
             view.setBackgroundResource(R.drawable.grid_nolive);
             //view.setBackgroundColor(Color.parseColor("#8cf7f6"));//#B3E5FC #88d2ff 5fddef
-        Glide.with(view).load(memberView.getImageUrl()).apply(new RequestOptions().circleCrop()).into(imageView);//url를 이용하여 이미지 뷰에 이미지 세팅
+        Glide.with(view).load(memberView.getImageUrl()).apply(new RequestOptions()).into(imageView);//url를 이용하여 이미지 뷰에 이미지 세팅
         textView.setText(memberView.getMemberName());
         return view;
     }

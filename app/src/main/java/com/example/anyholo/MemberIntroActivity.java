@@ -19,8 +19,8 @@ import com.example.anyholo.MemberModel.MemberView;
 public class MemberIntroActivity extends AppCompatActivity {
     private TextView introduceText;
     private TextView translatedText;
-    private TextView introMemberName;
-    private TextView shortIntroText;
+    private TextView introText;
+    private TextView nameText;
     private ImageView proFileImage;
     private ImageView liveThumbnails;
     private TextView liveTitle;
@@ -28,7 +28,7 @@ public class MemberIntroActivity extends AppCompatActivity {
     private ImageButton youtubeLogo;
     private ImageButton twitterLogo;
     private ImageButton hololiveLogo;
-    private String[] memberEnName = {//member들의 영어 이름
+    private String[] memberEnName = {//member들의 영어 <b>이름</b>
             "Sora","Roboco","AZKi","Miko","Suisei",//0기생
             "Mel","Rogental","Haato","Fubuki","Matsuri",//1기생
             "Aqua","Shion","Ayame","Choco","Subaru",//2기생
@@ -48,23 +48,22 @@ public class MemberIntroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member_intro);
-        shortIntroText = findViewById(R.id.shortIntroText);
-        introduceText = findViewById(R.id.introduseText);
+        introText = findViewById(R.id.itroText);
+        nameText = findViewById(R.id.nameText);
         translatedText = findViewById(R.id.translatedText);
         proFileImage = findViewById(R.id.introImageView);
-        introduceText.setMovementMethod(new ScrollingMovementMethod());
         translatedText.setMovementMethod(new ScrollingMovementMethod());
-        introMemberName = findViewById(R.id.introMemberName);
         liveThumbnails = findViewById(R.id.liveThumbnails);
         liveTitle = findViewById(R.id.liveTitle);
         Intent intent = getIntent();
         memberView = (MemberView) intent.getSerializableExtra("MemberView"); // 클릭한 멤버의 정보를 받아옴
-        introduceText.setText(memberView.getIntroduceText());
-        introMemberName.setText(memberView.getMemberName());
         Glide.with(this).load(memberView.getImageUrl()).into(proFileImage);
-        String s=memberEnName[memberView.getNum()]+"Intro";
+        String s=memberEnName[memberView.getNum()]+"Name";
         int identifier = getResources().getIdentifier(s,"string",getPackageName());
-        shortIntroText.setText(identifier);
+        nameText.setText(identifier);
+        s = memberEnName[memberView.getNum()] + "Intro";
+        identifier = getResources().getIdentifier(s,"string",getPackageName());
+        introText.setText(identifier);
         s=memberEnName[memberView.getNum()]+"TranslatedText";
         identifier = getResources().getIdentifier(s,"string",getPackageName()); // 리소스에서 가져옴
         translatedText.setText(identifier);

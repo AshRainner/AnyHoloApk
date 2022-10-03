@@ -22,7 +22,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/banner"
         android:orientation="horizontal"
-        android:background="@drawable/stroke">
+        android:background="@drawable/stroke"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
 
         <Spinner
             android:id="@+id/spinner"

@@ -15,9 +15,9 @@
             android:id="@+id/cardImage"
             android:layout_width="190dp"
             android:layout_height="190dp"
-            android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
-            app:cardCornerRadius="50dp"
+            android:layout_marginTop="5dp"
+            app:cardCornerRadius="25dp"
             app:strokeColor="#5e91d7"
             app:strokeWidth="3dp">
 
@@ -34,7 +34,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="5dp"
             android:layout_marginRight="10dp"
-            app:cardCornerRadius="50dp">
+            app:cardCornerRadius="25dp">
 
             <RelativeLayout
                 android:id="@+id/nameLayout"
@@ -42,83 +42,86 @@
                 android:layout_height="190dp"
                 android:background="#d6efff">
 
-                <TextView
-                    android:id="@+id/introMemberName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center_horizontal"
-                    android:text="Name"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="30dp"
-                    android:textStyle="bold"
-                    tools:ignore="MissingConstraints"></TextView>
 
                 <TextView
-                    android:id="@+id/shortIntroText"
+                    android:id="@+id/nameText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/introMemberName"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/Error"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center"
+                    android:text="@string/nameError"
                     android:textColor="@color/black"
                     android:textSize="20dp"></TextView>
 
-                <RelativeLayout
+                <TextView
+                    android:id="@+id/itroText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/shortIntroText">
-
-                    <ImageButton
-                        android:id="@+id/youtubeLogo"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@id/twitterLogo"
-                        android:background="#00000000"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/youtube_ripple"></ImageButton>
-
-                    <ImageButton
-                        android:id="@+id/twitterLogo"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="#00000000"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/twitter_ripple"></ImageButton>
-
-                    <ImageButton
-                        android:id="@+id/hololiveLogo"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/twitterLogo"
-                        android:background="#00000000"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/hololive_ripple"></ImageButton>
-                </RelativeLayout>
+                    android:layout_below="@id/nameText"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal"
+                    android:lineSpacingExtra="10dp"
+                    android:text="@string/introError"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"></TextView>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/nameText">
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/middleLayout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_below="@id/topLayout">
+
+        <ImageButton
+            android:id="@+id/twitterLogo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/youtubeLogo"
+            android:background="#00000000"
+            android:scaleType="centerInside"
+            android:src="@drawable/twitter_ripple"></ImageButton>
+
+        <ImageButton
+            android:id="@+id/youtubeLogo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:background="#00000000"
+            android:scaleType="fitCenter"
+            android:src="@drawable/youtube_ripple"></ImageButton>
+
+        <ImageButton
+            android:id="@+id/hololiveLogo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/youtubeLogo"
+            android:background="#00000000"
+            android:scaleType="fitCenter"
+            android:src="@drawable/hololive_ripple"></ImageButton>-
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/belowLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/topLayout">
+        android:layout_below="@id/middleLayout">
 
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
             android:background="#d6efff"
             app:cardCornerRadius="25dp">
@@ -132,9 +135,7 @@
                     android:id="@+id/liveTitleLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_margin="10dp"
                     app:cardCornerRadius="20dp"
                     app:strokeColor="#929292"
                     app:strokeWidth="1dp">
@@ -151,38 +152,13 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/introduseTextLayout"
+                    android:id="@+id/transitionTextLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/liveTitleLayout"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    app:cardCornerRadius="25dp"
-                    app:strokeColor="#929292"
-                    app:strokeWidth="1dp">
-
-                    <TextView
-                        android:id="@+id/introduseText"
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_below="@id/topLayout"
-                        android:background="#eaf6fd"
-                        android:paddingLeft="15dp"
-                        android:paddingBottom="5dp"
-                        android:paddingTop="10dp"
-                        android:scrollbars="vertical"
-                        android:text="@string/ErrorT"></TextView>
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/transitionTextLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/introduseTextLayout"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
                     app:cardCornerRadius="25dp"
                     app:strokeColor="#929292"
                     app:strokeWidth="1dp">
@@ -193,8 +169,8 @@
                         android:layout_height="100dp"
                         android:background="#eaf6fd"
                         android:paddingLeft="15dp"
-                        android:paddingBottom="5dp"
                         android:paddingTop="10dp"
+                        android:paddingBottom="5dp"
                         android:scrollbars="vertical"
                         android:text="@string/ErrorT"></TextView>
                 </com.google.android.material.card.MaterialCardView>
@@ -203,14 +179,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/transitionTextLayout"
-                    android:layout_marginTop="5dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
+                    android:background="#eaf6fd"
                     app:cardCornerRadius="25dp"
                     app:strokeColor="#929292"
-                    app:strokeWidth="1dp"
-                    android:background="#eaf6fd">
+                    app:strokeWidth="1dp">
 
                     <ImageView
                         android:id="@+id/liveThumbnails"
