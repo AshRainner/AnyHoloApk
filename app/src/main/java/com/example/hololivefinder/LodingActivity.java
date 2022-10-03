@@ -44,11 +44,6 @@ public class LodingActivity extends AppCompatActivity {
                         MemberModel m = response.body();
                         ArrayList<MemberView> memberList= m.getMemberList();
                         intent.putExtra("MemberList", memberList);
-                        Log.d("ASDF","ASDF");
-                        if(m==null)
-                        Log.d("널값","널인데?");
-                        else
-                            Log.d("이름:",m.getMemberList().get(0).getMemberName());
                     }
 
                     @Override

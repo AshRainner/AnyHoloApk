@@ -1,8 +1,10 @@
 package com.example.hololivefinder;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -15,18 +17,32 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
-
+import com.example.hololivefinder.Adapter.CustomViewPagerAdapter;
 import com.example.hololivefinder.MemberModel.MemberModel;
 import com.example.hololivefinder.MemberModel.MemberView;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import java.lang.reflect.Member;
+import org.json.simple.JSONObject;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     /*
@@ -35,10 +51,6 @@ public class MainActivity extends AppCompatActivity {
     제작자 : 인하공업 전문 대학 2학년 이건
      */
     //private final String API_KEY = "AIzaSyADYWApy4Z5VvjrCc2j5BCtRX2VjX2zIvs"; // 발급받은 API 키값
-    private GridView gridView;
-    private GridAdapter gridAdapter;
-    private EditText search;
-    private ImageButton menuBtn;
     /*private String[] channelId = { // 멤버들의 유튜브 채널 ID
             "UCp6993wxpyDPHUpavwDFqgg","UCDqI2jOz0weumE8s7paEk6g","UC0TXe_LYZ4scaW2XMyi5_kw","UC-hM6YJuNYVAmUWxeIr9FeA","UC5CwaMl1eIgY8h02uZw7u8A",//0기생
             "UCD8HOxPs4Xvsm8H0ZxXGiBw","UCFTLzh12_nrtzqBPsTCqenA","UC1CfXB_kRs3C-zaeTG3oGyg","UCdn5BQ06XqgXoAxIhbqw5Rg","UCQ0UDLQCjY0rmuxCDE38FGg",//1기생
@@ -119,37 +131,63 @@ public class MainActivity extends AppCompatActivity {
             "kureiji-ollie","anya-melfissa","pavolia-reine",
             "vestia-zeta","kaela-kovalskia","kobo-kanaeru"
     };*/
-    private ArrayList<MemberView> list;//Grid 뷰에 띄워줄 MemberView를 가진 List
+    /*private ArrayList<MemberView> list;//Grid 뷰에 띄워줄 MemberView를 가진 List
     private ArrayList<MemberView> noLiveList;//live하지 않는 멤버들만 모아서 정렬할 리스트
-    private ArrayList<MemberView> liveList;//live하는 멤버들만 모아서 정렬할 리스트
-
+    private ArrayList<MemberView> liveList;//live하는 멤버들만 모아서 정렬할 리스트*/
+    private SwipeRefreshLayout swipeRefreshLayout;
+    /*private GridView gridView;
+    private GridAdapter gridAdapter;*/
+    private EditText search;
+    private ImageButton menuBtn;
+    private ViewPager2 viewPager;
+    private LiveFragment liveFragment;
+    private test_fragment testFragment;
+    private CustomViewPagerAdapter pagerAdapter;
+    private TabLayout tabLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         search = findViewById(R.id.search_bar);
         menuBtn = findViewById(R.id.menu_btn);
-        gridView = findViewById(R.id.grid_view);
-        gridAdapter = new GridAdapter();
+        viewPager = findViewById(R.id.viewpager);
+        tabLayout = findViewById(R.id.tab);
         Intent intent = getIntent();
-        list = (ArrayList<MemberView>) intent.getSerializableExtra("MemberList");
-        /*if(list==null)
-            Log.d("널","널?");
-        else
-            Log.d("이름 : ",String.valueOf(list.size()));*/
-        noLiveList = new ArrayList<MemberView>(); // 방송을 하고 있지 않은 멤버들
-        liveList = new ArrayList<MemberView>(); // 방송 중인 멤버들
-        assortMember();
+        Bundle bundle = new Bundle();
+        ArrayList<MemberView> list = (ArrayList<MemberView>) intent.getSerializableExtra("MemberList");
+        bundle.putSerializable("MemberList",list);
+        pagerAdapter = new CustomViewPagerAdapter(this);
+        createFragment();
+        liveFragment.setArguments(bundle);
+        pagerAdapter.addFragment(liveFragment);
+        pagerAdapter.addFragment(testFragment);
+        viewPager.setAdapter(pagerAdapter);
+
         Spinner countrySpinner = findViewById(R.id.spinner);
+        new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                switch(position) {
+                    case 0:
+                        tab.setText("생방송");
+                        break;
+                    case 1:
+                        tab.setText("트윗");
+                        break;
+                    case 2:
+                        tab.setText("키리누키");
+                }
+            }
+        }).attach();
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.country,//String Array 설정
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(R.layout.country_spinner);
+
         countrySpinner.setAdapter(adapter);
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {//스피너 클릭해서 아이템 클릭하면 서치 메서드 실행
-                search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
+                //search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
             }
 
             @Override
@@ -178,25 +216,6 @@ public class MainActivity extends AppCompatActivity {
                 popupMenu.show();
             }
         });
-        /*parsLiveId = new ArrayList<String>();
-        Thread test = new Thread(new Runnable(){ // 네트워크 작업은 쓰레드를 이용하여 해야함
-            @Override
-            public void run() {
-                liveParseing();
-                profileApiCall(getChannelIds());
-                profileApiCall(getRemainderChannelIds());
-                Collections.sort(list);
-                onAirApiCall(getliveIds());
-            }
-
-        });
-        test.start();
-        try {
-            test.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        sortList();*/
         search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -208,22 +227,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {//검색창에 텍스트가 업데이트 될 때마다 작동
-                search(search.getText().toString(), countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
+                //search(search.getText().toString(), countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
             }
         });
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                MemberView m = (MemberView) gridAdapter.getItem(i);
-                Intent intent = new Intent(getApplicationContext(), MemberIntroActivity.class);
-                intent.putExtra("MemberView", m);//누른 그리드 뷰 아이템을 MemberIntroActivity로 전송
-                startActivity(intent);
-            }
-        });
-        gridAdapter.setItems(list);
-        gridView.setAdapter(gridAdapter);
     }
-
+    private void createFragment(){
+        liveFragment = new LiveFragment();
+        Log.d("liveFragmet생성","!");
+        testFragment = new test_fragment();
+        Log.d("testFragmet생성","!");
+    }
     /*private String getliveIds(){ //56명은 멤버중 live 스트리밍이 열려있는 멤버들의 video id를 가져와서 쿼리문에 적합한 형태로 바꿔서 반환함
         String liveIds="";
         for(int i=0;i<parsLiveId.size();i++){//한번에 50개까지 밖에 안됨 //라이브 방송은 대체로 각기 다른시간에 하기에 최대 허용 수 인 50에 도달하지 않음
@@ -345,7 +358,10 @@ public class MainActivity extends AppCompatActivity {
         list.addAll(liveList);
         list.addAll(noLiveList);
     }*/
-    private void assortMember(){
+
+    /*private void assortMember(){
+        liveList.clear();
+        noLiveList.clear();
         for(int i=0;i<list.size();i++){
             if(list.get(i).getOnAir().equals("live"))
                 liveList.add(list.get(i));
@@ -357,8 +373,8 @@ public class MainActivity extends AppCompatActivity {
         list.clear();
         list.addAll(liveList);
         list.addAll(noLiveList);
-    }
-    private void search(String keyword, String country) {
+    }*/
+    /*private void search(String keyword, String country) {
         list.clear();
         if (keyword.length() == 0) {
             if (country.equals("전체")) {
@@ -399,5 +415,42 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         gridAdapter.notifyDataSetChanged();
-    }
+    }*/
+    /*public void updateView(){
+        gridAdapter.notifyDataSetChanged();
+        swipeRefreshLayout.setRefreshing(false);
+    }*/
+    /*@Override
+    public void onRefresh() {
+            new Thread(new Runnable(){ // 네트워크 작업은 쓰레드를 이용하여 해야함
+                @Override
+                public void run() {
+                    try {
+                        Log.d("시작","시작");
+                        Socket socket = new Socket("222.237.255.159",9091);
+                        ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
+                        JSONObject obj = (JSONObject) is.readObject();
+                        Log.d("시작2","시작2");
+                        is.close();
+                        socket.close();
+                        Gson gson = new Gson();
+                        MemberModel m = gson.fromJson(obj.toString(),MemberModel.class); // gson으로 json데이터를 직렬화
+                        list.clear();
+                        list.addAll(m.getMemberList());
+                        assortMember();
+                        runOnUiThread(new Runnable() { // 메인 스레드 이외에서 바꾸려고하면 오류나서 이걸 써야함
+                            @Override
+                            public void run() {
+                                gridAdapter.notifyDataSetChanged();
+                            }
+                        });
+                        Log.d("새로고침 : ","새로고침 완료");
+                        swipeRefreshLayout.setRefreshing(false);
+                    } catch (IOException | ClassNotFoundException e) {
+                        Log.d("연결오류","연결오류");
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+    }*/
 }

@@ -52,9 +52,13 @@ public class GridAdapter extends BaseAdapter {
         TextView textView = view.findViewById(R.id.memberName);
         ImageView imageView = view.findViewById(R.id.memberImage);
         if(memberView.getOnAir().equals("live"))//혹시 live 중이라면 뷰의 배경색을 변경시킴
-            view.setBackgroundColor(Color.parseColor("#ff9aa4"));//#FFCDD2 #F06292 #EC407A ff9aa4
+            view.setBackgroundResource(R.drawable.grid_live);
+            //view.setBackgroundColor(Color.parseColor("#ff9aa4"));//#FFCDD2 #F06292 #EC407A ff9aa4
+        else if(memberView.getOnAir().equals("prelive"))
+            view.setBackgroundResource(R.drawable.grid_prelive);
         else//아니면 푸른색
-            view.setBackgroundColor(Color.parseColor("#5fddef"));//#B3E5FC #88d2ff 5fddef
+            view.setBackgroundResource(R.drawable.grid_nolive);
+            //view.setBackgroundColor(Color.parseColor("#8cf7f6"));//#B3E5FC #88d2ff 5fddef
         Glide.with(view).load(memberView.getImageUrl()).apply(new RequestOptions().circleCrop()).into(imageView);//url를 이용하여 이미지 뷰에 이미지 세팅
         textView.setText(memberView.getMemberName());
         return view;

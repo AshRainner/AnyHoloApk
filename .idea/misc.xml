@@ -3,27 +3,43 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable-v24/LiveGrid.xml" value="0.3585" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable-v24/hololive_ripple.xml" value="0.2495" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.316" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable-v24/menu_ripple.xml" value="0.249" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable-v24/twitter_ripple.xml" value="0.2495" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable-v24/youtube_ripple.xml" value="0.249" />
+        <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/LiveGrid.xml" value="0.3585" />
+        <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/grid_live.xml" value="0.3585" />
+        <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/grid_nolive.xml" value="0.3585" />
+        <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/grid_prelive.xml" value="0.2635" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/ic_hololive_logo.xml" value="0.3585" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3585" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/ic_main_background.xml" value="0.316" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/ic_main_foreground.xml" value="0.316" />
+        <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/ic_twitter_logo.xml" value="0.307" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/ic_youtube_logo.xml" value="0.249" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/introtext_stroke.xml" value="0.2495" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/liveImage_stroke.xml" value="0.2495" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/liveimage_stroke.xml" value="0.316" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/livetext_stroke.xml" value="0.2495" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/stroke.xml" value="0.249" />
+        <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/tab_background.xml" value="0.307" />
+        <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/tab_background_selected.xml" value="0.307" />
+        <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/tab_background_unselected.xml" value="0.307" />
+        <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/tab_ripple.xml" value="0.307" />
+        <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/tab_textsize.xml" value="0.307" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable/translatedtext_stroke.xml" value="0.2495" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/layout/activity_loding.xml" value="0.31302083333333336" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/layout/activity_main.xml" value="0.35054347826086957" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/layout/activity_member_intro.xml" value="0.5599505562422744" />
+        <entry key="..\:/Android/HololiveFinder/app/src/main/res/layout/fragment_live.xml" value="0.3917572463768116" />
+        <entry key="..\:/Android/HololiveFinder/app/src/main/res/layout/fragment_test_fragment.xml" value="0.365625" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/layout/item.xml" value="0.3572916666666667" />
+        <entry key="..\:/Android/HololiveFinder/app/src/main/res/layout/live_fragment.xml" value="0.3917572463768116" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/layout/member_grid.xml" value="0.20471014492753623" />
+        <entry key="..\:/Android/HololiveFinder/app/src/main/res/layout/test1_fragment.xml" value="0.3572916666666667" />
+        <entry key="..\:/Android/HololiveFinder/app/src/main/res/layout/test_fragment.xml" value="0.365625" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.316" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.316" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/mipmap-anydpi-v26/ic_main.xml" value="0.316" />

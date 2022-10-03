@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:id="@+id/gridView">
     <ImageView
+        android:layout_marginTop="5dp"
         android:layout_width="wrap_content"
         android:maxWidth="20dp"
         android:layout_height="100dp"
