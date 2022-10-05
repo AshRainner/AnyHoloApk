@@ -52,8 +52,8 @@ public class GridAdapter extends BaseAdapter {
         if(memberView.getOnAir().equals("live"))//혹시 live 중이라면 뷰의 배경색을 변경시킴
             view.setBackgroundResource(R.drawable.grid_live);
             //view.setBackgroundColor(Color.parseColor("#ff9aa4"));//#FFCDD2 #F06292 #EC407A ff9aa4
-        else if(memberView.getOnAir().equals("prelive"))
-            view.setBackgroundResource(R.drawable.grid_prelive);
+        else if(memberView.getOnAir().equals("upcoming"))
+            view.setBackgroundResource(R.drawable.grid_upcoming);
         else//아니면 푸른색
             view.setBackgroundResource(R.drawable.grid_nolive);
             //view.setBackgroundColor(Color.parseColor("#8cf7f6"));//#B3E5FC #88d2ff 5fddef

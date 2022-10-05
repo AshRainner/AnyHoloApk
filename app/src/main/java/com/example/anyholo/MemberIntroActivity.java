@@ -67,16 +67,19 @@ public class MemberIntroActivity extends AppCompatActivity {
         s=memberEnName[memberView.getNum()]+"TranslatedText";
         identifier = getResources().getIdentifier(s,"string",getPackageName()); // 리소스에서 가져옴
         translatedText.setText(identifier);
-        if(memberView.getOnAir().equals("live")) { // 생방송중이라면 방송중임을 색을 통해 알려주고 색을 변곃해줌
+        if(memberView.getOnAir().equals("live")||memberView.getOnAir().equals("upcoming")) { // 생방송 및 방송예정이라면 방송중임을 색을 통해 알려주고 색을 변곃해줌
             liveTitle.setText(memberView.getOnairTitle());
-            liveTitle.setBackgroundColor(Color.parseColor("#ff9aa4"));
+            if(memberView.getOnAir().equals("live"))
+                liveTitle.setBackgroundColor(Color.parseColor("#ff9aa4"));
+            else
+                liveTitle.setBackgroundColor(Color.parseColor("#bad1ff"));
             Glide.with(this).load(memberView.getOnAirThumnailsUrl()).into(liveThumbnails);
             liveThumbnails.setScaleType(ImageView.ScaleType.FIT_XY);
         }
         liveThumbnails.setOnClickListener(new View.OnClickListener() { // 썸네일 이미지 있는 부분 만약에 클릭한 멤버가 live이면 이미지 클릭시 방송중인 화면으로 이동
             @Override
             public void onClick(View view) {
-                if(memberView.getOnAir().equals("live"))
+                if(memberView.getOnAir().equals("live")||memberView.getOnAir().equals("upcoming"))
                 startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(memberView.getOnAirViedoUrl())));
             }
         });

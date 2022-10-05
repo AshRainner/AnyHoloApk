@@ -22,6 +22,7 @@ import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +32,7 @@ public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private GridAdapter gridAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ArrayList<MemberView> list;//Grid 뷰에 띄워줄 MemberView를 가진 List
+    private ArrayList<MemberView> upcominglist;
     private ArrayList<MemberView> noLiveList;//live하지 않는 멤버들만 모아서 정렬할 리스트
     private ArrayList<MemberView> liveList;//live하는 멤버들만 모아서 정렬할 리스트
 
@@ -42,6 +44,7 @@ public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         swipeRefreshLayout = view.findViewById(R.id.memberLayout);
         gridAdapter = new GridAdapter();
         list = (ArrayList<MemberView>) getArguments().getSerializable("MemberList");
+        upcominglist = new ArrayList<MemberView>();//방송 예정인 멤버들
         noLiveList = new ArrayList<MemberView>(); // 방송을 하고 있지 않은 멤버들
         liveList = new ArrayList<MemberView>(); // 방송 중인 멤버들*/
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -78,13 +81,17 @@ public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         for(int i=0;i<list.size();i++){
             if(list.get(i).getOnAir().equals("live"))
                 liveList.add(list.get(i));
+            else if(list.get(i).getOnAir().equals("upcoming"))
+                upcominglist.add(list.get(i));
             else
                 noLiveList.add(list.get(i));
         }
         Collections.sort(liveList);
+        Collections.sort(upcominglist);
         Collections.sort(noLiveList);
         list.clear();
         list.addAll(liveList);
+        list.addAll(upcominglist);
         list.addAll(noLiveList);
     }
     @Override
