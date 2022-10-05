@@ -58,9 +58,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@id/nameText"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center_horizontal"
+                    android:gravity="center"
                     android:lineSpacingExtra="10dp"
+                    android:fontFamily="@font/gulimche"
                     android:text="@string/introError"
                     android:textColor="@color/black"
                     android:textSize="20dp"></TextView>
