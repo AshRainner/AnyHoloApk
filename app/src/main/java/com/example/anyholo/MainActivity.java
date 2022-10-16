@@ -171,8 +171,7 @@ public class MainActivity extends AppCompatActivity {
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {//스피너 클릭해서 아이템 클릭하면 서치 메서드 실행
-                //search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
-                liveFragment.onResume();
+                liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
             }
 
             @Override
@@ -212,8 +211,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {//검색창에 텍스트가 업데이트 될 때마다 작동
-                //search(search.getText().toString(), countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
-                liveFragment.onResume();
+                liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
             }
         });
     }

@@ -125,4 +125,46 @@ public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             }
         }).start();
     }
+    public void search(String keyword, String country) {
+        list.clear();
+        if (keyword.length() == 0) {
+            if (country.equals("전체")) {
+                list.addAll(liveList);
+                list.addAll(noLiveList);
+            } else {
+                for (int i = 0; i < liveList.size(); i++) {// 값에 따라 검색
+                    if (liveList.get(i).getCountry().equals(country))
+                        list.add(liveList.get(i));
+                }
+                for (int i = 0; i < noLiveList.size(); i++) {// 값에 따라 검색
+                    if (noLiveList.get(i).getCountry().equals(country))
+                        list.add(noLiveList.get(i));
+                }
+            }
+        } else {
+            for (int i = 0; i < liveList.size(); i++) {
+                if (country.equals("전체")) {
+                    if (liveList.get(i).getMemberName().contains(keyword)) {
+                        list.add(liveList.get(i));
+                    }
+                } else {
+                    if (liveList.get(i).getMemberName().contains(keyword) && liveList.get(i).getCountry().equals(country)) {
+                        list.add(liveList.get(i));
+                    }
+                }
+            }
+            for (int i = 0; i < noLiveList.size(); i++) {
+                if (country.equals("전체")) {
+                    if (noLiveList.get(i).getMemberName().contains(keyword)) {
+                        list.add(noLiveList.get(i));
+                    }
+                } else {
+                    if (noLiveList.get(i).getMemberName().contains(keyword) && noLiveList.get(i).getCountry().equals(country)) {
+                        list.add(noLiveList.get(i));
+                    }
+                }
+            }
+        }
+        gridAdapter.notifyDataSetChanged();
+    }
 }
