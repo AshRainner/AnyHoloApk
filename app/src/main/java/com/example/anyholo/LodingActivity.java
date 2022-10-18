@@ -9,9 +9,10 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.anyholo.Model.KirinukiView;
 import com.example.anyholo.dbcon.DBConRetrofitObject;
-import com.example.anyholo.MemberModel.MemberModel;
-import com.example.anyholo.MemberModel.MemberView;
+import com.example.anyholo.Model.Model;
+import com.example.anyholo.Model.MemberView;
 import com.example.anyholo.dbcon.DBcon;
 
 import java.util.ArrayList;
@@ -34,16 +35,19 @@ public class LodingActivity extends AppCompatActivity {
             @Override
             public void run() {
                 DBcon DBconnect = DBConRetrofitObject.getInstance().create(DBcon.class);
-                DBconnect.getData().enqueue(new Callback<MemberModel>() {
+                DBconnect.getData().enqueue(new Callback<Model>() {
                     @Override
-                    public void onResponse(Call<MemberModel> call, Response<MemberModel> response) {
-                        MemberModel m = response.body();
+                    public void onResponse(Call<Model> call, Response<Model> response) {
+                        Model m = response.body();
                         ArrayList<MemberView> memberList= m.getMemberList();
+                        ArrayList<KirinukiView> kirinukiList = m.getVidoes();
+                        //Log.d("비디오 이름 : ",kirinukiList.get(0).getVideoTitle());
                         intent.putExtra("MemberList", memberList);
+                        intent.putExtra("KirinukiList",kirinukiList);
                     }
 
                     @Override
-                    public void onFailure(Call<MemberModel> call, Throwable t) {
+                    public void onFailure(Call<Model> call, Throwable t) {
                         Log.d("실패","실패");
                     }
                 });

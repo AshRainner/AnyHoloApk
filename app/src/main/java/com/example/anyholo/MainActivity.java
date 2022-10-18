@@ -22,7 +22,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.anyholo.Adapter.CustomViewPagerAdapter;
-import com.example.anyholo.MemberModel.MemberView;
+import com.example.anyholo.Model.KirinukiView;
+import com.example.anyholo.Model.MemberView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -126,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     private LiveFragment liveFragment;
     private test_fragment testFragment;
+    private KirinukiFragment kirinukiFragment;
     private CustomViewPagerAdapter pagerAdapter;
     private TabLayout tabLayout;
     @Override
@@ -138,13 +140,18 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tab);
         Intent intent = getIntent();
         Bundle bundle = new Bundle();
-        ArrayList<MemberView> list = (ArrayList<MemberView>) intent.getSerializableExtra("MemberList");
-        bundle.putSerializable("MemberList",list);
+        ArrayList<MemberView> memberlist = (ArrayList<MemberView>) intent.getSerializableExtra("MemberList");
+        ArrayList<KirinukiView> kirinukiList = (ArrayList<KirinukiView>) intent.getSerializableExtra("KirinukiList");
+        Log.d("비디오 이름 : ",kirinukiList.get(0).getVideoTitle());
+        bundle.putSerializable("MemberList",memberlist);
+        bundle.putSerializable("KirinukiList",kirinukiList);
         pagerAdapter = new CustomViewPagerAdapter(this);
         createFragment();
         liveFragment.setArguments(bundle);
+        kirinukiFragment.setArguments(bundle);
         pagerAdapter.addFragment(liveFragment);
         pagerAdapter.addFragment(testFragment);
+        pagerAdapter.addFragment(kirinukiFragment);
         viewPager.setAdapter(pagerAdapter);
 
         Spinner countrySpinner = findViewById(R.id.spinner);
@@ -220,6 +227,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d("liveFragmet생성","!");
         testFragment = new test_fragment();
         Log.d("testFragmet생성","!");
+        kirinukiFragment = new KirinukiFragment();
+        Log.d("kirinukiFragmet생성","!");
     }
     /*private void search(String keyword, String country) {
         list.clear();

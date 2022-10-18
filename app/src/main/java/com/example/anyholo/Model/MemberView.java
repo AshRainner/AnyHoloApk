@@ -1,10 +1,10 @@
-package com.example.anyholo.MemberModel;
+package com.example.anyholo.Model;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class MemberView implements Comparable<MemberView>, Serializable {
+public class MemberView implements Serializable {
     @SerializedName("memberName")
     private String memberName;
     @SerializedName("country")
@@ -141,9 +141,4 @@ public class MemberView implements Comparable<MemberView>, Serializable {
         this.channelId = channelId;
     }
 
-    @Override
-    public int compareTo(MemberView memberView) { // 쓰레드로 해서 순서대로가 아니라 순서대로 정렬해 줄 메서드
-        int compareNumber=memberView.getNum();
-        return this.num-compareNumber;
-    }
 }

@@ -1,4 +1,4 @@
-package com.example.anyholo;
+package com.example.anyholo.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.anyholo.MemberModel.MemberView;
+import com.example.anyholo.Model.MemberView;
+import com.example.anyholo.R;
 
 import java.util.ArrayList;
 
@@ -45,7 +46,7 @@ public class GridAdapter extends BaseAdapter {
          MemberView memberView = items.get(i);
         if(view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.member_grid, viewGroup, false);
+            view = inflater.inflate(R.layout.member_item, viewGroup, false);
         }
         TextView textView = view.findViewById(R.id.memberName);
         ImageView imageView = view.findViewById(R.id.memberImage);

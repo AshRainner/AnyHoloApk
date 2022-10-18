@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.example.anyholo.MemberModel.MemberView;
+import com.example.anyholo.Model.MemberView;
 
 public class MemberIntroActivity extends AppCompatActivity {
     private TextView introduceText;

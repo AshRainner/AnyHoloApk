@@ -5,15 +5,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/memberLayout"
+        android:id="@+id/kirinukirLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/search_layout"
         android:layout_margin="5dp"
         android:orientation="vertical">
 
-            <GridView
-                android:id="@+id/member_gird"
+            <ListView
+                android:id="@+id/kirinuki_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/search_layout"
@@ -23,6 +23,6 @@
                 android:layout_marginBottom="5dp"
                 android:horizontalSpacing="5dp"
                 android:numColumns="3"
-                android:verticalSpacing="5dp"></GridView>
+                android:verticalSpacing="5dp"></ListView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>

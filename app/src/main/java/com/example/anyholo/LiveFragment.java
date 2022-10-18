@@ -14,18 +14,18 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import com.example.anyholo.MemberModel.MemberModel;
-import com.example.anyholo.MemberModel.MemberView;
+import com.example.anyholo.Adapter.GridAdapter;
+import com.example.anyholo.Model.KirinukiView;
+import com.example.anyholo.Model.Model;
+import com.example.anyholo.Model.MemberView;
 import com.google.gson.Gson;
 
 import org.json.simple.JSONObject;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private GridView gridView;
@@ -35,12 +35,11 @@ public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private ArrayList<MemberView> upcominglist;
     private ArrayList<MemberView> noLiveList;//live하지 않는 멤버들만 모아서 정렬할 리스트
     private ArrayList<MemberView> liveList;//live하는 멤버들만 모아서 정렬할 리스트
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.live_fragment,container,false);
-        gridView = view.findViewById(R.id.grid_view);
+        gridView = view.findViewById(R.id.member_gird);
         swipeRefreshLayout = view.findViewById(R.id.memberLayout);
         gridAdapter = new GridAdapter();
         list = (ArrayList<MemberView>) getArguments().getSerializable("MemberList");
@@ -86,9 +85,6 @@ public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             else
                 noLiveList.add(list.get(i));
         }
-        Collections.sort(liveList);
-        Collections.sort(upcominglist);
-        Collections.sort(noLiveList);
         list.clear();
         list.addAll(liveList);
         list.addAll(upcominglist);
@@ -106,7 +102,7 @@ public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     is.close();
                     socket.close();
                     Gson gson = new Gson();
-                    MemberModel m = gson.fromJson(obj.toString(),MemberModel.class); // gson으로 json데이터를 직렬화
+                    Model m = gson.fromJson(obj.toString(), Model.class); // gson으로 json데이터를 직렬화
                     list.clear();
                     list.addAll(m.getMemberList());
                     assortMember();
