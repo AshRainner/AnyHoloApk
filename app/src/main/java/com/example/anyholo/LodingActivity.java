@@ -80,6 +80,7 @@ public class LodingActivity extends AppCompatActivity {
         HashMap<String,Boolean> map = new HashMap<String,Boolean>();
         if(!file.exists()) {//파일이 없음
             FileOutputStream outputStream;
+            Log.d("파일없음","없음");
             try {
                 outputStream = openFileOutput(fileName, Context.MODE_PRIVATE);
                 for(MemberView mv : m)
@@ -97,6 +98,7 @@ public class LodingActivity extends AppCompatActivity {
         }
         else {
             try {
+                Log.d("있음","있음");
                 FileInputStream fis = new FileInputStream(getApplication().getFilesDir().getAbsolutePath() + "/" + fileName);
                 BufferedReader br = new BufferedReader(new FileReader(file));
                 String line = null;

@@ -30,7 +30,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     /*
     이 어플리케이션의 제작권은 이건이 가지고 있습니다.
     무단 전제 및 도용 시 저작권 법에 의해 처벌 받을 수 있습니다.
@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         map = (HashMap<String, Boolean>) intent.getSerializableExtra("Favorite");
         Log.d("소라",String.valueOf(map.get("소라")));
         bundle.putSerializable("MemberList",memberlist);
+        bundle.putSerializable("Favorite",map);
         bundle.putSerializable("KirinukiList",kirinukiList);
         pagerAdapter = new CustomViewPagerAdapter(this);
         createFragment();
@@ -103,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-
         menuBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {//menuBtn을 누르면 팝업 메뉴가 나오게 설정
