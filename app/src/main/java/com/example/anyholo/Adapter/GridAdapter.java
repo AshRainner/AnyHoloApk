@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,6 +51,7 @@ public class GridAdapter extends BaseAdapter {
         }
         TextView textView = view.findViewById(R.id.memberName);
         ImageView imageView = view.findViewById(R.id.memberImage);
+        CheckBox favoriteBtn = view.findViewById(R.id.favoriteBtn);
         if(memberView.getOnAir().equals("live"))//혹시 live 중이라면 뷰의 배경색을 변경시킴
             view.setBackgroundResource(R.drawable.grid_live);
             //view.setBackgroundColor(Color.parseColor("#ff9aa4"));//#FFCDD2 #F06292 #EC407A ff9aa4
@@ -60,6 +62,7 @@ public class GridAdapter extends BaseAdapter {
             //view.setBackgroundColor(Color.parseColor("#8cf7f6"));//#B3E5FC #88d2ff 5fddef
         Glide.with(view).load(memberView.getImageUrl()).apply(new RequestOptions()).into(imageView);//url를 이용하여 이미지 뷰에 이미지 세팅
         textView.setText(memberView.getMemberName());
+        favoriteBtn.bringToFront();
         return view;
     }
 }

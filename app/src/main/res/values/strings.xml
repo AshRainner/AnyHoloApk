@@ -165,4 +165,18 @@
     <string name="nameError"><b>Error</b></string>
     <string name="introError"><b>그룹</b>&#160;&#160;&#160;&#160; ERROR\n<b>데뷔</b>&#160;&#160;&#160;&#160; ERROR\n<b>생일</b>&#160;&#160;&#160;&#160; ERROR</string>
     <string name="ErrorT">Error</string>
+    <string name="JPName">토키노,소라,tokino,sora,로보코씨,roboko,아즈키,AZKi,사쿠라,미코,sakura,miko,호시마치,스이세이,hosimachi,suisei,hoshimachi
+        ,요조라,멜,yozora,mel,아키 로젠탈,aki Rosenthal,아카이 하아토,하쨔마,akai haato,시라카미 후부키,sirakami fubuki,shirakami fubuki,나츠이로 마츠리,natsuiro matsuri
+    ,미나토,아쿠아,minato,aqua,무라사키,시온,murasaki,sion,나키리,아야메,nakiri,ayame,유즈키,초코,yuzuki,choko,오오조라,스바루,oozora,subaru
+    ,오오카미,미오,ookami,mio,네코마타,오카유,nekomata,okayu,이누가미,코로네,inugami,korone
+    ,우사다,페코라,usada,pekora,시라누이,후레아,shiranui,flare,siranui,시로가네,노엘,shirogane,noel,sirogane,호쇼,마린,houshou,marine
+    ,아마네,카타나,amane,kanata,츠노마키,와타메,tsunomaki,watame,토코야미,토와,tokoyami,towa,히메모리,루나,himemori,runa
+    ,유키하나,라미,yukihana,rami,모모스즈,네네,momosuzu,nene,시시로,보탄,sisiro,botan,shishiro,오마루,폴카,omaru,polka
+    ,라플라스,다크니스,laplus,darkness,타카네,루이,takane,lui,하쿠이,코요리,hakui,koyori,사카마타,클로에,sakamata,chloe,카자마,이로하,kazama,iroha</string>
+    <string name="ENName">모리,칼리오페,mori,calliope,타카나시,키아라,takanashi,kiara,takanasi,니노마에,이나니스,ninomae,inanis,가우르,구라,gawr,gura,아멜리아,왓슨,amelia,wastson
+    ,아이리스,irys
+    ,세레스,파우나,ceres,fauna,오로,크로니,ouro,kronoii,나나시,무메이,nanashi,nanasi,mumei,하코스,벨즈,hakos,baelz</string>
+    <string name="IDName">아윤다,리스,ayunda,risu,무나,호시노바,moona,hoshinova,hosinova,아이라니,이오피프틴,airani,iofifteen
+    쿠레이지,올리,크레이지,kureiji,ollie,아냐,멜핏사,anya,melfissa,파볼리아,레이네,pavolia,reine
+        ,베스티아,제타,vestia,zeta,카엘라,코발스키아,kaela,kovalskia,코보,카나에루,kobo,kanaeru</string>
 </resources>

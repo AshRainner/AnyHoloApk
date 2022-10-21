@@ -48,6 +48,18 @@
             android:gravity="center"
             android:textColor="@color/black"
             android:textSize="9.5pt" />
+        <TextView
+            android:id="@+id/uptime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ChanelName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/aramgodic"
+            android:gravity="left"
+            android:textColor="@color/black"
+            android:textSize="9.5pt" />
     </RelativeLayout>
 
 </RelativeLayout>

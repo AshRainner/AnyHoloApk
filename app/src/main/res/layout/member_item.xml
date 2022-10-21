@@ -7,13 +7,18 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <CheckBox
+            android:id="@+id/favoriteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@android:drawable/btn_star"
+            android:layout_alignParentRight="true" />
         <ImageView
             android:id="@+id/memberImage"
             android:layout_marginTop="10dp"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true" />
-
         <TextView
             android:id="@+id/memberName"
             android:layout_width="100dp"

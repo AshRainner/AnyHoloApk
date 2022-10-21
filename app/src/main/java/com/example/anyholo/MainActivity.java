@@ -28,6 +28,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
     /*
@@ -35,93 +36,7 @@ public class MainActivity extends AppCompatActivity {
     무단 전제 및 도용 시 저작권 법에 의해 처벌 받을 수 있습니다.
     제작자 : 인하공업 전문 대학 2학년 이건
      */
-    //private final String API_KEY = "AIzaSyADYWApy4Z5VvjrCc2j5BCtRX2VjX2zIvs"; // 발급받은 API 키값
-    /*private String[] channelId = { // 멤버들의 유튜브 채널 ID
-            "UCp6993wxpyDPHUpavwDFqgg","UCDqI2jOz0weumE8s7paEk6g","UC0TXe_LYZ4scaW2XMyi5_kw","UC-hM6YJuNYVAmUWxeIr9FeA","UC5CwaMl1eIgY8h02uZw7u8A",//0기생
-            "UCD8HOxPs4Xvsm8H0ZxXGiBw","UCFTLzh12_nrtzqBPsTCqenA","UC1CfXB_kRs3C-zaeTG3oGyg","UCdn5BQ06XqgXoAxIhbqw5Rg","UCQ0UDLQCjY0rmuxCDE38FGg",//1기생
-            "UC1opHUrw8rvnsadT-iGp7Cg","UCXTpFs_3PqI41qX2d9tL2Rw","UC7fk0CB07ly8oSl0aqKkqFg","UC1suqwovbL1kzsoaZgFZLKg","UCvzGlP9oQwU--Y0r9id_jnA",//2기생
-            "UCp-5t9SrOQwXMU7iIjQfARg","UCvaTdHTWBGv3MKj3KVqJVCw","UChAnqc_AY5_I3Px5dig3X1Q",//게이머즈
-            "UC1DCedRgGHBdm81E1llLhOQ","UCvInZx9h3jC2JzsIzoOebWg","UCdyqAaZDKHXg4Ahi7VENThQ","UCCzUftO8KOVkV4wQG1vkUvg",//3기생
-            "UCZlDXzGoo7d44bwdNObFacg","UCqm3BQLlJfvkTsX_hvm0UmA","UC1uv2Oq6kNxgATlCiez59hw","UCa9Y57gfeY0Zro_noHRVrnw",//4기생
-            "UCFKOVgVbGmX65RxO3EtH3iw","UCAWSyEs_Io8MtpY3m-zqILA","UCUKD-uaobj9jiqB-VXt71mA","UCK9V2B22uJYu3N7eR_BT9QA",//5기생
-            "UCENwRMx5Yh42zWpzURebzTw","UCs9_O1tRPMQTHQ-N_L6FU2g","UC6eWCld0KwmyHFbAqK3V-Rw","UCIBY1ollUsauvVi4hW4cumw","UC_vMYWcDjmfdpH6r4TTn1MQ",//6기생
-            "UCL_qhgtOy0dy1Agp8vkySQg","UCHsx4Hqa-1ORjQTh9TYDhww","UCMwGHR0BTZuLsmjY_NT5Pwg","UCoSrY_IQQVpmIRZ9Xf-y93g","UCyl1z3jo3XHR1riLFKG5UAg",//EN1기생
-            "UC8rcEBzJSleTkf_-agPM20g",//EN 프로젝트 HOPE
-            "UCsUj0dszADCGbF3gNrQEuSQ","UCO_aKKYxn4tvrqPjcTzZ6EQ","UCmbs8T6MWqUHP1tIQvSgKrg","UC3n5uGu18FoCy23ggWWp8tA","UCgmPnx-EEeOrZSg5Tiw7ZRQ",//EN2기
-            "UCOyYb1c43VlX9rc_lT6NKQw","UCP0BspO_AMEe3aQqqpo89Dg","UCAoy6rzhSf4ydcYjJw3WoVg",//ID1기생
-            "UCYz_5n-uDuChHtLo7My1HnQ","UC727SQYUvx5pDDGQpTICNWg","UChgTyjG-pdNvxxhdsXfHQ5Q",//ID2기생
-            "UCTvHWSfBZgtxE4sILOaurIQ","UCZLZ8Jjx_RN2CXloOmgTHVg","UCjLEmnpCNeisMxy134KPwWw"//ID3기생
-    };
-    private String[] memberNameT={//멤버들의 채널 제목에 있는 <b>이름</b>
-            "Sora","Roboco","AZKi","Miko","Suisei",//0기생
-            "夜空","アキロゼ","HAACHAMA","フブキ","Matsuri",//1기생
-            "Aqua","Shion","Ayame","Choco","Subaru",//2기생
-            "Mio","Okayu","Korone",//게이머즈
-            "Pekora","Flare","Noel","Marine",//3기생
-            "Kanata","Watame","Towa","Luna",//4기생
-            "Lamy","Nene","Botan","Polka",//5기생
-            "Laplus","Lui","Koyori","Chloe","Iroha",//6기생
-            "Calliope","Kiara","Ina'nis","Gura","Amelia",//EN1기생
-            "IRyS",//EN 프로젝트 HOPE
-            "Sana","Fauna","Kronii","Mumei","Baelz",//EN2기생
-            "Risu","Moona","Iofifteen",//ID1기생
-            "Ollie","Anya","Reine",//ID2기생
-            "Zeta","Kaela","Kobo"//ID3기생
-    };
-    private String[] KRName={//멤버들의 한국식 <b>이름</b>
-            "소라","로보코","아즈키","미코","스이세이",
-            "멜","아키로젠탈","하아토","후부키","마츠리",
-            "아쿠아","시온","아야메","쵸코","스바루",
-            "미오","오카유","코로네",
-            "페코라","후레아","노엘","마린",
-            "카나타","와타메","토와","루나",
-            "라미","네네","보탄","폴카",
-            "라플라스","루이","코요리","클로에","이로하",
-            "칼리오페","키아라","이나니스","구라","아멜리아",
-            "아이리스",
-            "사나","파우나","크로니","무메이","벨즈",
-            "리스","무나","이오피프틴",
-            "올리","아냐","레이네",
-            "제타","카엘라","코보"
-    };
-    private String[] twitterUrl = {//각 멤버들의 트위터 아이디
-            "tokino_sora","robocosan","AZKi_VDiVA","sakuramiko35","suisei_hosimati",
-            "yozoramel","akirosenthal","akaihaato","shirakamifubuki","natsuiromatsuri",
-            "minatoaqua","murasakishionch","nakiriayame","yuzukichococh","oozorasubaru",
-            "ookamimio","nekomataokayu","inugamikorone",
-            "usadapekora","shiranuiflare","shiroganenoel","houshoumarine",
-            "amanekanatach","tsunomakiwatame","tokoyamitowa","himemoriluna",
-            "yukihanalamy","momosuzunene","shishirobotan","omarupolka",
-            "LaplusDarknesss","takanelui","hakuikoyori","sakamatachloe","kazamairohach",
-            "moricalliope","takanashikiara","ninomaeinanis","gawrgura","watsonameliaEN",
-            "irys_en",
-            "tsukumosana","ceresfauna","ourokronii","nanashimumei_en","hakosbaelz",
-            "ayunda_risu","moonahoshinova","airaniiofifteen",
-            "kureijiollie","anyamelfissa","pavoliareine",
-            "vestiazeta","kaelakovalskia","kobokanaeru"
-    };
-    private String[] hololiveUrl = {//멤버들의 홀로라이브 사이트 소개 url
-            "tokino-sora","roboco-san","azki","sakuramiko","hoshimachi-suisei",
-            "yozora-mel","aki-rosenthal","akai-haato","shirakami-fubuki","natsuiro-matsuri",
-            "minato-aqua","murasaki-shion","nakiri-ayame","yuzuki-choco","oozora-subaru",
-            "ookami-mio","nekomata-okayu","inugami-korone",
-            "usada-pekora","shiranui-flare","shirogane-noel","houshou-marine",
-            "amane-kanata","tsunomaki-watame","tokoyami-towa","himemori-luna",
-            "yukihana-lamy","momosuzu-nene","shishiro-botan","omaru-polka",
-            "la-darknesss","takane-lui","hakui-koyori","sakamata-chloe","kazama-iroha",
-            "mori-calliope","takanashi-kiara","ninomae-inanis","gawr-gura","watson-amelia",
-            "irys",
-            "tsukumo-sana","ceres-fauna","ouro-kronii","nanashi-mumei","hakos-baelz",
-            "ayunda-risu","moona-hoshinova","airani-iofifteen",
-            "kureiji-ollie","anya-melfissa","pavolia-reine",
-            "vestia-zeta","kaela-kovalskia","kobo-kanaeru"
-    };*/
-    /*private ArrayList<MemberView> list;//Grid 뷰에 띄워줄 MemberView를 가진 List
-    private ArrayList<MemberView> noLiveList;//live하지 않는 멤버들만 모아서 정렬할 리스트
-    private ArrayList<MemberView> liveList;//live하는 멤버들만 모아서 정렬할 리스트*/
     private SwipeRefreshLayout swipeRefreshLayout;
-    /*private GridView gridView;
-    private GridAdapter gridAdapter;*/
     private EditText search;
     private ImageButton menuBtn;
     private ViewPager2 viewPager;
@@ -130,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private KirinukiFragment kirinukiFragment;
     private CustomViewPagerAdapter pagerAdapter;
     private TabLayout tabLayout;
+    private HashMap<String,Boolean> map;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,7 +58,8 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         ArrayList<MemberView> memberlist = (ArrayList<MemberView>) intent.getSerializableExtra("MemberList");
         ArrayList<KirinukiView> kirinukiList = (ArrayList<KirinukiView>) intent.getSerializableExtra("KirinukiList");
-        Log.d("비디오 이름 : ",kirinukiList.get(0).getVideoTitle());
+        map = (HashMap<String, Boolean>) intent.getSerializableExtra("Favorite");
+        Log.d("소라",String.valueOf(map.get("소라")));
         bundle.putSerializable("MemberList",memberlist);
         bundle.putSerializable("KirinukiList",kirinukiList);
         pagerAdapter = new CustomViewPagerAdapter(this);
@@ -179,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {//스피너 클릭해서 아이템 클릭하면 서치 메서드 실행
                 liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
+                kirinukiFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
             }
 
             @Override
@@ -219,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {//검색창에 텍스트가 업데이트 될 때마다 작동
                 liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
+                kirinukiFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
             }
         });
     }
@@ -230,46 +149,4 @@ public class MainActivity extends AppCompatActivity {
         kirinukiFragment = new KirinukiFragment();
         Log.d("kirinukiFragmet생성","!");
     }
-    /*private void search(String keyword, String country) {
-        list.clear();
-        if (keyword.length() == 0) {
-            if (country.equals("전체")) {
-                list.addAll(liveList);
-                list.addAll(noLiveList);
-            } else {
-                for (int i = 0; i < liveList.size(); i++) {// 값에 따라 검색
-                    if (liveList.get(i).getCountry().equals(country))
-                        list.add(liveList.get(i));
-                }
-                for (int i = 0; i < noLiveList.size(); i++) {// 값에 따라 검색
-                    if (noLiveList.get(i).getCountry().equals(country))
-                        list.add(noLiveList.get(i));
-                }
-            }
-        } else {
-            for (int i = 0; i < liveList.size(); i++) {
-                if (country.equals("전체")) {
-                    if (liveList.get(i).getMemberName().contains(keyword)) {
-                        list.add(liveList.get(i));
-                    }
-                } else {
-                    if (liveList.get(i).getMemberName().contains(keyword) && liveList.get(i).getCountry().equals(country)) {
-                        list.add(liveList.get(i));
-                    }
-                }
-            }
-            for (int i = 0; i < noLiveList.size(); i++) {
-                if (country.equals("전체")) {
-                    if (noLiveList.get(i).getMemberName().contains(keyword)) {
-                        list.add(noLiveList.get(i));
-                    }
-                } else {
-                    if (noLiveList.get(i).getMemberName().contains(keyword) && noLiveList.get(i).getCountry().equals(country)) {
-                        list.add(noLiveList.get(i));
-                    }
-                }
-            }
-        }
-        gridAdapter.notifyDataSetChanged();
-    }*/
 }

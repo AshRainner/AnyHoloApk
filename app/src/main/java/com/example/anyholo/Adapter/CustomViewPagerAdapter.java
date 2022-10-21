@@ -17,12 +17,10 @@ public class CustomViewPagerAdapter extends FragmentStateAdapter {
     }
     public void addFragment(Fragment fragment){
         fragments.add(fragment);
-        Log.d("사이즈 : ",String.valueOf(fragments.size()));
     }
     @NonNull
     @Override
-    public Fragment createFragment(int position) {
-        return fragments.get(position);
+    public Fragment createFragment(int position) {return fragments.get(position);
     }
 
     @Override
