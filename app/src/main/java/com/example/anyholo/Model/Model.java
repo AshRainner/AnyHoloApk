@@ -30,4 +30,12 @@ public class Model implements Serializable {
     public void setVidoes(ArrayList<KirinukiView> Kirinuki) {
         this.Kirinuki = Kirinuki;
     }
+
+    public ArrayList<TweetView> getTweet() {
+        return Tweet;
+    }
+
+    public void setTweet(ArrayList<TweetView> tweet) {
+        Tweet = tweet;
+    }
 }

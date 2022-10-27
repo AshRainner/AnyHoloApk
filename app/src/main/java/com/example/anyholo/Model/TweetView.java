@@ -13,12 +13,12 @@ public class TweetView implements Serializable {
     private String userId;
     @SerializedName("userProfileUrl")
     private String userProfileUrl;
-    @SerializedName("twitContent")
-    private String twitContent;
-    @SerializedName("twitType")
-    private String twitType;
-    @SerializedName("nextTwitId")
-    private String nextTwitId;
+    @SerializedName("tweetContent")
+    private String tweetContent;
+    @SerializedName("tweetType")
+    private String tweetType;
+    @SerializedName("nextTweetId")
+    private String nextTweetId;
     @SerializedName("mediaType")
     private String mediaType;
     @SerializedName("mediaUrl")
@@ -26,14 +26,14 @@ public class TweetView implements Serializable {
     @SerializedName("writeDate")
     private String writeDate;
 
-    public TweetView(String tweetId, String writeUserName, String userId, String userProfileUrl, String twitContent, String twitType, String nextTwitId, String mediaType, String mediaUrl, String writeDate) {
+    public TweetView(String tweetId, String writeUserName, String userId, String userProfileUrl, String tweetContent, String tweetType, String nextTweetId, String mediaType, String mediaUrl, String writeDate) {
         this.tweetId = tweetId;
         this.writeUserName = writeUserName;
         this.userId = userId;
         this.userProfileUrl = userProfileUrl;
-        this.twitContent = twitContent;
-        this.twitType = twitType;
-        this.nextTwitId = nextTwitId;
+        this.tweetContent = tweetContent;
+        this.tweetType = tweetType;
+        this.nextTweetId = nextTweetId;
         this.mediaType = mediaType;
         this.mediaUrl = mediaUrl;
         this.writeDate = writeDate;
@@ -71,28 +71,28 @@ public class TweetView implements Serializable {
         this.userProfileUrl = userProfileUrl;
     }
 
-    public String getTwitContent() {
-        return twitContent;
+    public String getTweetContent() {
+        return tweetContent;
     }
 
-    public void setTwitContent(String twitContent) {
-        this.twitContent = twitContent;
+    public void setTweetContent(String tweetContent) {
+        this.tweetContent = tweetContent;
     }
 
-    public String getTwitType() {
-        return twitType;
+    public String getTweetType() {
+        return tweetType;
     }
 
-    public void setTwitType(String twitType) {
-        this.twitType = twitType;
+    public void setTweetType(String tweetType) {
+        this.tweetType = tweetType;
     }
 
-    public String getNextTwitId() {
-        return nextTwitId;
+    public String getNextTweetId() {
+        return nextTweetId;
     }
 
-    public void setNextTwitId(String nextTwitId) {
-        this.nextTwitId = nextTwitId;
+    public void setNextTweetId(String nextTweetId) {
+        this.nextTweetId = nextTweetId;
     }
 
     public String getMediaType() {

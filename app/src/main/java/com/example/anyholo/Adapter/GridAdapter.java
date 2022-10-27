@@ -50,17 +50,13 @@ public class GridAdapter extends BaseAdapter {
     }
 
     public void setItems(ArrayList< MemberView> list,HashMap<String,Boolean> favoriteMap){
-        Log.d("setItmes 리스트 사이즈 ",String.valueOf(list.size()));
         items=list;
-        Log.d("setItems아이템 사이즈 ",String.valueOf(items.size()));
         this.favoriteMap=favoriteMap;
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         context = viewGroup.getContext();
-        Log.d("get view아이템 사이즈 ",String.valueOf(items.size()));
-        Log.d("i",String.valueOf(i));
         MemberView memberView = items.get(i);
         if(view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -79,8 +75,6 @@ public class GridAdapter extends BaseAdapter {
         textView.setText(memberView.getMemberName());
         CheckBox favoriteBtn = view.findViewById(R.id.favoriteBtn);
         if(favoriteMap.get(memberView.getMemberName())) {
-            Log.d(String.valueOf(i),"번째");
-            Log.d(memberView.getMemberName(),String.valueOf(favoriteMap.get(memberView.getMemberName())));
             favoriteBtn.setButtonTintList(ColorStateList.valueOf(Color.parseColor("#f2ff3c")));
             favoriteBtn.setChecked(true);
         }else{

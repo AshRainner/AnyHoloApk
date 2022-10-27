@@ -19,14 +19,19 @@
         <entry key="..\:/Android/AnyHolo/app/src/main/res/drawable/liveimage_stroke.xml" value="0.252" />
         <entry key="..\:/Android/AnyHolo/app/src/main/res/drawable/stroke.xml" value="0.252" />
         <entry key="..\:/Android/AnyHolo/app/src/main/res/font/font.xml" value="0.4666666666666667" />
+        <entry key="..\:/Android/AnyHolo/app/src/main/res/layout/Tweeti_fragment.xml" value="0.3802083333333333" />
         <entry key="..\:/Android/AnyHolo/app/src/main/res/layout/activity_main.xml" value="0.3917572463768116" />
-        <entry key="..\:/Android/AnyHolo/app/src/main/res/layout/activity_member_intro.xml" value="0.5" />
+        <entry key="..\:/Android/AnyHolo/app/src/main/res/layout/activity_member_intro.xml" value="0.1" />
         <entry key="..\:/Android/AnyHolo/app/src/main/res/layout/country_spinner.xml" value="0.31302083333333336" />
         <entry key="..\:/Android/AnyHolo/app/src/main/res/layout/kirinuki_fragment.xml" value="0.3917572463768116" />
         <entry key="..\:/Android/AnyHolo/app/src/main/res/layout/kirinuki_item.xml" value="0.3917572463768116" />
         <entry key="..\:/Android/AnyHolo/app/src/main/res/layout/live_fragment.xml" value="0.3917572463768116" />
         <entry key="..\:/Android/AnyHolo/app/src/main/res/layout/member_grid.xml" value="0.3917572463768116" />
         <entry key="..\:/Android/AnyHolo/app/src/main/res/layout/member_item.xml" value="0.3917572463768116" />
+        <entry key="..\:/Android/AnyHolo/app/src/main/res/layout/test_fragment.xml" value="0.3802083333333333" />
+        <entry key="..\:/Android/AnyHolo/app/src/main/res/layout/tweet_fragment.xml" value="0.2346014492753623" />
+        <entry key="..\:/Android/AnyHolo/app/src/main/res/layout/tweet_item.xml" value="0.5" />
+        <entry key="..\:/Android/AnyHolo/app/src/main/res/layout/tweet_quoted_layout.xml" value="0.1" />
         <entry key="..\:/Android/AnyHolo/app/src/main/res/menu/menu.xml" value="0.5536458333333333" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable-v24/LiveGrid.xml" value="0.3585" />
         <entry key="..\:/Android/HololiveFinder/app/src/main/res/drawable-v24/hololive_ripple.xml" value="0.2495" />

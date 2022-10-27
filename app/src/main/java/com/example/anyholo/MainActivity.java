@@ -24,6 +24,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.anyholo.Adapter.CustomViewPagerAdapter;
 import com.example.anyholo.Model.KirinukiView;
 import com.example.anyholo.Model.MemberView;
+import com.example.anyholo.Model.TweetView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity{
     private ImageButton menuBtn;
     private ViewPager2 viewPager;
     private LiveFragment liveFragment;
-    private test_fragment testFragment;
+    private TweetFragment tweetFragment;
     private KirinukiFragment kirinukiFragment;
     private CustomViewPagerAdapter pagerAdapter;
     private TabLayout tabLayout;
@@ -59,16 +60,27 @@ public class MainActivity extends AppCompatActivity{
         ArrayList<MemberView> memberlist = (ArrayList<MemberView>) intent.getSerializableExtra("MemberList");
         ArrayList<KirinukiView> kirinukiList = (ArrayList<KirinukiView>) intent.getSerializableExtra("KirinukiList");
         map = (HashMap<String, Boolean>) intent.getSerializableExtra("Favorite");
-        Log.d("소라",String.valueOf(map.get("소라")));
+        ArrayList<TweetView> tweetList = (ArrayList<TweetView>) intent.getSerializableExtra("TweetList");
+        /*Log.d(String.valueOf(0), tweetList.get(4).getTweetId());
+        Log.d(String.valueOf(0), tweetList.get(4).getWriteUserName());
+        Log.d(String.valueOf(0), tweetList.get(4).getUserId());
+        Log.d(String.valueOf(0), tweetList.get(4).getUserProfileUrl());
+        Log.d(String.valueOf(0), tweetList.get(4).getTweetContent());
+        Log.d(String.valueOf(0), tweetList.get(4).getTweetType());
+        Log.d(String.valueOf(0), tweetList.get(4).getMediaType());
+        Log.d(String.valueOf(0), tweetList.get(4).getMediaUrl());
+        Log.d(String.valueOf(0), tweetList.get(4).getWriteDate());*/
         bundle.putSerializable("MemberList",memberlist);
         bundle.putSerializable("Favorite",map);
         bundle.putSerializable("KirinukiList",kirinukiList);
+        bundle.putSerializable("TweetList",tweetList);
         pagerAdapter = new CustomViewPagerAdapter(this);
         createFragment();
         liveFragment.setArguments(bundle);
         kirinukiFragment.setArguments(bundle);
+        tweetFragment.setArguments(bundle);
         pagerAdapter.addFragment(liveFragment);
-        pagerAdapter.addFragment(testFragment);
+        pagerAdapter.addFragment(tweetFragment);
         pagerAdapter.addFragment(kirinukiFragment);
         viewPager.setAdapter(pagerAdapter);
 
@@ -144,8 +156,8 @@ public class MainActivity extends AppCompatActivity{
     private void createFragment(){
         liveFragment = new LiveFragment();
         Log.d("liveFragmet생성","!");
-        testFragment = new test_fragment();
-        Log.d("testFragmet생성","!");
+        tweetFragment = new TweetFragment();
+        Log.d("TweetFragmet생성","!");
         kirinukiFragment = new KirinukiFragment();
         Log.d("kirinukiFragmet생성","!");
     }

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.anyholo.Model.KirinukiView;
+import com.example.anyholo.Model.TweetView;
 import com.example.anyholo.dbcon.DBConRetrofitObject;
 import com.example.anyholo.Model.Model;
 import com.example.anyholo.Model.MemberView;
@@ -52,11 +53,13 @@ public class LodingActivity extends AppCompatActivity {
                         Model m = response.body();
                         ArrayList<MemberView> memberList= m.getMemberList();
                         ArrayList<KirinukiView> kirinukiList = m.getVidoes();
+                        ArrayList<TweetView> tweetList = m.getTweet();
                         Log.d("일 ! : ",memberList.get(0).getMemberName());
                         HashMap<String,Boolean> map = checkCache(memberList);
                         //Log.d("비디오 이름 : ",kirinukiList.get(0).getVideoTitle());
                         intent.putExtra("MemberList", memberList);
                         intent.putExtra("KirinukiList",kirinukiList);
+                        intent.putExtra("TweetList",tweetList);
                         intent.putExtra("Favorite",map);
                     }
                     @Override

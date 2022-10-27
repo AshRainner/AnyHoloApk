@@ -59,9 +59,7 @@ public class KirinukiAdapter extends BaseAdapter {
         Glide.with(view).load(kirinukiView.getThumnailUrl()).into(kirinukiImage);//url를 이용하여 이미지 뷰에 이미지 세팅
         chanelName.setText(kirinukiView.getChannelName());
         videoName.setText(kirinukiView.getVideoTitle());
-        Log.d("결과 : ",getTime(kirinukiView.getUploadTime()));
         uptime.setText(getTime(kirinukiView.getUploadTime()));
-        Log.d("키리누키 어뎁터","시작");
         return view;
     }
     public String getTime(String time){
@@ -72,14 +70,9 @@ public class KirinukiAdapter extends BaseAdapter {
             Calendar onedayafter = Calendar.getInstance();
             onedayafter.setTime(sdf.parse(time));
             onedayafter.add(Calendar.DAY_OF_MONTH,+1);
-            Log.d("업로드 시간 : ",sdf.format(uptime.getTime()));
-            Log.d("하루 전 : ",sdf.format(onedayafter.getTime()));
             Calendar now = Calendar.getInstance();
             //한국이라 9시간 더해줘야함
             now.add(Calendar.HOUR,9);
-            Log.d("현재 시간 : ",sdf.format(now.getTime()));
-            Log.d("업로드 시간 < 현재 시간 : ",String.valueOf(now.compareTo(uptime)));
-            Log.d("하루 전 < 현재 시간 : ",String.valueOf(now.compareTo(onedayafter)));
             if(now.before(onedayafter)) { // 현재시간은 언제나 업로드 타임보다 앞이라 하루 뒤 시간을 넘었는지만 체크하면됨
                 long diffSec = (now.getTimeInMillis()-uptime.getTimeInMillis())/1000;
                 long diffHour = diffSec/(60*60);
