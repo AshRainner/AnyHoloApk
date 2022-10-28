@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+
 import com.bumptech.glide.Glide;
 import com.example.anyholo.Model.TweetView;
 import com.example.anyholo.R;
@@ -44,27 +45,73 @@ public class TweetAdapter extends BaseAdapter {
         items = list;
     }
 
+    public class ViewHolder {
+        private RelativeLayout tweetMain;
+        private ImageView profileImage;
+        private TextView userName;
+        private TextView upTime;
+        private TextView content;
+        private ImageView media;
+        private MaterialCardView quotedView;
+        private ImageView quotedProfileImage;
+        private TextView quotedUserName;
+        private TextView quotedUpTime;
+        private TextView quotedContent;
+        private ImageView quotedMedia;
+    }
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        Log.d("호출", String.valueOf(i));
+    public View getView(int i, View convertView, ViewGroup viewGroup) {
         context = viewGroup.getContext();
         TweetView tweetView = items.get(i);
-        ;
+        View view = convertView;
+        ViewHolder viewHolder;
+        Log.d("호출 : ",String.valueOf(i));
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.tweet_item, viewGroup, false);
+            viewHolder = new ViewHolder();
+            viewHolder.tweetMain = view.findViewById(R.id.tweet_main);
+            viewHolder.profileImage = view.findViewById(R.id.tweet_profile_image);
+            viewHolder.userName = view.findViewById(R.id.tweet_user_name);
+            viewHolder.upTime = view.findViewById(R.id.tweet_uptime);
+            viewHolder.content = view.findViewById(R.id.tweet_content);
+            viewHolder.media = view.findViewById(R.id.tweet_media);
+            viewHolder.quotedView = view.findViewById(R.id.quotedView);
+            viewHolder.quotedProfileImage = view.findViewById(R.id.tweet_quoted_profile_image);
+            viewHolder.quotedUserName = view.findViewById(R.id.tweet_quoted_user_name);
+            viewHolder.quotedUpTime = view.findViewById(R.id.tweet_quoted_uptime);
+            viewHolder.quotedContent = view.findViewById(R.id.tweet_quoted_content);
+            viewHolder.quotedMedia = view.findViewById(R.id.tweet_quoted_media);
+            view.setTag(viewHolder);
+        }else{
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-        ImageView profileImage = view.findViewById(R.id.tweet_profile_image);
-        TextView userName = view.findViewById(R.id.tweet_user_name);
-        TextView upTime = view.findViewById(R.id.tweet_uptime);
-        TextView content = view.findViewById(R.id.tweet_content);
-        ImageView media = view.findViewById(R.id.tweet_media);
-        Glide.with(view).load(tweetView.getUserProfileUrl()).circleCrop().into(profileImage);//url를 이용하여 이미지 뷰에 이미지 세팅
-        userName.setText(tweetView.getWriteUserName());
-        upTime.setText(getTime(tweetView.getWriteDate()));
-        content.setText(tweetView.getTweetContent());
-        Glide.with(view).load(tweetView.getMediaUrl()).fitCenter().into(media);
-        MaterialCardView quotedView = view.findViewById(R.id.quotedView);
+        Glide.with(view).load(tweetView.getUserProfileUrl()).circleCrop().into(viewHolder.profileImage);//url를 이용하여 이미지 뷰에 이미지 세팅
+        viewHolder.userName.setText(tweetView.getWriteUserName());
+        viewHolder.upTime.setText(getTime(tweetView.getWriteDate()));
+        viewHolder.content.setText(tweetView.getTweetContent());
+        ((ViewGroup)viewHolder.tweetMain).removeView(viewHolder.quotedView);
+        //Glide.with(view).load(tweetView.getMediaUrl()).fitCenter().into(viewHolder.media);
+        if(tweetView.getTweetType().equals("QUOTED")){
+            ((ViewGroup)viewHolder.tweetMain).addView(viewHolder.quotedView);
+            //Log.d("결과 : ",viewHolder.quotedView.toString());
+            TweetView t = null;
+            for(int j=0;j<items.size();j++){
+                if(items.get(j).getTweetId().equals(tweetView.getNextTweetId())){
+                    t=items.get(j);
+                }
+            }
+            Glide.with(view).load(t.getUserProfileUrl()).circleCrop().into(viewHolder.quotedProfileImage);//url를 이용하여 이미지 뷰에 이미지 세팅
+            viewHolder.quotedUserName.setText(t.getWriteUserName());
+            viewHolder.quotedUpTime.setText(getTime(t.getWriteDate()));
+            viewHolder.quotedContent.setText(t.getTweetContent());
+            Glide.with(view).load(t.getMediaUrl()).fitCenter().into(viewHolder.quotedMedia);
+
+        }else{
+            viewHolder.quotedContent.setText("디폴트");
+            viewHolder.quotedMedia.setImageDrawable(null);
+        }
+        /*
         TweetView quoted = null;
         for (int j = 0; j < items.size(); j++) {
             if (items.get(j).getTweetId().equals(
@@ -84,7 +131,7 @@ public class TweetAdapter extends BaseAdapter {
             quotedUpTime.setText(getTime(quoted.getWriteDate()));
             quotedContent.setText(quoted.getTweetContent());
             Glide.with(view).load(quoted.getMediaUrl()).fitCenter().into(quotedMedia);
-        }
+        }*/
         return view;
     }
 
