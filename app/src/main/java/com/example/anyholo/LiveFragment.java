@@ -16,10 +16,14 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.anyholo.Adapter.GridAdapter;
+import com.example.anyholo.Model.KirinukiView;
 import com.example.anyholo.Model.Model;
 import com.example.anyholo.Model.MemberView;
+import com.example.anyholo.dbcon.DBConRetrofitObject;
+import com.example.anyholo.dbcon.DBcon;
 import com.example.anyholo.inferface.FavoriteHandle;
 import com.google.gson.Gson;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 
 import org.json.simple.JSONObject;
 
@@ -37,7 +41,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,FavoriteHandle {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class LiveFragment extends Fragment implements FavoriteHandle {
     private GridView gridView;
     private GridAdapter gridAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -77,20 +85,35 @@ public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         assortMember();
         gridAdapter.setItems(list,favorite);
         gridView.setAdapter(gridAdapter);
-        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Thread getLiveData = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DBcon DBconnect = DBConRetrofitObject.getInstance().create(DBcon.class);
+                        DBconnect.getLiveData().enqueue(new Callback<Model>() {
+                            @Override
+                            public void onResponse(Call<Model> call, Response<Model> response) {
+                                Model m = response.body();
+                                list.clear();
+                                list.addAll(m.getMemberList());
+                                assortMember();
+                                gridAdapter.notifyDataSetChanged();
+                            }
+                            @Override
+                            public void onFailure(Call<Model> call, Throwable t) {
+                                Log.d("실패","실패");
+                            }
+                        });
+                    }
+                });
+                getLiveData.start();
+                swipeRefreshLayout.setRefreshing(false);
+                gridView.setSelection(0); // 리스트뷰 맨 위로
+            }
+        });
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d("resume실행", "실행");
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d("start실행", "실행");
     }
 
     private void assortMember() {
@@ -131,7 +154,7 @@ public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         list.addAll(noLiveList);
     }
 
-    @Override
+    /*@Override
     public void onRefresh() {
         new Thread(new Runnable() { // 네트워크 작업은 쓰레드를 이용하여 해야함
             @Override
@@ -156,12 +179,12 @@ public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                     swipeRefreshLayout.setRefreshing(false);
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActivity(), "새고초림 오류", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "새로고침 오류", Toast.LENGTH_SHORT).show();
                     swipeRefreshLayout.setRefreshing(false);
                 }
             }
         }).start();
-    }
+    }*/
 
     public void search(String keyword, String country) {
         list.clear();

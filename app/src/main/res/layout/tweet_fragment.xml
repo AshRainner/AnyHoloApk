@@ -4,13 +4,14 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
         android:id="@+id/tweetLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/search_layout"
         android:layout_margin="5dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:srl_direction="both">
 
             <ListView
                 android:id="@+id/tweet_list"
@@ -24,5 +25,5 @@
                 android:horizontalSpacing="5dp"
                 android:numColumns="3"
                 android:verticalSpacing="5dp"></ListView>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
 </LinearLayout>

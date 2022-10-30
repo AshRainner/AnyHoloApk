@@ -1,5 +1,6 @@
 package com.example.anyholo;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,18 +15,30 @@ import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.anyholo.Adapter.KirinukiAdapter;
+import com.example.anyholo.Adapter.TweetAdapter;
 import com.example.anyholo.Model.KirinukiView;
+import com.example.anyholo.Model.Model;
+import com.example.anyholo.Model.TweetView;
+import com.example.anyholo.dbcon.DBConRetrofitObject;
+import com.example.anyholo.dbcon.DBcon;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class KirinukiFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class KirinukiFragment extends Fragment {
     private ListView listView;
     private KirinukiAdapter kirinukiAdapter;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private SwipyRefreshLayout swipyRefreshLayout;
     private ArrayList<KirinukiView> list;
     private ArrayList<KirinukiView> copyList;
-
+    private int page=1;
+    private final int MAXITEM=50;
     public KirinukiFragment(ArrayList<KirinukiView> list) {
         this.list = list;
     }
@@ -36,7 +49,7 @@ public class KirinukiFragment extends Fragment implements SwipeRefreshLayout.OnR
         Log.d("키리누키 프래그먼트","시작");
         View view = inflater.inflate(R.layout.kirinuki_fragment,container,false);
         listView = view.findViewById(R.id.kirinuki_list);
-        swipeRefreshLayout = view.findViewById(R.id.kirinukirLayout);
+        swipyRefreshLayout = view.findViewById(R.id.kirinukirLayout);
         kirinukiAdapter = new KirinukiAdapter();
         //list = (ArrayList<KirinukiView>) getArguments().getSerializable("KirinukiList");
         copyList = new ArrayList<KirinukiView>();
@@ -52,22 +65,46 @@ public class KirinukiFragment extends Fragment implements SwipeRefreshLayout.OnR
         });
         kirinukiAdapter.setItems(list);
         listView.setAdapter(kirinukiAdapter);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        return view;
-    }
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d("start실행 123", "실행");
-    }
-    @Override
-    public void onRefresh() {
-        new Thread(new Runnable(){
+        swipyRefreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
             @Override
-            public void run() {
-                    swipeRefreshLayout.setRefreshing(false);
+            public void onRefresh(SwipyRefreshLayoutDirection direction) {
+                if(direction==SwipyRefreshLayoutDirection.TOP) {
+                    if(page>1)
+                        page--;
+                }
+                else {
+                    if(page>=1&&list.size()==MAXITEM)
+                        page++;
+                }
+                Thread getKirinukiData = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DBcon DBconnect = DBConRetrofitObject.getInstance().create(DBcon.class);
+                        DBconnect.getKirinukiData(String.valueOf(page)).enqueue(new Callback<Model>() {
+                            @Override
+                            public void onResponse(Call<Model> call, Response<Model> response) {
+                                Model m = response.body();
+                                list.clear();
+                                copyList.clear();
+                                list.addAll(m.getVidoes());
+                                for(KirinukiView x : list){
+                                    copyList.add(x);
+                                }
+                                kirinukiAdapter.notifyDataSetChanged();
+                            }
+                            @Override
+                            public void onFailure(Call<Model> call, Throwable t) {
+                                Log.d("실패","실패");
+                            }
+                        });
+                    }
+                });
+                getKirinukiData.start();
+                swipyRefreshLayout.setRefreshing(false);
+                listView.setSelection(0); // 리스트뷰 맨 위로
             }
-        }).start();
+        });
+        return view;
     }
     public void search(String keyword, String country) {
         if(list!=null) {

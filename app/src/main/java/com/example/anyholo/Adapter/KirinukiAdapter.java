@@ -47,6 +47,7 @@ public class KirinukiAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         context = viewGroup.getContext();
+        Log.d("크기",String.valueOf(getCount()));
         KirinukiView kirinukiView = items.get(i);
         if(view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
