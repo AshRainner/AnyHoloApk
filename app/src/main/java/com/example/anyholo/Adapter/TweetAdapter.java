@@ -98,7 +98,7 @@ public class TweetAdapter extends BaseAdapter {
             TweetView t = null;
             for(int j=0;j<items.size();j++){
                 if(items.get(j).getTweetId().equals(tweetView.getNextTweetId())){
-                    t=items.get(j);
+                    t=items.get(j);//ㅁㄴㅇㄹ
                 }
             }
             Glide.with(view).load(t.getUserProfileUrl()).circleCrop().into(viewHolder.quotedProfileImage);//url를 이용하여 이미지 뷰에 이미지 세팅
