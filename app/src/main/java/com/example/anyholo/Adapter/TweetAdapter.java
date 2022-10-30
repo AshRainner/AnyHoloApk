@@ -98,7 +98,7 @@ public class TweetAdapter extends BaseAdapter {
             TweetView t = null;
             for(int j=0;j<items.size();j++){
                 if(items.get(j).getTweetId().equals(tweetView.getNextTweetId())){
-                    t=items.get(j);//ㅁㄴㅇㄹ
+                    t=items.get(j);
                 }
             }
             Glide.with(view).load(t.getUserProfileUrl()).circleCrop().into(viewHolder.quotedProfileImage);//url를 이용하여 이미지 뷰에 이미지 세팅
@@ -111,27 +111,6 @@ public class TweetAdapter extends BaseAdapter {
             viewHolder.quotedContent.setText("디폴트");
             viewHolder.quotedMedia.setImageDrawable(null);
         }
-        /*
-        TweetView quoted = null;
-        for (int j = 0; j < items.size(); j++) {
-            if (items.get(j).getTweetId().equals(
-                    tweetView.getNextTweetId()
-            )) {
-                quoted = items.get(j);
-            }
-        }
-        ImageView quotedProfileImage = view.findViewById(R.id.tweet_quoted_profile_image);
-        TextView quotedUserName = view.findViewById(R.id.tweet_quoted_user_name);
-        TextView quotedUpTime = view.findViewById(R.id.tweet_quoted_uptime);
-        TextView quotedContent = view.findViewById(R.id.tweet_quoted_content);
-        ImageView quotedMedia = view.findViewById(R.id.tweet_quoted_media);
-        if (quoted != null) {
-            Glide.with(view).load(quoted.getUserProfileUrl()).circleCrop().into(quotedProfileImage);//url를 이용하여 이미지 뷰에 이미지 세팅
-            quotedUserName.setText(quoted.getWriteUserName());
-            quotedUpTime.setText(getTime(quoted.getWriteDate()));
-            quotedContent.setText(quoted.getTweetContent());
-            Glide.with(view).load(quoted.getMediaUrl()).fitCenter().into(quotedMedia);
-        }*/
         return view;
     }
 
