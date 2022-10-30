@@ -48,6 +48,11 @@ public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private HashMap<String, Boolean> favorite;
     private ArrayList<MemberView> favoriteList;
 
+    public LiveFragment(ArrayList<MemberView> list, HashMap<String, Boolean> favorite) {
+        this.list = list;
+        this.favorite = favorite;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,12 +60,11 @@ public class LiveFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         gridView = view.findViewById(R.id.member_gird);
         swipeRefreshLayout = view.findViewById(R.id.memberLayout);
         gridAdapter = new GridAdapter(this);
-        list = (ArrayList<MemberView>) getArguments().getSerializable("MemberList");
         upcomingList = new ArrayList<MemberView>();//방송 예정인 멤버들
         noLiveList = new ArrayList<MemberView>(); // 방송을 하고 있지 않은 멤버들
         liveList = new ArrayList<MemberView>(); // 방송 중인 멤버들*/
         favoriteList = new ArrayList<MemberView>();
-        favorite = (HashMap<String, Boolean>) getArguments().getSerializable("Favorite");
+        //favorite = (HashMap<String, Boolean>) getArguments().getSerializable("Favorite");
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

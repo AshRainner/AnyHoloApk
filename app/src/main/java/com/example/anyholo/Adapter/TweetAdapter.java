@@ -91,7 +91,7 @@ public class TweetAdapter extends BaseAdapter {
         viewHolder.upTime.setText(getTime(tweetView.getWriteDate()));
         viewHolder.content.setText(tweetView.getTweetContent());
         ((ViewGroup)viewHolder.tweetMain).removeView(viewHolder.quotedView);
-        //Glide.with(view).load(tweetView.getMediaUrl()).fitCenter().into(viewHolder.media);
+        Glide.with(view).load(tweetView.getMediaUrl()).fitCenter().into(viewHolder.media);
         if(tweetView.getTweetType().equals("QUOTED")){
             ((ViewGroup)viewHolder.tweetMain).addView(viewHolder.quotedView);
             //Log.d("결과 : ",viewHolder.quotedView.toString());
