@@ -47,6 +47,7 @@ public class TweetAdapter extends BaseAdapter {
 
     public class ViewHolder {
         private RelativeLayout tweetMain;
+        private TextView retweetText;
         private ImageView profileImage;
         private TextView userName;
         private TextView upTime;
@@ -70,6 +71,7 @@ public class TweetAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.tweet_item, viewGroup, false);
             viewHolder = new ViewHolder();
+            viewHolder.retweetText = view.findViewById(R.id.retweet_text);
             viewHolder.tweetMain = view.findViewById(R.id.tweet_main);
             viewHolder.profileImage = view.findViewById(R.id.tweet_profile_image);
             viewHolder.userName = view.findViewById(R.id.tweet_user_name);
@@ -91,25 +93,31 @@ public class TweetAdapter extends BaseAdapter {
         viewHolder.upTime.setText(getTime(tweetView.getWriteDate()));
         viewHolder.content.setText(tweetView.getTweetContent());
         ((ViewGroup)viewHolder.tweetMain).removeView(viewHolder.quotedView);
+        ((ViewGroup)viewHolder.tweetMain).removeView(viewHolder.retweetText);
         Glide.with(view).load(tweetView.getMediaUrl()).fitCenter().into(viewHolder.media);
         if(tweetView.getTweetType().equals("QUOTED")){
             ((ViewGroup)viewHolder.tweetMain).addView(viewHolder.quotedView);
-            //Log.d("결과 : ",viewHolder.quotedView.toString());
             TweetView t = null;
             for(int j=0;j<items.size();j++){
                 if(items.get(j).getTweetId().equals(tweetView.getNextTweetId())){
                     t=items.get(j);
                 }
             }
-            Glide.with(view).load(t.getUserProfileUrl()).circleCrop().into(viewHolder.quotedProfileImage);//url를 이용하여 이미지 뷰에 이미지 세팅
-            viewHolder.quotedUserName.setText(t.getWriteUserName());
-            viewHolder.quotedUpTime.setText(getTime(t.getWriteDate()));
-            viewHolder.quotedContent.setText(t.getTweetContent());
-            Glide.with(view).load(t.getMediaUrl()).fitCenter().into(viewHolder.quotedMedia);
+            if(t!=null) {
+                Glide.with(view).load(t.getUserProfileUrl()).circleCrop().into(viewHolder.quotedProfileImage);//url를 이용하여 이미지 뷰에 이미지 세팅
+                viewHolder.quotedUserName.setText(t.getWriteUserName());
+                viewHolder.quotedUpTime.setText(getTime(t.getWriteDate()));
+                viewHolder.quotedContent.setText(t.getTweetContent());
+                Glide.with(view).load(t.getMediaUrl()).fitCenter().into(viewHolder.quotedMedia);
+            }
+        }
+        else if(tweetView.getTweetType().equals("REPLIED_TO")){//리플달린거
 
-        }else{
-            viewHolder.quotedContent.setText("디폴트");
-            viewHolder.quotedMedia.setImageDrawable(null);
+        }
+        else if(tweetView.getRetweetText()!=null){//리트윗기능
+            ((ViewGroup)viewHolder.tweetMain).addView(viewHolder.retweetText);
+            viewHolder.upTime.setText("리트윗");
+            viewHolder.retweetText.setText(tweetView.getRetweetText()+"님이 리트윗 했습니다.");
         }
         return view;
     }

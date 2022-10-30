@@ -26,6 +26,8 @@ public class TweetView implements Serializable {
     @SerializedName("writeDate")
     private String writeDate;
 
+    private String retweetText;
+
     public TweetView(String tweetId, String writeUserName, String userId, String userProfileUrl, String tweetContent, String tweetType, String nextTweetId, String mediaType, String mediaUrl, String writeDate) {
         this.tweetId = tweetId;
         this.writeUserName = writeUserName;
@@ -117,5 +119,13 @@ public class TweetView implements Serializable {
 
     public void setWriteDate(String writeDate) {
         this.writeDate = writeDate;
+    }
+
+    public String getRetweetText() {
+        return retweetText;
+    }
+
+    public void setRetweetText(String retweetText) {
+        this.retweetText = retweetText;
     }
 }

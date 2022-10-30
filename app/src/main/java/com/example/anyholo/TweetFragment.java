@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -21,10 +22,10 @@ import com.example.anyholo.Model.TweetView;
 
 import java.util.ArrayList;
 
-public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class TweetFragment extends Fragment {
     private ListView listView;
     private TweetAdapter TweetAdapter;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipyRefreshLayout;
     private ArrayList<TweetView> list;
     private ArrayList<TweetView> copyList;
 
@@ -35,12 +36,10 @@ public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("트위터","시작");
         View view = inflater.inflate(R.layout.tweet_fragment,container,false);
         listView = view.findViewById(R.id.tweet_list);
-        swipeRefreshLayout = view.findViewById(R.id.tweetLayout);
+        swipyRefreshLayout = view.findViewById(R.id.tweetLayout);
         TweetAdapter = new TweetAdapter();
-        //list = (ArrayList<TweetView>) getArguments().getSerializable("TweetList");
         copyList = new ArrayList<TweetView>();
         for(TweetView x : list){
             copyList.add(x);
@@ -63,16 +62,12 @@ public class TweetFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         });
         TweetAdapter.setItems(list);
         listView.setAdapter(TweetAdapter);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        return view;
-    }
-    @Override
-    public void onRefresh() {
-        new Thread(new Runnable(){
+        swipyRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void run() {
-                    swipeRefreshLayout.setRefreshing(false);
+            public void onRefresh() {
+
             }
-        }).start();
+        });
+        return view;
     }
 }

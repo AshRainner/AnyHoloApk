@@ -10,7 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/tweet_main">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:id="@+id/retweet_text"
+            android:text="!@#!@#!@$"
+            android:gravity="center"></TextView>
         <ImageView
+            android:layout_below="@id/retweet_text"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/tweet_profile_image"
@@ -21,11 +28,13 @@
             android:id="@+id/tweet_user_name"
             android:layout_toRightOf="@id/tweet_profile_image"
             android:layout_toLeftOf="@id/tweet_uptime"
+            android:layout_below="@id/retweet_text"
             android:maxLines="1"
             android:ellipsize="end"
             android:text="兎田ぺこら👯‍♀️新曲｢ララララビット！！｣歌ったぺこ！"
             ></TextView>
         <TextView
+            android:layout_below="@id/retweet_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tweet_uptime"

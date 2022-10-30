@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.example.anyholo.Model.KirinukiView;
 import com.example.anyholo.Model.TweetView;
+import com.example.anyholo.OnAirModel.Default;
 import com.example.anyholo.dbcon.DBConRetrofitObject;
 import com.example.anyholo.Model.Model;
 import com.example.anyholo.Model.MemberView;
@@ -25,6 +26,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,8 +57,9 @@ public class LodingActivity extends AppCompatActivity {
                         ArrayList<MemberView> memberList= m.getMemberList();
                         ArrayList<KirinukiView> kirinukiList = m.getVidoes();
                         ArrayList<TweetView> tweetList = m.getTweet();
-                        Log.d("일 ! : ",memberList.get(0).getMemberName());
+                        Log.d("크기: ",String.valueOf(tweetList.size()));
                         HashMap<String,Boolean> map = checkCache(memberList);
+                        tweetListSort(tweetList);
                         //Log.d("비디오 이름 : ",kirinukiList.get(0).getVideoTitle());
                         intent.putExtra("MemberList", memberList);
                         intent.putExtra("KirinukiList",kirinukiList);
@@ -77,6 +81,52 @@ public class LodingActivity extends AppCompatActivity {
                 finish();
             }
         }, 3000);
+    }
+    private void tweetListSort(ArrayList<TweetView> tweetList){
+        ArrayList<TweetView> defaultList = new ArrayList<TweetView>();
+        ArrayList<TweetView> repliedList = new ArrayList<TweetView>();
+        ArrayList<TweetView> retweetedList = new ArrayList<TweetView>();
+        Collections.reverse(tweetList);
+        for(TweetView t : tweetList) {
+            if (t.getTweetType().equals("DEFAULT")||t.getTweetType().equals("QUOTED")) {
+                defaultList.add(t);
+            }
+            else if(t.getTweetType().equals("REPLIED_TO")){
+                repliedList.add(t);
+            }
+            else{
+                retweetedList.add(t);
+            }
+        }
+        Collections.reverse(defaultList);
+        for(int i=0;i<defaultList.size();i++){
+            for(int j=0;j<repliedList.size();j++){
+                if(defaultList.get(i).getTweetId().equals(repliedList.get(j).getNextTweetId())){
+                    defaultList.add(i+1,repliedList.get(j));
+                    repliedList.remove(j);
+                    break;
+                }
+            }
+        }
+        for(int i=0;i<defaultList.size();i++){
+            for(int j=0;j<retweetedList.size();j++){
+                if(defaultList.get(i).getTweetId().equals(retweetedList.get(j).getNextTweetId())){
+                    String s = defaultList.get(i).getRetweetText();
+                    if(s==null) {
+                        defaultList.get(i).setRetweetText(retweetedList.get(j).getWriteUserName());
+                        retweetedList.remove(j);
+                        break;
+                    }
+                    else {
+                        defaultList.get(i).setRetweetText(defaultList.get(i).getRetweetText() + "," + retweetedList.get(j).getWriteUserName());
+                        retweetedList.remove(j);
+                        break;
+                    }
+                }
+            }
+        }
+        tweetList.clear();
+        tweetList.addAll(defaultList);
     }
     private HashMap<String, Boolean> checkCache(ArrayList<MemberView> m){
         File file = new File(getApplication().getFilesDir().getAbsolutePath(),fileName);
