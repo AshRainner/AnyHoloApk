@@ -26,6 +26,10 @@ public class KirinukiFragment extends Fragment implements SwipeRefreshLayout.OnR
     private ArrayList<KirinukiView> list;
     private ArrayList<KirinukiView> copyList;
 
+    public KirinukiFragment(ArrayList<KirinukiView> list) {
+        this.list = list;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -34,7 +38,7 @@ public class KirinukiFragment extends Fragment implements SwipeRefreshLayout.OnR
         listView = view.findViewById(R.id.kirinuki_list);
         swipeRefreshLayout = view.findViewById(R.id.kirinukirLayout);
         kirinukiAdapter = new KirinukiAdapter();
-        list = (ArrayList<KirinukiView>) getArguments().getSerializable("KirinukiList");
+        //list = (ArrayList<KirinukiView>) getArguments().getSerializable("KirinukiList");
         copyList = new ArrayList<KirinukiView>();
         for(KirinukiView x : list){
             copyList.add(x);
@@ -54,7 +58,7 @@ public class KirinukiFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("start실행", "실행");
+        Log.d("start실행 123", "실행");
     }
     @Override
     public void onRefresh() {

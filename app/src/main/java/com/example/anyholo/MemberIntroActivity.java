@@ -1,5 +1,6 @@
 package com.example.anyholo;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -81,6 +82,9 @@ public class MemberIntroActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(memberView.getOnAir().equals("live")||memberView.getOnAir().equals("upcoming"))
                 startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse(memberView.getOnAirViedoUrl())));
+                else{
+                    return ;
+                }
             }
         });
         youtubeLogo = findViewById(R.id.youtubeLogo);

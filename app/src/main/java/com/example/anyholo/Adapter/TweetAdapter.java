@@ -49,6 +49,7 @@ public class TweetAdapter extends BaseAdapter {
         Log.d("호출", String.valueOf(i));
         context = viewGroup.getContext();
         TweetView tweetView = items.get(i);
+        ;
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.tweet_item, viewGroup, false);

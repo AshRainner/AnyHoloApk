@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity{
     private CustomViewPagerAdapter pagerAdapter;
     private TabLayout tabLayout;
     private HashMap<String,Boolean> map;
+    ArrayList<MemberView> memberlist;
+    ArrayList<KirinukiView> kirinukiList;
+    ArrayList<TweetView> tweetList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +60,10 @@ public class MainActivity extends AppCompatActivity{
         tabLayout = findViewById(R.id.tab);
         Intent intent = getIntent();
         Bundle bundle = new Bundle();
-        ArrayList<MemberView> memberlist = (ArrayList<MemberView>) intent.getSerializableExtra("MemberList");
-        ArrayList<KirinukiView> kirinukiList = (ArrayList<KirinukiView>) intent.getSerializableExtra("KirinukiList");
+        memberlist = (ArrayList<MemberView>) intent.getSerializableExtra("MemberList");
+        kirinukiList = (ArrayList<KirinukiView>) intent.getSerializableExtra("KirinukiList");
         map = (HashMap<String, Boolean>) intent.getSerializableExtra("Favorite");
-        ArrayList<TweetView> tweetList = (ArrayList<TweetView>) intent.getSerializableExtra("TweetList");
+        tweetList = (ArrayList<TweetView>) intent.getSerializableExtra("TweetList");
         /*Log.d(String.valueOf(0), tweetList.get(4).getTweetId());
         Log.d(String.valueOf(0), tweetList.get(4).getWriteUserName());
         Log.d(String.valueOf(0), tweetList.get(4).getUserId());
@@ -70,15 +73,12 @@ public class MainActivity extends AppCompatActivity{
         Log.d(String.valueOf(0), tweetList.get(4).getMediaType());
         Log.d(String.valueOf(0), tweetList.get(4).getMediaUrl());
         Log.d(String.valueOf(0), tweetList.get(4).getWriteDate());*/
-        bundle.putSerializable("MemberList",memberlist);
-        bundle.putSerializable("Favorite",map);
-        bundle.putSerializable("KirinukiList",kirinukiList);
-        bundle.putSerializable("TweetList",tweetList);
+        //bundle.putSerializable("MemberList",memberlist);
+        //bundle.putSerializable("Favorite",map);
+        //bundle.putSerializable("KirinukiList",kirinukiList);
+        //bundle.putSerializable("TweetList",tweetList);
         pagerAdapter = new CustomViewPagerAdapter(this);
         createFragment();
-        liveFragment.setArguments(bundle);
-        kirinukiFragment.setArguments(bundle);
-        tweetFragment.setArguments(bundle);
         pagerAdapter.addFragment(liveFragment);
         pagerAdapter.addFragment(tweetFragment);
         pagerAdapter.addFragment(kirinukiFragment);
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {//스피너 클릭해서 아이템 클릭하면 서치 메서드 실행
                 liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
-                kirinukiFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
+                //kirinukiFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
             }
 
             @Override
@@ -154,11 +154,14 @@ public class MainActivity extends AppCompatActivity{
         });
     }
     private void createFragment(){
-        liveFragment = new LiveFragment();
+        liveFragment = new LiveFragment(memberlist,map);
+        liveFragment.onStart();
         Log.d("liveFragmet생성","!");
-        tweetFragment = new TweetFragment();
+        tweetFragment = new TweetFragment(tweetList);
+        tweetFragment.onStart();
         Log.d("TweetFragmet생성","!");
-        kirinukiFragment = new KirinukiFragment();
+        kirinukiFragment = new KirinukiFragment(kirinukiList);
+        kirinukiFragment.onStart();
         Log.d("kirinukiFragmet생성","!");
     }
 }
