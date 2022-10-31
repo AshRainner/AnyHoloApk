@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity{
         pagerAdapter.addFragment(tweetFragment);
         pagerAdapter.addFragment(kirinukiFragment);
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setUserInputEnabled(false);
 
         Spinner countrySpinner = findViewById(R.id.spinner);
         new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity{
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {//스피너 클릭해서 아이템 클릭하면 서치 메서드 실행
-                liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
+                //liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
                 //kirinukiFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
             }
 
@@ -155,13 +156,7 @@ public class MainActivity extends AppCompatActivity{
     }
     private void createFragment(){
         liveFragment = new LiveFragment(memberlist,map);
-        liveFragment.onStart();
-        Log.d("liveFragmet생성","!");
         tweetFragment = new TweetFragment(tweetList);
-        tweetFragment.onStart();
-        Log.d("TweetFragmet생성","!");
         kirinukiFragment = new KirinukiFragment(kirinukiList);
-        kirinukiFragment.onStart();
-        Log.d("kirinukiFragmet생성","!");
     }
 }

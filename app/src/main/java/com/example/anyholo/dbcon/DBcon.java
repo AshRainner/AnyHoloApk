@@ -14,6 +14,8 @@ public interface DBcon {
     Call<Model> getLiveData();
     @GET("/dbcon/Tweet")
     Call<Model> getTweetData(@Query("TPage") String tPage);
+    @GET("/dbcon/Tweet")
+    Call<Model> getNextTweetData(@Query("TweetID")String tweetId);
     @GET("/dbcon/Kirinuki")
     Call<Model> getKirinukiData(@Query("KPage") String kPage);
 }

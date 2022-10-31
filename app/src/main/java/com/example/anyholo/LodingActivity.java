@@ -60,7 +60,7 @@ public class LodingActivity extends AppCompatActivity {
                         Log.d("크기: ",String.valueOf(tweetList.size()));
                         HashMap<String,Boolean> map = checkCache(memberList);
                         tweetListSort(tweetList);
-                        //Log.d("비디오 이름 : ",kirinukiList.get(0).getVideoTitle());
+
                         intent.putExtra("MemberList", memberList);
                         intent.putExtra("KirinukiList",kirinukiList);
                         intent.putExtra("TweetList",tweetList);
@@ -99,6 +99,9 @@ public class LodingActivity extends AppCompatActivity {
             }
         }
         Collections.reverse(defaultList);
+        for(TweetView t : defaultList){
+
+        }
         for(int i=0;i<defaultList.size();i++){
             for(int j=0;j<repliedList.size();j++){
                 if(defaultList.get(i).getTweetId().equals(repliedList.get(j).getNextTweetId())){
