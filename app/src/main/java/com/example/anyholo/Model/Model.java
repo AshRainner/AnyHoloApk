@@ -13,6 +13,7 @@ public class Model implements Serializable {
     @SerializedName("Kirinuki")
     private ArrayList<KirinukiView> Kirinuki = null;
 
+    @SerializedName("Tweet")
     private ArrayList<TweetView> Tweet = null;
 
     public ArrayList<MemberView> getMemberList() {

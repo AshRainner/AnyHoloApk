@@ -59,8 +59,7 @@ public class LodingActivity extends AppCompatActivity {
                         ArrayList<TweetView> tweetList = m.getTweet();
                         Log.d("크기: ",String.valueOf(tweetList.size()));
                         HashMap<String,Boolean> map = checkCache(memberList);
-                        tweetListSort(tweetList);
-
+                        //tweetListSort(tweetList);
                         intent.putExtra("MemberList", memberList);
                         intent.putExtra("KirinukiList",kirinukiList);
                         intent.putExtra("TweetList",tweetList);

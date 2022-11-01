@@ -64,19 +64,6 @@ public class MainActivity extends AppCompatActivity{
         kirinukiList = (ArrayList<KirinukiView>) intent.getSerializableExtra("KirinukiList");
         map = (HashMap<String, Boolean>) intent.getSerializableExtra("Favorite");
         tweetList = (ArrayList<TweetView>) intent.getSerializableExtra("TweetList");
-        /*Log.d(String.valueOf(0), tweetList.get(4).getTweetId());
-        Log.d(String.valueOf(0), tweetList.get(4).getWriteUserName());
-        Log.d(String.valueOf(0), tweetList.get(4).getUserId());
-        Log.d(String.valueOf(0), tweetList.get(4).getUserProfileUrl());
-        Log.d(String.valueOf(0), tweetList.get(4).getTweetContent());
-        Log.d(String.valueOf(0), tweetList.get(4).getTweetType());
-        Log.d(String.valueOf(0), tweetList.get(4).getMediaType());
-        Log.d(String.valueOf(0), tweetList.get(4).getMediaUrl());
-        Log.d(String.valueOf(0), tweetList.get(4).getWriteDate());*/
-        //bundle.putSerializable("MemberList",memberlist);
-        //bundle.putSerializable("Favorite",map);
-        //bundle.putSerializable("KirinukiList",kirinukiList);
-        //bundle.putSerializable("TweetList",tweetList);
         pagerAdapter = new CustomViewPagerAdapter(this);
         createFragment();
         pagerAdapter.addFragment(liveFragment);

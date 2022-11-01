@@ -25,10 +25,12 @@ public class TweetView implements Serializable {
     private String mediaUrl;
     @SerializedName("writeDate")
     private String writeDate;
+    @SerializedName("nextTweet")
+    private TweetView nextTweet;
 
     private String retweetText;
 
-    public TweetView(String tweetId, String writeUserName, String userId, String userProfileUrl, String tweetContent, String tweetType, String nextTweetId, String mediaType, String mediaUrl, String writeDate) {
+    public TweetView(String tweetId, String writeUserName, String userId, String userProfileUrl, String tweetContent, String tweetType, String nextTweetId, String mediaType, String mediaUrl, String writeDate, TweetView nextTweet, String retweetText) {
         this.tweetId = tweetId;
         this.writeUserName = writeUserName;
         this.userId = userId;
@@ -39,6 +41,8 @@ public class TweetView implements Serializable {
         this.mediaType = mediaType;
         this.mediaUrl = mediaUrl;
         this.writeDate = writeDate;
+        this.nextTweet = nextTweet;
+        this.retweetText = retweetText;
     }
 
     public String getTweetId() {
@@ -127,5 +131,13 @@ public class TweetView implements Serializable {
 
     public void setRetweetText(String retweetText) {
         this.retweetText = retweetText;
+    }
+
+    public TweetView getNextTweet() {
+        return nextTweet;
+    }
+
+    public void setNextTweet(TweetView nextTweet) {
+        this.nextTweet = nextTweet;
     }
 }

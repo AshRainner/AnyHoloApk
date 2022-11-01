@@ -60,13 +60,14 @@ public class TweetAdapter extends BaseAdapter {
         private TextView quotedContent;
         private ImageView quotedMedia;
     }
+
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         context = viewGroup.getContext();
         TweetView tweetView = items.get(i);
         View view = convertView;
         ViewHolder viewHolder;
-        Log.d("호출 : ",String.valueOf(i));
+        Log.d("호출 : ", String.valueOf(i));
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.tweet_item, viewGroup, false);
@@ -85,39 +86,39 @@ public class TweetAdapter extends BaseAdapter {
             viewHolder.quotedContent = view.findViewById(R.id.tweet_quoted_content);
             viewHolder.quotedMedia = view.findViewById(R.id.tweet_quoted_media);
             view.setTag(viewHolder);
-        }else{
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         Glide.with(view).load(tweetView.getUserProfileUrl()).circleCrop().into(viewHolder.profileImage);//url를 이용하여 이미지 뷰에 이미지 세팅
         viewHolder.userName.setText(tweetView.getWriteUserName());
         viewHolder.upTime.setText(getTime(tweetView.getWriteDate()));
         viewHolder.content.setText(tweetView.getTweetContent());
-        ((ViewGroup)viewHolder.tweetMain).removeView(viewHolder.quotedView);
-        ((ViewGroup)viewHolder.tweetMain).removeView(viewHolder.retweetText);
+        ((ViewGroup) viewHolder.tweetMain).removeView(viewHolder.quotedView);
+        ((ViewGroup) viewHolder.tweetMain).removeView(viewHolder.retweetText);
         Glide.with(view).load(tweetView.getMediaUrl()).fitCenter().into(viewHolder.media);
-        if(tweetView.getTweetType().equals("QUOTED")){
-            ((ViewGroup)viewHolder.tweetMain).addView(viewHolder.quotedView);
+        if (tweetView.getTweetType().equals("QUOTED")) {
+            ((ViewGroup) viewHolder.tweetMain).addView(viewHolder.quotedView);
             TweetView t = null;
-            for(int j=0;j<items.size();j++){
-                if(items.get(j).getTweetId().equals(tweetView.getNextTweetId())){
-                    t=items.get(j);
+            if (tweetView.getNextTweet() == null) {
+                for (int j = 0; j < items.size(); j++) {
+                    if (items.get(j).getTweetId().equals(tweetView.getNextTweetId())) {
+                        t = items.get(j);
+                    }
                 }
+            } else {
+                t = tweetView.getNextTweet();
             }
-            if(t!=null) {
-                Glide.with(view).load(t.getUserProfileUrl()).circleCrop().into(viewHolder.quotedProfileImage);//url를 이용하여 이미지 뷰에 이미지 세팅
-                viewHolder.quotedUserName.setText(t.getWriteUserName());
-                viewHolder.quotedUpTime.setText(getTime(t.getWriteDate()));
-                viewHolder.quotedContent.setText(t.getTweetContent());
-                Glide.with(view).load(t.getMediaUrl()).fitCenter().into(viewHolder.quotedMedia);
-            }
-        }
-        else if(tweetView.getTweetType().equals("REPLIED_TO")){//리플달린거
+            Glide.with(view).load(t.getUserProfileUrl()).circleCrop().into(viewHolder.quotedProfileImage);//url를 이용하여 이미지 뷰에 이미지 세팅
+            viewHolder.quotedUserName.setText(t.getWriteUserName());
+            viewHolder.quotedUpTime.setText(getTime(t.getWriteDate()));
+            viewHolder.quotedContent.setText(t.getTweetContent());
+            Glide.with(view).load(t.getMediaUrl()).fitCenter().into(viewHolder.quotedMedia);
+        } else if (tweetView.getTweetType().equals("REPLIED_TO")) {//리플달린거
 
-        }
-        else if(tweetView.getRetweetText()!=null){//리트윗기능
-            ((ViewGroup)viewHolder.tweetMain).addView(viewHolder.retweetText);
+        } else if (tweetView.getRetweetText() != null) {//리트윗기능
+            ((ViewGroup) viewHolder.tweetMain).addView(viewHolder.retweetText);
             viewHolder.upTime.setText("리트윗");
-            viewHolder.retweetText.setText(tweetView.getRetweetText()+"님이 리트윗 했습니다.");
+            viewHolder.retweetText.setText(tweetView.getRetweetText() + "님이 리트윗 했습니다.");
         }
         return view;
     }
