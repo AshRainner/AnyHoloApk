@@ -47,24 +47,8 @@ public class TestAdapter extends BaseAdapter {
     }
 
     public class ViewHolder {
-        private RelativeLayout tweetMain;
-        private TextView retweetText;
-        private ImageView profileImage;
-        private TextView userName;
-        private TextView upTime;
-        private TextView content;
-        private ImageView[] media = new ImageView[4];
-        private MaterialCardView mediaView;
-        private LinearLayout mediaLayout;
-        private LinearLayout[] mediaDetailLayout = new LinearLayout[2];
-        private MaterialCardView quotedView;
-        private ImageView quotedProfileImage;
-        private TextView quotedUserName;
-        private TextView quotedUpTime;
-        private TextView quotedContent;
-        private ImageView[] quotedMedia = new ImageView[4];
-        private LinearLayout quotedMediaLayout;
-        private LinearLayout[] quotedMediaDetailLayout = new LinearLayout[2];
+        private TestView mainTweet;
+        private TestView quotedTweet;
     }
 
     @Override
@@ -76,7 +60,16 @@ public class TestAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.testlayout, viewGroup, false);
         TestView testView = view.findViewById(R.id.testLayout);
+        TestView testView2 = view.findViewById(R.id.quotedLayout);
+        MaterialCardView cardView = view.findViewById(R.id.tquotedView);
+
+        ((ViewGroup) view).removeView(cardView);
+        if(tweetView.getTweetType().equals("QUOTED")) {
+            ((ViewGroup) view).addView(cardView);
+            testView2.setValues(tweetView.getNextTweet());
+        }
         testView.setValues(tweetView);
+
         return view;
     }
 
