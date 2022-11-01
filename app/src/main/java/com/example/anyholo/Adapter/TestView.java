@@ -38,7 +38,6 @@ public class TestView extends RelativeLayout {
     private TextView upTime;
     private TextView content;
     private MaterialCardView mediaView;
-    private GridLayout gridLayout;
     private LinearLayout[] mediaDetailLayout = new LinearLayout[2];
     private ImageView[] media = new ImageView[4];
 
@@ -77,11 +76,10 @@ public class TestView extends RelativeLayout {
         media[1] = findViewById(R.id.test_media2);
         media[2] = findViewById(R.id.test_media3);
         media[3] = findViewById(R.id.test_media4);
-        gridLayout = findViewById(R.id.media_grid);
         mediaDetailLayout[0] = findViewById(R.id.tmedia_detail_layout1);
         mediaDetailLayout[1] = findViewById(R.id.tmedia_detail_layout2);
 
-        if (attrs != null) {
+        /*if (attrs != null) {
             TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TestView);
             retweetText.setText(a.getString(R.styleable.TestView_userName));
             Glide.with(this).load(a.getString(R.styleable.TestView_profileImageUrl)).circleCrop().into(profileImage);
@@ -94,12 +92,12 @@ public class TestView extends RelativeLayout {
                     Glide.with(this).load(urls[i]).circleCrop().into(media[i]);
             }
             a.recycle(); // 이용이 끝났으면 recycle() 호출
-        }
+        }*/
     }
     public void setValues(TweetView tweetView){
-        LinearLayout.LayoutParams defaultMargin = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        defaultMargin.setMargins(0,0,0,0);
+        /*LinearLayout.LayoutParams defaultMargin = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);*/
+        //defaultMargin.setMargins(0,0,0,0);
         retweetText.setText(tweetView.getRetweetText());
         Glide.with(this).load(tweetView.getUserProfileUrl()).circleCrop().into(profileImage);
         userName.setText(tweetView.getWriteUserName());
@@ -107,8 +105,8 @@ public class TestView extends RelativeLayout {
         content.setText(tweetView.getTweetContent());
         ((ViewGroup) tweetMain).removeView(mediaView);
         ((ViewGroup) mediaDetailLayout[0].getParent()).removeView(mediaDetailLayout[1]);
-        for(ImageView v : media)
-            v.setLayoutParams(defaultMargin);
+        //for(ImageView v : media)
+        //    v.setLayoutParams(defaultMargin);
         if(tweetView.getMediaUrl()!=null) {
             ((ViewGroup) tweetMain).addView(mediaView);
             String urls[] = tweetView.getMediaUrl().split(";");
@@ -136,47 +134,47 @@ public class TestView extends RelativeLayout {
                                     int h = bitmap.getHeight();
                                     Log.d("w : ",String.valueOf(w));
                                     Log.d("h : ",String.valueOf(h));
-                                    if(w<h)
-                                        gridLayout.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT));
+                                    if(w<h)Log.d("","");
+                                        //gridLayout.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT));
                                 }
                             });
                     ((ViewGroup) mediaDetailLayout[0]).addView(media[0]);
                     break;
                 case 2:
-                    margin[0].setMargins(0,0,3,0);//왼쪽 위 오른쪽 아래
-                    margin[1].setMargins(3,0,0,0);
+                    /*margin[0].setMargins(0,0,3,0);//왼쪽 위 오른쪽 아래
+                    margin[1].setMargins(3,0,0,0);*/
                     ((ViewGroup) mediaDetailLayout[0]).addView(media[0]);
                     ((ViewGroup) mediaDetailLayout[1]).addView(media[1]);
-                    media[0].setLayoutParams(margin[0]);
-                    media[1].setLayoutParams(margin[1]);
+                    /*media[0].setLayoutParams(margin[0]);
+                    media[1].setLayoutParams(margin[1]);*/
                     break;
                 case 3:
-                    margin[0].setMargins(0,0,3,0);
+                    /*margin[0].setMargins(0,0,3,0);
                     margin[1].setMargins(3,3,0,0);
-                    margin[2].setMargins(3,3,0,0);
+                    margin[2].setMargins(3,3,0,0);*/
                     ((ViewGroup) mediaDetailLayout[0]).addView(media[0]);
                     ((ViewGroup) mediaDetailLayout[1]).addView(media[1]);
                     ((ViewGroup) mediaDetailLayout[1]).addView(media[2]);
-                    media[0].setLayoutParams(margin[0]);
+                    /*media[0].setLayoutParams(margin[0]);
                     media[1].setLayoutParams(margin[1]);
-                    media[2].setLayoutParams(margin[2]);
+                    media[2].setLayoutParams(margin[2]);*/
                     //3개일 시 화면 구성
                     //1 2
                     //1 3
                     break;
                 case 4:
-                    margin[0].setMargins(0,0,3,3);
+                    /*margin[0].setMargins(0,0,3,3);
                     margin[1].setMargins(3,3,0,0);
                     margin[2].setMargins(3,3,0,0);
-                    margin[3].setMargins(0,0,3,3);
+                    margin[3].setMargins(0,0,3,3);*/
                     ((ViewGroup) mediaDetailLayout[0]).addView(media[0]);//1
                     ((ViewGroup) mediaDetailLayout[1]).addView(media[1]);//2
                     ((ViewGroup) mediaDetailLayout[1]).addView(media[3]);//4
                     ((ViewGroup) mediaDetailLayout[0]).addView(media[2]);//3 일부러 순서 바꿈
-                    media[0].setLayoutParams(margin[0]);
+                    /*media[0].setLayoutParams(margin[0]);
                     media[1].setLayoutParams(margin[1]);
                     media[2].setLayoutParams(margin[2]);
-                    media[3].setLayoutParams(margin[3]);
+                    media[3].setLayoutParams(margin[3]);*/
                     //4개일 시 화면 구성
                     //1 2
                     //3 4
