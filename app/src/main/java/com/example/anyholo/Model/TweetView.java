@@ -27,7 +27,6 @@ public class TweetView implements Serializable {
     private String writeDate;
     @SerializedName("nextTweet")
     private TweetView nextTweet;
-
     private String retweetText;
 
     public TweetView(String tweetId, String writeUserName, String userId, String userProfileUrl, String tweetContent, String tweetType, String nextTweetId, String mediaType, String mediaUrl, String writeDate, TweetView nextTweet, String retweetText) {

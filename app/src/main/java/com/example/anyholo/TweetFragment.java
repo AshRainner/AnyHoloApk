@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.anyholo.Adapter.KirinukiAdapter;
+import com.example.anyholo.Adapter.TestAdapter;
 import com.example.anyholo.Adapter.TweetAdapter;
 import com.example.anyholo.Model.KirinukiView;
 import com.example.anyholo.Model.MemberView;
@@ -36,12 +37,13 @@ import retrofit2.Response;
 
 public class TweetFragment extends Fragment {
     private ListView listView;
-    private TweetAdapter TweetAdapter;
+    //private TweetAdapter tweetAdapter;
     private SwipyRefreshLayout swipyRefreshLayout;
     private ArrayList<TweetView> list;
     private ArrayList<TweetView> copyList;
     private int page = 1;
     private final int MAXITEM=50;
+    private TestAdapter testAdapter;
 
     public TweetFragment(ArrayList<TweetView> list) {
         this.list = list;
@@ -53,7 +55,8 @@ public class TweetFragment extends Fragment {
         View view = inflater.inflate(R.layout.tweet_fragment,container,false);
         listView = view.findViewById(R.id.tweet_list);
         swipyRefreshLayout = view.findViewById(R.id.tweetLayout);
-        TweetAdapter = new TweetAdapter();
+        //tweetAdapter = new TweetAdapter();
+        testAdapter = new TestAdapter();
         copyList = new ArrayList<TweetView>();
         for(TweetView x : list){
             copyList.add(x);
@@ -61,7 +64,8 @@ public class TweetFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TweetView t = (TweetView) TweetAdapter.getItem(i);
+                //TweetView t = (TweetView) tweetAdapter.getItem(i);
+                TweetView t = (TweetView) testAdapter.getItem(i);
                 Uri uri = Uri.parse("https://twitter.com/"+t.getUserId()+"/status/"+t.getTweetId());
                 Log.d("ASDF : ","https://twitter.com/"+t.getUserId()+"/status/"+t.getTweetId());
                 try {
@@ -74,8 +78,10 @@ public class TweetFragment extends Fragment {
                 //startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://twitter.com/usadapekora/status/"+t.getTweetId())));
             }
         });
-        TweetAdapter.setItems(list);
-        listView.setAdapter(TweetAdapter);
+        //tweetAdapter.setItems(list);
+        //listView.setAdapter(tweetAdapter);
+        testAdapter.setItems(list);
+        listView.setAdapter(testAdapter);
         swipyRefreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh(SwipyRefreshLayoutDirection direction) {
@@ -101,7 +107,8 @@ public class TweetFragment extends Fragment {
                                 for(TweetView x : list){
                                     copyList.add(x);
                                 }
-                                TweetAdapter.notifyDataSetChanged();
+                                //tweetAdapter.notifyDataSetChanged();
+                                testAdapter.notifyDataSetChanged();
                             }
                             @Override
                             public void onFailure(Call<Model> call, Throwable t) {

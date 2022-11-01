@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TestView">
+        <attr name="userName" format="string"/>
+        <attr name="profileImageUrl" format="string"/>
+        <attr name="upTime" format="string"/>
+        <attr name="tweetContent" format="string"/>
+        <attr name="mediaUrl" format="string"/>
+    </declare-styleable>
+</resources>

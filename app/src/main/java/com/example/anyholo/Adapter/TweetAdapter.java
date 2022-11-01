@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -52,13 +53,18 @@ public class TweetAdapter extends BaseAdapter {
         private TextView userName;
         private TextView upTime;
         private TextView content;
-        private ImageView media;
+        private ImageView[] media = new ImageView[4];
+        private MaterialCardView mediaView;
+        private LinearLayout mediaLayout;
+        private LinearLayout[] mediaDetailLayout = new LinearLayout[2];
         private MaterialCardView quotedView;
         private ImageView quotedProfileImage;
         private TextView quotedUserName;
         private TextView quotedUpTime;
         private TextView quotedContent;
-        private ImageView quotedMedia;
+        private ImageView[] quotedMedia = new ImageView[4];
+        private LinearLayout quotedMediaLayout;
+        private LinearLayout[] quotedMediaDetailLayout = new LinearLayout[2];
     }
 
     @Override
@@ -67,7 +73,6 @@ public class TweetAdapter extends BaseAdapter {
         TweetView tweetView = items.get(i);
         View view = convertView;
         ViewHolder viewHolder;
-        Log.d("호출 : ", String.valueOf(i));
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.tweet_item, viewGroup, false);
@@ -78,13 +83,26 @@ public class TweetAdapter extends BaseAdapter {
             viewHolder.userName = view.findViewById(R.id.tweet_user_name);
             viewHolder.upTime = view.findViewById(R.id.tweet_uptime);
             viewHolder.content = view.findViewById(R.id.tweet_content);
-            viewHolder.media = view.findViewById(R.id.tweet_media);
+            viewHolder.mediaView = view.findViewById(R.id.tweet_media_view);
+            viewHolder.media[0] = view.findViewById(R.id.tweet_media);
+            viewHolder.media[1] = view.findViewById(R.id.tweet_media2);
+            viewHolder.media[2] = view.findViewById(R.id.tweet_media3);
+            viewHolder.media[3] = view.findViewById(R.id.tweet_media4);
+            viewHolder.mediaLayout = view.findViewById((R.id.media_layout));
+            viewHolder.mediaDetailLayout[0] = view.findViewById(R.id.media_detail_layout1);
+            viewHolder.mediaDetailLayout[1] = view.findViewById(R.id.media_detail_layout2);
             viewHolder.quotedView = view.findViewById(R.id.quotedView);
             viewHolder.quotedProfileImage = view.findViewById(R.id.tweet_quoted_profile_image);
             viewHolder.quotedUserName = view.findViewById(R.id.tweet_quoted_user_name);
             viewHolder.quotedUpTime = view.findViewById(R.id.tweet_quoted_uptime);
             viewHolder.quotedContent = view.findViewById(R.id.tweet_quoted_content);
-            viewHolder.quotedMedia = view.findViewById(R.id.tweet_quoted_media);
+            viewHolder.quotedMedia[0] = view.findViewById(R.id.tweet_quoted_media);
+            viewHolder.quotedMedia[1] = view.findViewById(R.id.tweet_quoted_media2);
+            viewHolder.quotedMedia[2] = view.findViewById(R.id.tweet_quoted_media3);
+            viewHolder.quotedMedia[3] = view.findViewById(R.id.tweet_quoted_media4);
+            viewHolder.quotedMediaLayout = view.findViewById(R.id.media_quoted_layout);
+            viewHolder.quotedMediaDetailLayout[0] = view.findViewById(R.id.media_quoted_detail_layout1);
+            viewHolder.quotedMediaDetailLayout[1] = view.findViewById(R.id.media_quoted_detail_layout2);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -95,9 +113,20 @@ public class TweetAdapter extends BaseAdapter {
         viewHolder.content.setText(tweetView.getTweetContent());
         ((ViewGroup) viewHolder.tweetMain).removeView(viewHolder.quotedView);
         ((ViewGroup) viewHolder.tweetMain).removeView(viewHolder.retweetText);
-        Glide.with(view).load(tweetView.getMediaUrl()).fitCenter().into(viewHolder.media);
+        ((ViewGroup) viewHolder.tweetMain).removeView(viewHolder.mediaView);
+        ((ViewGroup) viewHolder.mediaLayout).removeView(viewHolder.mediaDetailLayout[1]);
+        if(tweetView.getMediaUrl()!=null) {
+            ((ViewGroup) viewHolder.tweetMain).addView(viewHolder.mediaView);
+            String[] mediaUrls = tweetView.getMediaUrl().split(";");
+            if (mediaUrls.length > 1)
+                ((ViewGroup) viewHolder.quotedMediaLayout).addView(viewHolder.quotedMediaDetailLayout[1]);
+            for (int j = 0; j < mediaUrls.length; j++) {
+                Glide.with(view).load(mediaUrls[j]).into(viewHolder.media[j]);
+            }
+        }
         if (tweetView.getTweetType().equals("QUOTED")) {
             ((ViewGroup) viewHolder.tweetMain).addView(viewHolder.quotedView);
+            ((ViewGroup) viewHolder.quotedMediaLayout).removeView(viewHolder.quotedMediaDetailLayout[1]);
             TweetView t = null;
             if (tweetView.getNextTweet() == null) {
                 for (int j = 0; j < items.size(); j++) {
@@ -112,7 +141,12 @@ public class TweetAdapter extends BaseAdapter {
             viewHolder.quotedUserName.setText(t.getWriteUserName());
             viewHolder.quotedUpTime.setText(getTime(t.getWriteDate()));
             viewHolder.quotedContent.setText(t.getTweetContent());
-            Glide.with(view).load(t.getMediaUrl()).fitCenter().into(viewHolder.quotedMedia);
+            String []quotedMediaUrls = t.getMediaUrl().split(";");
+            if(quotedMediaUrls.length>1)
+                ((ViewGroup) viewHolder.quotedMediaLayout).addView(viewHolder.quotedMediaDetailLayout[1]);
+            for (int j=0;j<quotedMediaUrls.length;j++) {
+                Glide.with(view).load(quotedMediaUrls[j]).into(viewHolder.quotedMedia[j]);
+            }
         } else if (tweetView.getTweetType().equals("REPLIED_TO")) {//리플달린거
 
         } else if (tweetView.getRetweetText() != null) {//리트윗기능
