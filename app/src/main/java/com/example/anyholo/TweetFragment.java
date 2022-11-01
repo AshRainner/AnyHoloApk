@@ -42,7 +42,7 @@ public class TweetFragment extends Fragment {
     private ArrayList<TweetView> list;
     private ArrayList<TweetView> copyList;
     private int page = 1;
-    private final int MAXITEM=50;
+    private final int MAXITEM=10;
     private TestAdapter testAdapter;
 
     public TweetFragment(ArrayList<TweetView> list) {
@@ -92,6 +92,7 @@ public class TweetFragment extends Fragment {
                 else {
                     if(page>=1&&list.size()==MAXITEM)
                         page++;
+                    Log.d("나 여깄어","알겠어");
                 }
                 Thread getTweetData = new Thread(new Runnable() {
                     @Override

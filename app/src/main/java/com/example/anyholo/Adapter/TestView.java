@@ -40,6 +40,7 @@ public class TestView extends RelativeLayout {
     private MaterialCardView mediaView;
     private LinearLayout[] mediaDetailLayout = new LinearLayout[2];
     private ImageView[] media = new ImageView[4];
+    private final int marginValue=3;
 
     public TestView(Context context) {
         super(context);
@@ -78,26 +79,8 @@ public class TestView extends RelativeLayout {
         media[3] = findViewById(R.id.test_media4);
         mediaDetailLayout[0] = findViewById(R.id.tmedia_detail_layout1);
         mediaDetailLayout[1] = findViewById(R.id.tmedia_detail_layout2);
-
-        /*if (attrs != null) {
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TestView);
-            retweetText.setText(a.getString(R.styleable.TestView_userName));
-            Glide.with(this).load(a.getString(R.styleable.TestView_profileImageUrl)).circleCrop().into(profileImage);
-            userName.setText(a.getString(R.styleable.TestView_userName));
-            upTime.setText(a.getString(R.styleable.TestView_upTime));
-            content.setText(a.getString(R.styleable.TestView_tweetContent));
-            if(a.getString(R.styleable.TestView_mediaUrl)!=null) {
-                String urls[] = a.getString(R.styleable.TestView_mediaUrl).split(";");
-                for (int i = 0; i < urls.length; i++)
-                    Glide.with(this).load(urls[i]).circleCrop().into(media[i]);
-            }
-            a.recycle(); // 이용이 끝났으면 recycle() 호출
-        }*/
     }
     public void setValues(TweetView tweetView){
-        /*LinearLayout.LayoutParams defaultMargin = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);*/
-        //defaultMargin.setMargins(0,0,0,0);
         retweetText.setText(tweetView.getRetweetText());
         Glide.with(this).load(tweetView.getUserProfileUrl()).circleCrop().into(profileImage);
         userName.setText(tweetView.getWriteUserName());
@@ -105,22 +88,22 @@ public class TestView extends RelativeLayout {
         content.setText(tweetView.getTweetContent());
         ((ViewGroup) tweetMain).removeView(mediaView);
         ((ViewGroup) mediaDetailLayout[0].getParent()).removeView(mediaDetailLayout[1]);
-        //for(ImageView v : media)
-        //    v.setLayoutParams(defaultMargin);
         if(tweetView.getMediaUrl()!=null) {
             ((ViewGroup) tweetMain).addView(mediaView);
             String urls[] = tweetView.getMediaUrl().split(";");
-            Log.d("urls.length : ",String.valueOf(urls.length));
             LinearLayout.LayoutParams[] margin = new LinearLayout.LayoutParams[4];
-            for(int i=0;i<urls.length;i++)
-                margin[i] = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT);
-            for(int i=0;i<4;i++)
-                ((ViewGroup) media[i].getParent()).removeView(media[i]);
+            ((ViewGroup) mediaDetailLayout[0]).removeView(media[0]);
+            ((ViewGroup) mediaDetailLayout[1]).removeView(media[1]);
+            ((ViewGroup) mediaDetailLayout[1]).removeView(media[2]);
+            ((ViewGroup) mediaDetailLayout[0]).removeView(media[3]);
             if(urls.length>1)
                 ((ViewGroup) mediaDetailLayout[0].getParent()).addView(mediaDetailLayout[1]);
             int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,200,getResources().getDisplayMetrics());
-            //gridLayout.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,height));
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mediaView.getLayoutParams();
+            Log.d(String.valueOf(params.height),String.valueOf(params.width));
+            params.height= height;
+            mediaView.setLayoutParams(params);
+            LinearLayout.LayoutParams imageParams;
             switch (urls.length){
                 case 1:
                     Glide.with(getContext().getApplicationContext())
@@ -132,49 +115,66 @@ public class TestView extends RelativeLayout {
                                                             Transition<? super Bitmap> transition) {
                                     int w = bitmap.getWidth();
                                     int h = bitmap.getHeight();
-                                    Log.d("w : ",String.valueOf(w));
-                                    Log.d("h : ",String.valueOf(h));
-                                    if(w<h)Log.d("","");
-                                        //gridLayout.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,FrameLayout.LayoutParams.WRAP_CONTENT));
+                                    Log.d(String.valueOf(w),String.valueOf(h));
+                                    if(w<=h) {
+                                        params.height= LayoutParams.MATCH_PARENT;
+                                        mediaView.setLayoutParams(params);
+                                        Log.d(String.valueOf(params.height),String.valueOf(params.width));
+                                    }
                                 }
                             });
                     ((ViewGroup) mediaDetailLayout[0]).addView(media[0]);
                     break;
                 case 2:
-                    /*margin[0].setMargins(0,0,3,0);//왼쪽 위 오른쪽 아래
-                    margin[1].setMargins(3,0,0,0);*/
+                    imageParams = (LinearLayout.LayoutParams) media[0].getLayoutParams();
+                    imageParams.rightMargin=marginValue;
+                    media[0].setLayoutParams(imageParams);
+                    imageParams = (LinearLayout.LayoutParams) media[1].getLayoutParams();
+                    imageParams.leftMargin=marginValue;
+                    media[1].setLayoutParams(imageParams);
                     ((ViewGroup) mediaDetailLayout[0]).addView(media[0]);
                     ((ViewGroup) mediaDetailLayout[1]).addView(media[1]);
-                    /*media[0].setLayoutParams(margin[0]);
-                    media[1].setLayoutParams(margin[1]);*/
                     break;
                 case 3:
-                    /*margin[0].setMargins(0,0,3,0);
-                    margin[1].setMargins(3,3,0,0);
-                    margin[2].setMargins(3,3,0,0);*/
+                    imageParams = (LinearLayout.LayoutParams) media[0].getLayoutParams();
+                    imageParams.rightMargin=marginValue;
+                    media[0].setLayoutParams(imageParams);
+                    imageParams = (LinearLayout.LayoutParams) media[1].getLayoutParams();
+                    imageParams.leftMargin=marginValue;
+                    imageParams.bottomMargin=marginValue;
+                    media[1].setLayoutParams(imageParams);
+                    imageParams = (LinearLayout.LayoutParams) media[2].getLayoutParams();
+                    imageParams.leftMargin=marginValue;
+                    imageParams.topMargin=marginValue;
+                    media[2].setLayoutParams(imageParams);
                     ((ViewGroup) mediaDetailLayout[0]).addView(media[0]);
                     ((ViewGroup) mediaDetailLayout[1]).addView(media[1]);
                     ((ViewGroup) mediaDetailLayout[1]).addView(media[2]);
-                    /*media[0].setLayoutParams(margin[0]);
-                    media[1].setLayoutParams(margin[1]);
-                    media[2].setLayoutParams(margin[2]);*/
                     //3개일 시 화면 구성
                     //1 2
                     //1 3
                     break;
                 case 4:
-                    /*margin[0].setMargins(0,0,3,3);
-                    margin[1].setMargins(3,3,0,0);
-                    margin[2].setMargins(3,3,0,0);
-                    margin[3].setMargins(0,0,3,3);*/
+                    imageParams = (LinearLayout.LayoutParams) media[0].getLayoutParams();
+                    imageParams.rightMargin=marginValue;
+                    imageParams.bottomMargin=marginValue;
+                    media[0].setLayoutParams(imageParams);
+                    imageParams = (LinearLayout.LayoutParams) media[1].getLayoutParams();
+                    imageParams.leftMargin=marginValue;
+                    imageParams.bottomMargin=marginValue;
+                    media[1].setLayoutParams(imageParams);
+                    imageParams = (LinearLayout.LayoutParams) media[2].getLayoutParams();
+                    imageParams.rightMargin=marginValue;
+                    imageParams.topMargin=marginValue;
+                    media[2].setLayoutParams(imageParams);
+                    imageParams = (LinearLayout.LayoutParams) media[2].getLayoutParams();
+                    imageParams.leftMargin=marginValue;
+                    imageParams.topMargin=marginValue;
+                    media[3].setLayoutParams(imageParams);
                     ((ViewGroup) mediaDetailLayout[0]).addView(media[0]);//1
                     ((ViewGroup) mediaDetailLayout[1]).addView(media[1]);//2
-                    ((ViewGroup) mediaDetailLayout[1]).addView(media[3]);//4
-                    ((ViewGroup) mediaDetailLayout[0]).addView(media[2]);//3 일부러 순서 바꿈
-                    /*media[0].setLayoutParams(margin[0]);
-                    media[1].setLayoutParams(margin[1]);
-                    media[2].setLayoutParams(margin[2]);
-                    media[3].setLayoutParams(margin[3]);*/
+                    ((ViewGroup) mediaDetailLayout[1]).addView(media[2]);//4
+                    ((ViewGroup) mediaDetailLayout[0]).addView(media[3]);//3 일부러 순서 바꿈
                     //4개일 시 화면 구성
                     //1 2
                     //3 4
@@ -183,7 +183,6 @@ public class TestView extends RelativeLayout {
                 Log.d("url : ",urls[i]);
                 Glide.with(this).load(urls[i]).fitCenter().into(media[i]);
             }
-            //gridLayout.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,height));
         }
     }
     private String getTime(String time) {

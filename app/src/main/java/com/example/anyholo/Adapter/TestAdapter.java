@@ -1,21 +1,15 @@
 package com.example.anyholo.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.anyholo.Model.TweetView;
 import com.example.anyholo.R;
 import com.google.android.material.card.MaterialCardView;
-
-import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,27 +42,28 @@ public class TestAdapter extends BaseAdapter {
 
     public class ViewHolder {
         private TestView mainTweet;
-        private TestView quotedTweet;
+        private TestView nextTweet;
+        private MaterialCardView cardView;
     }
 
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         context = viewGroup.getContext();
         TweetView tweetView = items.get(i);
-        View view = convertView;
         ViewHolder viewHolder;
+        Log.d("응 어쩔껀데","어쩔:");
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.testlayout, viewGroup, false);
-        TestView testView = view.findViewById(R.id.testLayout);
-        TestView testView2 = view.findViewById(R.id.quotedLayout);
+        View view = inflater.inflate(R.layout.testlayout, viewGroup, false);
+        TestView mainTweet=view.findViewById(R.id.testLayout);
+        TestView nextTweet=view.findViewById(R.id.quotedLayout);
         MaterialCardView cardView = view.findViewById(R.id.tquotedView);
-
+        mainTweet.setValues(tweetView);
         ((ViewGroup) view).removeView(cardView);
         if(tweetView.getTweetType().equals("QUOTED")) {
             ((ViewGroup) view).addView(cardView);
-            testView2.setValues(tweetView.getNextTweet());
+            nextTweet.setValues(tweetView.getNextTweet());
         }
-        testView.setValues(tweetView);
+        mainTweet.setValues(tweetView);
 
         return view;
     }
