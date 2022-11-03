@@ -97,7 +97,6 @@ public class TestView extends RelativeLayout {
                 ((ViewGroup) mediaDetailLayout[0].getParent()).addView(mediaDetailLayout[1]);
             int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,200,getResources().getDisplayMetrics());
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mediaView.getLayoutParams();
-            Log.d(String.valueOf(params.height),String.valueOf(params.width));
             params.height= height;
             mediaView.setLayoutParams(params);
             LinearLayout.LayoutParams imageParams;
@@ -114,7 +113,7 @@ public class TestView extends RelativeLayout {
                                     int h = bitmap.getHeight();
                                     Log.d(String.valueOf(w),String.valueOf(h));
                                     if(w<=h) {
-                                        params.height= LayoutParams.MATCH_PARENT;
+                                        params.height= LayoutParams.WRAP_CONTENT;
                                         mediaView.setLayoutParams(params);
                                         Log.d(String.valueOf(params.height),String.valueOf(params.width));
                                     }

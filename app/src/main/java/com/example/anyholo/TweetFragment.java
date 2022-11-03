@@ -87,9 +87,8 @@ public class TweetFragment extends Fragment {
                         page--;
                 }
                 else {
-                    if(page>=1&&list.size()==MAXITEM)
+                    if(page>=1)
                         page++;
-                    Log.d("나 여깄어","알겠어");
                 }
                 Thread getTweetData = new Thread(new Runnable() {
                     @Override
@@ -106,6 +105,7 @@ public class TweetFragment extends Fragment {
                                     copyList.add(x);
                                 }
                                 //tweetAdapter.notifyDataSetChanged();
+                                Log.d("페이지 : ",String.valueOf(page));
                                 testAdapter.notifyDataSetChanged();
                             }
                             @Override
