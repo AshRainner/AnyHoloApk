@@ -66,8 +66,6 @@ public class TweetFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //TweetView t = (TweetView) tweetAdapter.getItem(i);
                 TweetView t = (TweetView) testAdapter.getItem(i);
-                if(t.getTweetType().equals("RETWEETED"))
-                    t=t.getPrevTweet();
                 Uri uri = Uri.parse("https://twitter.com/"+t.getUserId()+"/status/"+t.getTweetId());
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
