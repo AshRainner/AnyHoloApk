@@ -5,24 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/retest_text"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:gravity="center"
-        android:text="!@#!@#!@$"></TextView>
-
     <ImageView
         android:id="@+id/test_profile_image"
         android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_below="@id/retest_text"></ImageView>
+        android:layout_height="50dp"></ImageView>
 
     <TextView
         android:id="@+id/test_user_name"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_below="@id/retest_text"
         android:layout_toLeftOf="@id/test_uptime"
         android:layout_toRightOf="@id/test_profile_image"
         android:ellipsize="end"
@@ -33,7 +24,6 @@
         android:id="@+id/test_uptime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/retest_text"
         android:layout_alignParentRight="true"
         android:text="default"></TextView>
 
@@ -51,8 +41,8 @@
         android:layout_height="200dp"
         android:layout_below="@id/test_content"
         android:layout_toRightOf="@id/test_profile_image"
-        app:cardCornerRadius="25dp"
-        app:cardBackgroundColor="#000000">
+        app:cardBackgroundColor="#000000"
+        app:cardCornerRadius="25dp">
 
         <LinearLayout
             android:layout_width="wrap_content"

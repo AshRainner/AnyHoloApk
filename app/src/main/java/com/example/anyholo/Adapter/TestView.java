@@ -32,7 +32,6 @@ import java.util.Date;
 
 public class TestView extends RelativeLayout {
     private RelativeLayout tweetMain;
-    private TextView retweetText;
     private ImageView profileImage;
     private TextView userName;
     private TextView upTime;
@@ -67,7 +66,6 @@ public class TestView extends RelativeLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.test_item,this);
         tweetMain = findViewById(R.id.test_main);
-        retweetText = findViewById(R.id.retest_text);
         profileImage = findViewById(R.id.test_profile_image);
         userName = findViewById(R.id.test_user_name);
         upTime = findViewById(R.id.test_uptime);
@@ -81,7 +79,6 @@ public class TestView extends RelativeLayout {
         mediaDetailLayout[1] = findViewById(R.id.tmedia_detail_layout2);
     }
     public void setValues(TweetView tweetView){
-        retweetText.setText(tweetView.getRetweetText());
         Glide.with(this).load(tweetView.getUserProfileUrl()).circleCrop().into(profileImage);
         userName.setText(tweetView.getWriteUserName());
         upTime.setText(getTime(tweetView.getWriteDate()));

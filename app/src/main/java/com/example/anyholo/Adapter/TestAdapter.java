@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import com.example.anyholo.Model.TweetView;
 import com.example.anyholo.R;
@@ -44,6 +45,8 @@ public class TestAdapter extends BaseAdapter {
         private TestView mainTweet;
         private TestView nextTweet;
         private MaterialCardView cardView;
+        private TextView retweetUser;
+        private TextView retweetText;
     }
 
     @Override
@@ -51,53 +54,58 @@ public class TestAdapter extends BaseAdapter {
         context = viewGroup.getContext();
         TweetView tweetView = items.get(i);
         ViewHolder viewHolder;
-        Log.d("응 어쩔껀데","어쩔:");
+        Log.d("응 어쩔껀데", "어쩔:");
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.testlayout, viewGroup, false);
-        TestView mainTweet=view.findViewById(R.id.testLayout);
-        TestView nextTweet=view.findViewById(R.id.quotedLayout);
+        TestView mainTweet = view.findViewById(R.id.testLayout);
+        TestView nextTweet = view.findViewById(R.id.quotedLayout);
         MaterialCardView cardView = view.findViewById(R.id.tquotedView);
+        TextView retweetUser = view.findViewById(R.id.retest_user);
+        TextView retweetText = view.findViewById(R.id.retest_text);
+        TweetView quotedTweet = null;
         mainTweet.setValues(tweetView);
         ((ViewGroup) view).removeView(cardView);
-        if(tweetView.getTweetType().equals("QUOTED")) {
-            ((ViewGroup) view).addView(cardView);
-            nextTweet.setValues(tweetView.getNextTweet());
+        ((ViewGroup) view).removeView(retweetUser);
+        ((ViewGroup) view).removeView(retweetText);
+        if (tweetView.getTweetType().equals("QUOTED")) {
+            mainTweet.setValues(tweetView);
+            if (tweetView.getPrevTweet() != null)
+                quotedTweet = tweetView.getPrevTweet();
+            else
+                for (TweetView t : items)
+                    if (tweetView.getPrevTweetId().equals(t.getTweetId())) {
+                        quotedTweet = t;
+                        break;
+                    }
+        } else if (tweetView.getTweetType().equals("RETWEETED")) {
+            ((ViewGroup) view).addView(retweetUser);
+            ((ViewGroup) view).addView(retweetText);
+            TweetView retweet = null;
+            for (TweetView t : items) {
+                if (tweetView.getPrevTweetId().equals(t.getTweetId()))
+                    retweet = t;
+            }
+            if (retweet == null)
+                retweet = tweetView.getPrevTweet();
+            if (retweet.getTweetType().equals("QUOTED")) {
+                if (retweet.getPrevTweetId() != null)
+                    quotedTweet = retweet.getPrevTweet();
+                else
+                    for (TweetView t : items)
+                        if (retweet.getPrevTweetId().equals(t.getTweetId())) {
+                            quotedTweet = t;
+                            break;
+                        }
+            }
+            retweetUser.setText(tweetView.getWriteUserName());
+            tweetView=retweet;
         }
         mainTweet.setValues(tweetView);
+        if(quotedTweet!=null) {
+            ((ViewGroup) view).addView(cardView);
+            nextTweet.setValues(quotedTweet);
+        }
 
         return view;
-    }
-
-    public String getTime(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        try {
-            Calendar uptime = Calendar.getInstance();
-            uptime.setTime(sdf.parse(time));
-            Calendar onedayafter = Calendar.getInstance();
-            onedayafter.setTime(sdf.parse(time));
-            onedayafter.add(Calendar.DAY_OF_MONTH, +1);
-            Calendar now = Calendar.getInstance();
-            //한국이라 9시간 더해줘야함
-            now.add(Calendar.HOUR, 9);
-            if (now.before(onedayafter)) { // 현재시간은 언제나 업로드 타임보다 앞이라 하루 뒤 시간을 넘었는지만 체크하면됨
-                long diffSec = (now.getTimeInMillis() - uptime.getTimeInMillis()) / 1000;
-                long diffHour = diffSec / (60 * 60);
-                if (diffHour != 0) {
-                    return diffHour + "시간 전";
-                }
-                long diffMinute = diffSec / (60);
-                return diffMinute + "분 전";
-            }
-            sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Date d = sdf.parse(time);
-            String result = sdf.format(d);
-            result = result.substring(5, result.length());
-            result = result.replace("-", "월 ");
-            result += "일";
-            return result;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return "";
     }
 }

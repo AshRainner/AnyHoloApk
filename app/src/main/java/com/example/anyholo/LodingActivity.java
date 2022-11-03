@@ -98,12 +98,9 @@ public class LodingActivity extends AppCompatActivity {
             }
         }
         Collections.reverse(defaultList);
-        for(TweetView t : defaultList){
-
-        }
         for(int i=0;i<defaultList.size();i++){
             for(int j=0;j<repliedList.size();j++){
-                if(defaultList.get(i).getTweetId().equals(repliedList.get(j).getNextTweetId())){
+                if(defaultList.get(i).getTweetId().equals(repliedList.get(j).getPrevTweetId())){
                     defaultList.add(i+1,repliedList.get(j));
                     repliedList.remove(j);
                     break;
@@ -112,15 +109,15 @@ public class LodingActivity extends AppCompatActivity {
         }
         for(int i=0;i<defaultList.size();i++){
             for(int j=0;j<retweetedList.size();j++){
-                if(defaultList.get(i).getTweetId().equals(retweetedList.get(j).getNextTweetId())){
-                    String s = defaultList.get(i).getRetweetText();
+                if(defaultList.get(i).getTweetId().equals(retweetedList.get(j).getPrevTweetId())){
+                    String s = defaultList.get(i).getRetweetUser();
                     if(s==null) {
-                        defaultList.get(i).setRetweetText(retweetedList.get(j).getWriteUserName());
+                        defaultList.get(i).setRetweetUser(retweetedList.get(j).getWriteUserName());
                         retweetedList.remove(j);
                         break;
                     }
                     else {
-                        defaultList.get(i).setRetweetText(defaultList.get(i).getRetweetText() + "," + retweetedList.get(j).getWriteUserName());
+                        defaultList.get(i).setRetweetUser(defaultList.get(i).getRetweetUser() + "," + retweetedList.get(j).getWriteUserName());
                         retweetedList.remove(j);
                         break;
                     }

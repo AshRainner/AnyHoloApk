@@ -17,31 +17,31 @@ public class TweetView implements Serializable {
     private String tweetContent;
     @SerializedName("tweetType")
     private String tweetType;
-    @SerializedName("nextTweetId")
-    private String nextTweetId;
+    @SerializedName("prevTweetId")
+    private String prevTweetId;
     @SerializedName("mediaType")
     private String mediaType;
     @SerializedName("mediaUrl")
     private String mediaUrl;
     @SerializedName("writeDate")
     private String writeDate;
-    @SerializedName("nextTweet")
-    private TweetView nextTweet;
-    private String retweetText;
+    @SerializedName("prevTweet")
+    private TweetView prevTweet;
+    private String retweetUser;
 
-    public TweetView(String tweetId, String writeUserName, String userId, String userProfileUrl, String tweetContent, String tweetType, String nextTweetId, String mediaType, String mediaUrl, String writeDate, TweetView nextTweet, String retweetText) {
+    public TweetView(String tweetId, String writeUserName, String userId, String userProfileUrl, String tweetContent, String tweetType, String prevTweetId, String mediaType, String mediaUrl, String writeDate, TweetView prevTweet, String retweetUser) {
         this.tweetId = tweetId;
         this.writeUserName = writeUserName;
         this.userId = userId;
         this.userProfileUrl = userProfileUrl;
         this.tweetContent = tweetContent;
         this.tweetType = tweetType;
-        this.nextTweetId = nextTweetId;
+        this.prevTweetId = prevTweetId;
         this.mediaType = mediaType;
         this.mediaUrl = mediaUrl;
         this.writeDate = writeDate;
-        this.nextTweet = nextTweet;
-        this.retweetText = retweetText;
+        this.prevTweet = prevTweet;
+        this.retweetUser = retweetUser;
     }
 
     public String getTweetId() {
@@ -92,12 +92,12 @@ public class TweetView implements Serializable {
         this.tweetType = tweetType;
     }
 
-    public String getNextTweetId() {
-        return nextTweetId;
+    public String getPrevTweetId() {
+        return prevTweetId;
     }
 
-    public void setNextTweetId(String nextTweetId) {
-        this.nextTweetId = nextTweetId;
+    public void setprevTweetId(String prevTweetId) {
+        this.prevTweetId = prevTweetId;
     }
 
     public String getMediaType() {
@@ -124,19 +124,19 @@ public class TweetView implements Serializable {
         this.writeDate = writeDate;
     }
 
-    public String getRetweetText() {
-        return retweetText;
+    public String getRetweetUser() {
+        return retweetUser;
     }
 
-    public void setRetweetText(String retweetText) {
-        this.retweetText = retweetText;
+    public void setRetweetUser(String retweetText) {
+        this.retweetUser = retweetText;
     }
 
-    public TweetView getNextTweet() {
-        return nextTweet;
+    public TweetView getPrevTweet() {
+        return prevTweet;
     }
 
-    public void setNextTweet(TweetView nextTweet) {
-        this.nextTweet = nextTweet;
+    public void setPrevTweet(TweetView prevTweet) {
+        this.prevTweet = prevTweet;
     }
 }

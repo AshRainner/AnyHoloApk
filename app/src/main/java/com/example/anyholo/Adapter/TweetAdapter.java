@@ -128,14 +128,14 @@ public class TweetAdapter extends BaseAdapter {
             ((ViewGroup) viewHolder.tweetMain).addView(viewHolder.quotedView);
             ((ViewGroup) viewHolder.quotedMediaLayout).removeView(viewHolder.quotedMediaDetailLayout[1]);
             TweetView t = null;
-            if (tweetView.getNextTweet() == null) {
+            if (tweetView.getPrevTweet() == null) {
                 for (int j = 0; j < items.size(); j++) {
-                    if (items.get(j).getTweetId().equals(tweetView.getNextTweetId())) {
+                    if (items.get(j).getTweetId().equals(tweetView.getPrevTweetId())) {
                         t = items.get(j);
                     }
                 }
             } else {
-                t = tweetView.getNextTweet();
+                t = tweetView.getPrevTweet();
             }
             Glide.with(view).load(t.getUserProfileUrl()).circleCrop().into(viewHolder.quotedProfileImage);//url를 이용하여 이미지 뷰에 이미지 세팅
             viewHolder.quotedUserName.setText(t.getWriteUserName());
@@ -149,10 +149,10 @@ public class TweetAdapter extends BaseAdapter {
             }
         } else if (tweetView.getTweetType().equals("REPLIED_TO")) {//리플달린거
 
-        } else if (tweetView.getRetweetText() != null) {//리트윗기능
+        } else if (tweetView.getRetweetUser() != null) {//리트윗기능
             ((ViewGroup) viewHolder.tweetMain).addView(viewHolder.retweetText);
             viewHolder.upTime.setText("리트윗");
-            viewHolder.retweetText.setText(tweetView.getRetweetText() + "님이 리트윗 했습니다.");
+            viewHolder.retweetText.setText(tweetView.getRetweetUser() + "님이 리트윗 했습니다.");
         }
         return view;
     }

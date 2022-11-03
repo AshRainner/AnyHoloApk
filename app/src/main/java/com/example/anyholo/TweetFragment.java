@@ -66,20 +66,17 @@ public class TweetFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //TweetView t = (TweetView) tweetAdapter.getItem(i);
                 TweetView t = (TweetView) testAdapter.getItem(i);
+                if(t.getTweetType().equals("RETWEETED"))
+                    t=t.getPrevTweet();
                 Uri uri = Uri.parse("https://twitter.com/"+t.getUserId()+"/status/"+t.getTweetId());
-                Log.d("ASDF : ","https://twitter.com/"+t.getUserId()+"/status/"+t.getTweetId());
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
                 }catch (Exception e){
                     Log.d("오류 : ","이이잉");
                 }
-                //Log.d("사이즈 : ",intent.leng)1585103928907087872
-                //startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://twitter.com/usadapekora/status/"+t.getTweetId())));
             }
         });
-        //tweetAdapter.setItems(list);
-        //listView.setAdapter(tweetAdapter);
         testAdapter.setItems(list);
         listView.setAdapter(testAdapter);
         swipyRefreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
