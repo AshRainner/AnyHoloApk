@@ -41,19 +41,10 @@ public class TestAdapter extends BaseAdapter {
         items = list;
     }
 
-    public class ViewHolder {
-        private TestView mainTweet;
-        private TestView nextTweet;
-        private MaterialCardView cardView;
-        private TextView retweetUser;
-        private TextView retweetText;
-    }
-
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         context = viewGroup.getContext();
         TweetView tweetView = items.get(i);
-        ViewHolder viewHolder;
         Log.d("응 어쩔껀데", "어쩔:");
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.testlayout, viewGroup, false);
@@ -105,7 +96,6 @@ public class TestAdapter extends BaseAdapter {
             ((ViewGroup) view).addView(cardView);
             nextTweet.setValues(quotedTweet);
         }
-
         return view;
     }
 }

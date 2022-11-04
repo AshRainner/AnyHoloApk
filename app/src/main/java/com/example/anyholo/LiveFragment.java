@@ -72,7 +72,6 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
         noLiveList = new ArrayList<MemberView>(); // 방송을 하고 있지 않은 멤버들
         liveList = new ArrayList<MemberView>(); // 방송 중인 멤버들*/
         favoriteList = new ArrayList<MemberView>();
-        //favorite = (HashMap<String, Boolean>) getArguments().getSerializable("Favorite");
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -82,8 +81,8 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
                 startActivity(intent);
             }
         });
-        assortMember();
-        gridAdapter.setItems(list,favorite);
+        sortMember();
+        gridAdapter.setItems(list, favorite);
         gridView.setAdapter(gridAdapter);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -98,12 +97,13 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
                                 Model m = response.body();
                                 list.clear();
                                 list.addAll(m.getMemberList());
-                                assortMember();
+                                sortMember();
                                 gridAdapter.notifyDataSetChanged();
                             }
+
                             @Override
                             public void onFailure(Call<Model> call, Throwable t) {
-                                Log.d("실패","실패");
+                                Log.d("실패", "실패");
                             }
                         });
                     }
@@ -116,44 +116,38 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
         return view;
     }
 
-    private void assortMember() {
+    private void sortMember() {
         favoriteList.clear();
         liveList.clear();
         upcomingList.clear();
         noLiveList.clear();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getOnAir().equals("live"))
-                    liveList.add(list.get(i));
+                liveList.add(list.get(i));
             else if (list.get(i).getOnAir().equals("upcoming"))
-                    upcomingList.add(list.get(i));
+                upcomingList.add(list.get(i));
             else
-                    noLiveList.add(list.get(i));
+                noLiveList.add(list.get(i));
         }
-        for(int i=0;i<liveList.size();i++){
-            if(favorite.get(liveList.get(i).getMemberName())){
-                favoriteList.add(liveList.get(i));
-                liveList.remove(i);i--;
-            }
-        }
-        for(int i=0;i<upcomingList.size();i++){
-            if(favorite.get(upcomingList.get(i).getMemberName())){
-                favoriteList.add(upcomingList.get(i));
-                upcomingList.remove(i);i--;
-            }
-        }
-        for(int i=0;i<noLiveList.size();i++){
-            if(favorite.get(noLiveList.get(i).getMemberName())){
-                favoriteList.add(noLiveList.get(i));
-                noLiveList.remove(i);i--;
-            }
-        }
+        sortMember(liveList);
+        sortMember(upcomingList);
+        sortMember(noLiveList);
         list.clear();
         list.addAll(favoriteList);
         list.addAll(liveList);
         list.addAll(upcomingList);
         list.addAll(noLiveList);
+        gridAdapter.notifyDataSetChanged();
     }
-
+    private void sortMember(ArrayList<MemberView> targetList){
+        for (int i = 0; i < targetList.size(); i++) {
+            if (favorite.get(targetList.get(i).getMemberName())) {
+                favoriteList.add(targetList.get(i));
+                targetList.remove(i);
+                i--;
+            }
+        }
+    }
     /*@Override
     public void onRefresh() {
         new Thread(new Runnable() { // 네트워크 작업은 쓰레드를 이용하여 해야함
@@ -169,7 +163,7 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
                     Model m = gson.fromJson(obj.toString(), Model.class); // gson으로 json데이터를 직렬화
                     list.clear();
                     list.addAll(m.getMemberList());
-                    assortMember();
+                    sortMember();
                     getActivity().runOnUiThread(new Runnable() { // 메인 스레드 이외에서 바꾸려고하면 오류나서 이걸 써야함
                         @Override
                         public void run() {
@@ -194,10 +188,12 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
                 list.addAll(liveList);
                 list.addAll(upcomingList);
                 list.addAll(noLiveList);
+            } else if (country.equals("즐겨찾기")) {
+                list.addAll(favoriteList);
             } else {
                 for (int i = 0; i < favoriteList.size(); i++) {// 값에 따라 검색
                     if (favoriteList.get(i).getCountry().equals(country))
-                        list.add(liveList.get(i));
+                        list.add(favoriteList.get(i));
                 }
                 for (int i = 0; i < liveList.size(); i++) {// 값에 따라 검색
                     if (liveList.get(i).getCountry().equals(country))
@@ -264,16 +260,18 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
     @Override
     public void onFavoriteUpdate(String name, boolean values) {
         favorite.replace(name, values);
-        Log.d(name,String.valueOf(values));
+        Log.d(name, String.valueOf(values));
         File file = new File(getActivity().getApplication().getFilesDir().getAbsolutePath() + "/" + "Favorite.txt");
         file.delete();
         FileOutputStream outputStream;
         try {
             outputStream = getActivity().openFileOutput("Favorite.txt", Context.MODE_PRIVATE);
-            for(Map.Entry<String,Boolean> entry : favorite.entrySet()){
-                outputStream.write((entry.getKey()+":"+entry.getValue()).getBytes());
+            for (Map.Entry<String, Boolean> entry : favorite.entrySet()) {
+                outputStream.write((entry.getKey() + ":" + entry.getValue()).getBytes());
                 outputStream.write("\n".getBytes());
             }
+            sortMember();
+            Log.d("!@#","업데이트");
             outputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

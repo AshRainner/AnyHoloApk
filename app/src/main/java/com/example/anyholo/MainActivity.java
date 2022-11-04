@@ -6,14 +6,17 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -31,7 +34,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     /*
     이 어플리케이션의 제작권은 이건이 가지고 있습니다.
     무단 전제 및 도용 시 저작권 법에 의해 처벌 받을 수 있습니다.
@@ -39,27 +42,25 @@ public class MainActivity extends AppCompatActivity{
      */
     private SwipeRefreshLayout swipeRefreshLayout;
     private EditText search;
-    private ImageButton menuBtn;
     private ViewPager2 viewPager;
     private LiveFragment liveFragment;
     private TweetFragment tweetFragment;
     private KirinukiFragment kirinukiFragment;
     private CustomViewPagerAdapter pagerAdapter;
     private TabLayout tabLayout;
-    private HashMap<String,Boolean> map;
+    private HashMap<String, Boolean> map;
     ArrayList<MemberView> memberlist;
     ArrayList<KirinukiView> kirinukiList;
     ArrayList<TweetView> tweetList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         search = findViewById(R.id.search_bar);
-        menuBtn = findViewById(R.id.menu_btn);
         viewPager = findViewById(R.id.viewpager);
         tabLayout = findViewById(R.id.tab);
         Intent intent = getIntent();
-        Bundle bundle = new Bundle();
         memberlist = (ArrayList<MemberView>) intent.getSerializableExtra("MemberList");
         kirinukiList = (ArrayList<KirinukiView>) intent.getSerializableExtra("KirinukiList");
         map = (HashMap<String, Boolean>) intent.getSerializableExtra("Favorite");
@@ -71,12 +72,12 @@ public class MainActivity extends AppCompatActivity{
         pagerAdapter.addFragment(kirinukiFragment);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setUserInputEnabled(false);
-
+        InputMethodManager imm = (InputMethodManager)this.getSystemService(INPUT_METHOD_SERVICE);
         Spinner countrySpinner = findViewById(R.id.spinner);
         new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                switch(position) {
+                switch (position) {
                     case 0:
                         tab.setText("생방송");
                         break;
@@ -96,53 +97,48 @@ public class MainActivity extends AppCompatActivity{
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {//스피너 클릭해서 아이템 클릭하면 서치 메서드 실행
-                //liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
-                //kirinukiFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
+                Log.d("포지션", String.valueOf(tabLayout.getSelectedTabPosition()));
+                switch (tabLayout.getSelectedTabPosition()) {
+                    case 0:
+                        liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
+                        break;
+                    case 2:
+                        kirinukiFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
+                        break;
+                }
+
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-        menuBtn.setOnClickListener(new View.OnClickListener() {
+        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View view) {//menuBtn을 누르면 팝업 메뉴가 나오게 설정
-                PopupMenu popupMenu = new PopupMenu(getApplicationContext(), view);
-                getMenuInflater().inflate(R.menu.menu, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {//누른 아이템 번호에 따라 실행되게 함
-                        if (menuItem.getItemId() == R.id.menu1)
-                            Toast.makeText(MainActivity.this, "앱 버전 0.0.1", Toast.LENGTH_SHORT).show();
-                        else if (menuItem.getItemId() == R.id.menu2)
-                            Toast.makeText(MainActivity.this, "인하공전 201945046이건", Toast.LENGTH_SHORT).show();
-                        else {
-                            startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://www.youtube.com/channel/UCOPaYsI-TnBk0qxoAy_rjXA")));
-                        }
-                        return false;
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if ((i == KeyEvent.ACTION_DOWN) || (i == KeyEvent.KEYCODE_ENTER)) {
+                    Log.d("엔터 누름","");
+                    switch (tabLayout.getSelectedTabPosition()) {
+                        case 0:
+                            liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
+                            break;
+                        case 2:
+                            kirinukiFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
+                            break;
+                        default:
+                            Log.d("디폴트","");
                     }
-                });
-                popupMenu.show();
-            }
-        });
-        search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {//검색창에 텍스트가 업데이트 될 때마다 작동
-                liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
-                kirinukiFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
+                    imm.hideSoftInputFromWindow(search.getWindowToken(),0);
+                    return true;
+                } else {
+                    return false;
+                }
             }
         });
     }
-    private void createFragment(){
-        liveFragment = new LiveFragment(memberlist,map);
+
+    private void createFragment() {
+        liveFragment = new LiveFragment(memberlist, map);
         tweetFragment = new TweetFragment(tweetList);
         kirinukiFragment = new KirinukiFragment(kirinukiList);
     }

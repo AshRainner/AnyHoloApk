@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Query;
 
 public class KirinukiFragment extends Fragment {
     private ListView listView;
@@ -38,7 +40,7 @@ public class KirinukiFragment extends Fragment {
     private ArrayList<KirinukiView> list;
     private ArrayList<KirinukiView> copyList;
     private int page=1;
-    private final int MAXITEM=50;
+    private final int MAXITEM=10;
     public KirinukiFragment(ArrayList<KirinukiView> list) {
         this.list = list;
     }
@@ -114,7 +116,7 @@ public class KirinukiFragment extends Fragment {
                     list.addAll(copyList);
                 }
                 else {
-                    list.addAll(countrySearh(country));
+                    countrySearch(country);
                 }
             } else {
                 Log.d("여기옴","?");
@@ -124,34 +126,39 @@ public class KirinukiFragment extends Fragment {
                             list.add(copyList.get(i));
                         }
                     } else {
-                        ArrayList<KirinukiView> tempList = countrySearh(country);
-                        for(KirinukiView k : tempList)
-                            if(k.getTag().contains(keyword)||k.getVideoTitle().contains(keyword))
-                                list.add(k);
+                        countrySearch(country);
                     }
                 }
             }
             kirinukiAdapter.notifyDataSetChanged();
         }
     }
-    public ArrayList<KirinukiView> countrySearh(String country){
+    public void countrySearch(String country){
         ArrayList<KirinukiView> tempList = new ArrayList<KirinukiView>();
-        ArrayList<String> nameList = new ArrayList<String>();
-        if(country.equals("JP"))
-            for (String s : getResources().getString(R.string.JPName).split(","))
-                nameList.add(s);
-        else if(country.equals("EN"))
-            for (String s : getResources().getString(R.string.ENName).split(","))
-                nameList.add(s);
-        else
-            for (String s : getResources().getString(R.string.IDName).split(","))
-                nameList.add(s);
-            for(KirinukiView k : copyList)
-                for(String s : nameList)
-                    if(k.getTag().contains(s)) {
-                        tempList.add(k);
-                        break;
+        Thread getKirinukiData = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DBcon DBconnect = DBConRetrofitObject.getInstance().create(DBcon.class);
+                DBconnect.getKirinukiData(String.valueOf(page), country).enqueue(new Callback<Model>() {
+                    @Override
+                    public void onResponse(Call<Model> call, Response<Model> response) {
+                        Model m = response.body();
+                        list.clear();
+                        Log.d("asdf",country);
+                        copyList.clear();
+                        list.addAll(m.getVidoes());
+                        for(KirinukiView x : list){
+                            copyList.add(x);
+                        }
+                        kirinukiAdapter.notifyDataSetChanged();
                     }
-        return tempList;
+                    @Override
+                    public void onFailure(Call<Model> call, Throwable t) {
+                        Log.d("실패","실패");
+                    }
+                });
+            }
+        });
+        getKirinukiData.start();
     }
 }
