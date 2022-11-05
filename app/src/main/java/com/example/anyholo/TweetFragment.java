@@ -42,8 +42,9 @@ public class TweetFragment extends Fragment {
     private ArrayList<TweetView> list;
     private ArrayList<TweetView> copyList;
     private int page = 1;
-    private final int MAXITEM=10;
     private TestAdapter testAdapter;
+    private String country;
+    private String keyword;
 
     public TweetFragment(ArrayList<TweetView> list) {
         this.list = list;
@@ -52,13 +53,13 @@ public class TweetFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tweet_fragment,container,false);
+        View view = inflater.inflate(R.layout.tweet_fragment, container, false);
         listView = view.findViewById(R.id.tweet_list);
         swipyRefreshLayout = view.findViewById(R.id.tweetLayout);
         //tweetAdapter = new TweetAdapter();
         testAdapter = new TestAdapter();
         copyList = new ArrayList<TweetView>();
-        for(TweetView x : list){
+        for (TweetView x : list) {
             copyList.add(x);
         }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,12 +67,12 @@ public class TweetFragment extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //TweetView t = (TweetView) tweetAdapter.getItem(i);
                 TweetView t = (TweetView) testAdapter.getItem(i);
-                Uri uri = Uri.parse("https://twitter.com/"+t.getUserId()+"/status/"+t.getTweetId());
+                Uri uri = Uri.parse("https://twitter.com/" + t.getUserId() + "/status/" + t.getTweetId());
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
-                }catch (Exception e){
-                    Log.d("오류 : ","이이잉");
+                } catch (Exception e) {
+                    Log.d("오류 : ", "이이잉");
                 }
             }
         });
@@ -80,35 +81,35 @@ public class TweetFragment extends Fragment {
         swipyRefreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh(SwipyRefreshLayoutDirection direction) {
-                if(direction==SwipyRefreshLayoutDirection.TOP) {
-                    if(page>1)
+                if (direction == SwipyRefreshLayoutDirection.TOP) {
+                    if (page > 1)
                         page--;
-                }
-                else {
-                    if(page>=1)
+                } else {
+                    if (page >= 1)
                         page++;
                 }
                 Thread getTweetData = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         DBcon DBconnect = DBConRetrofitObject.getInstance().create(DBcon.class);
-                        DBconnect.getTweetData(String.valueOf(page)).enqueue(new Callback<Model>() {
+                        DBconnect.getTweetData(String.valueOf(page),country,keyword).enqueue(new Callback<Model>() {
                             @Override
                             public void onResponse(Call<Model> call, Response<Model> response) {
                                 Model m = response.body();
                                 list.clear();
                                 copyList.clear();
                                 list.addAll(m.getTweet());
-                                for(TweetView x : list){
+                                for (TweetView x : list) {
                                     copyList.add(x);
                                 }
                                 //tweetAdapter.notifyDataSetChanged();
-                                Log.d("페이지 : ",String.valueOf(page));
+                                Log.d("페이지 : ", String.valueOf(page));
                                 testAdapter.notifyDataSetChanged();
                             }
+
                             @Override
                             public void onFailure(Call<Model> call, Throwable t) {
-                                Log.d("실패","실패");
+                                Log.d("실패", "실패");
                             }
                         });
                     }
@@ -119,5 +120,38 @@ public class TweetFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public void getJsonData() {
+        Thread getKirinukiData = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DBcon DBconnect = DBConRetrofitObject.getInstance().create(DBcon.class);
+                DBconnect.getTweetData(String.valueOf(page), country, keyword).enqueue(new Callback<Model>() {
+                    @Override
+                    public void onResponse(Call<Model> call, Response<Model> response) {
+                        Model m = response.body();
+                        list.clear();
+                        copyList.clear();
+                        list.addAll(m.getTweet());
+                        testAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Model> call, Throwable t) {
+                        Log.d("실패", "실패");
+                    }
+                });
+            }
+        });
+        getKirinukiData.start();
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
     }
 }

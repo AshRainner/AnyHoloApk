@@ -13,13 +13,7 @@ public interface DBcon {
     @GET("/dbcon/Live")
     Call<Model> getLiveData();
     @GET("/dbcon/Tweet")
-    Call<Model> getTweetData(@Query("TPage") String tPage);
-    @GET("/dbcon/Tweet")
-    Call<Model> getNextTweetData(@Query("TweetID")String tweetId);
+    Call<Model> getTweetData(@Query("Page") String page,@Query("Country") String country,@Query("Keyword")String keyword);
     @GET("/dbcon/Kirinuki")
-    Call<Model> getKirinukiData(@Query("KPage") String kPage);
-    @GET("/dbcon/Kirinuki")
-    Call<Model> getKirinukiData(@Query("KPage") String kPage,@Query("Country") String country);
-    @GET("/dbcon/Kirinuki")
-    Call<Model> getKirinukiData(@Query("KPage") String kPage,@Query("Country") String country,@Query("Keyword") String keyword);
+    Call<Model> getKirinukiData(@Query("Page") String page,@Query("Country") String country,@Query("Keyword") String keyword);
 }

@@ -112,6 +112,13 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
                         break;
+                    case 1:
+                        tweetFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
+                        tweetFragment.setKeyword(search.getText().toString());
+                        if(countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
+                            tweetFragment.setKeyword(getFavoriteMember());
+                        tweetFragment.getJsonData();
+                        break;
                     case 2:
                         kirinukiFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
                         kirinukiFragment.setKeyword(search.getText().toString());
@@ -135,6 +142,13 @@ public class MainActivity extends AppCompatActivity {
                     switch (tabLayout.getSelectedTabPosition()) {
                         case 0:
                             liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
+                            break;
+                        case 1:
+                            tweetFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
+                            tweetFragment.setKeyword(search.getText().toString());
+                            if(countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
+                                tweetFragment.setKeyword(getFavoriteMember());
+                            tweetFragment.getJsonData();
                             break;
                         case 2:
                             kirinukiFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());

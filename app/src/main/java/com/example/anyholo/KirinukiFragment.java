@@ -120,9 +120,6 @@ public class KirinukiFragment extends Fragment {
                         list.clear();
                         copyList.clear();
                         list.addAll(m.getVidoes());
-                        for(KirinukiView x : list){
-                            copyList.add(x);
-                        }
                         kirinukiAdapter.notifyDataSetChanged();
                     }
                     @Override
