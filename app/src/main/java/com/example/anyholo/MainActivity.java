@@ -1,5 +1,6 @@
 package com.example.anyholo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,8 +33,16 @@ import com.example.anyholo.Model.TweetView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     /*
@@ -40,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     무단 전제 및 도용 시 저작권 법에 의해 처벌 받을 수 있습니다.
     제작자 : 인하공업 전문 대학 2학년 이건
      */
+    private String fileName = "Favorite.txt";
     private SwipeRefreshLayout swipeRefreshLayout;
     private EditText search;
     private ViewPager2 viewPager;
@@ -97,13 +108,17 @@ public class MainActivity extends AppCompatActivity {
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {//스피너 클릭해서 아이템 클릭하면 서치 메서드 실행
-                Log.d("포지션", String.valueOf(tabLayout.getSelectedTabPosition()));
                 switch (tabLayout.getSelectedTabPosition()) {
                     case 0:
                         liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
                         break;
                     case 2:
-                        kirinukiFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
+                        kirinukiFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
+                        kirinukiFragment.setKeyword(search.getText().toString());
+                        if(countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
+                            kirinukiFragment.setKeyword(getFavoriteMember());
+                        kirinukiFragment.setPage(1);
+                        kirinukiFragment.getJsonData();
                         break;
                 }
 
@@ -116,14 +131,16 @@ public class MainActivity extends AppCompatActivity {
         search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if ((i == KeyEvent.ACTION_DOWN) || (i == KeyEvent.KEYCODE_ENTER)) {
-                    Log.d("엔터 누름","");
+                if ((i == EditorInfo.IME_ACTION_SEARCH)) {
                     switch (tabLayout.getSelectedTabPosition()) {
                         case 0:
                             liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
                             break;
                         case 2:
-                            kirinukiFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
+                            kirinukiFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
+                            kirinukiFragment.setKeyword(search.getText().toString());
+                            kirinukiFragment.setPage(1);
+                            kirinukiFragment.getJsonData();
                             break;
                         default:
                             Log.d("디폴트","");
@@ -131,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                     imm.hideSoftInputFromWindow(search.getWindowToken(),0);
                     return true;
                 } else {
-                    return false;
+                    return true;
                 }
             }
         });
@@ -141,5 +158,33 @@ public class MainActivity extends AppCompatActivity {
         liveFragment = new LiveFragment(memberlist, map);
         tweetFragment = new TweetFragment(tweetList);
         kirinukiFragment = new KirinukiFragment(kirinukiList);
+    }
+    private String getFavoriteMember(){
+        File file = new File(getApplication().getFilesDir().getAbsolutePath(),fileName);
+            try {
+                Log.d("있음","있음");
+                FileInputStream fis = new FileInputStream(getApplication().getFilesDir().getAbsolutePath() + "/" + fileName);
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                String favoriteMember="";
+                String line = null;
+                while ((line = br.readLine()) != null) {
+                    String[] parts = line.split(":");
+                    String name = parts[0].trim();
+                    String favorite = parts[1].trim();
+                    if (!name.equals("") && !favorite.equals(""))
+                        if(favorite.equals("true"))
+                            favoriteMember+=name+",";
+                }
+                br.close();
+                fis.close();
+                if(favoriteMember.equals(""))
+                    return favoriteMember;
+                return favoriteMember.substring(0,favoriteMember.length()-1);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        return "";
     }
 }

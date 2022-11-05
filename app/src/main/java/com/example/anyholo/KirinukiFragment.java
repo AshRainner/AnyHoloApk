@@ -1,6 +1,7 @@
 package com.example.anyholo;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.anyholo.Adapter.KirinukiAdapter;
 import com.example.anyholo.Adapter.TweetAdapter;
 import com.example.anyholo.Model.KirinukiView;
+import com.example.anyholo.Model.MemberView;
 import com.example.anyholo.Model.Model;
 import com.example.anyholo.Model.TweetView;
 import com.example.anyholo.dbcon.DBConRetrofitObject;
@@ -25,8 +27,17 @@ import com.example.anyholo.dbcon.DBcon;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,6 +51,8 @@ public class KirinukiFragment extends Fragment {
     private ArrayList<KirinukiView> list;
     private ArrayList<KirinukiView> copyList;
     private int page=1;
+    private String country="전체";
+    private String keyword="";
     private final int MAXITEM=10;
     public KirinukiFragment(ArrayList<KirinukiView> list) {
         this.list = list;
@@ -78,73 +91,33 @@ public class KirinukiFragment extends Fragment {
                     if(page>=1&&list.size()==MAXITEM)
                         page++;
                 }
-                Thread getKirinukiData = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        DBcon DBconnect = DBConRetrofitObject.getInstance().create(DBcon.class);
-                        DBconnect.getKirinukiData(String.valueOf(page)).enqueue(new Callback<Model>() {
-                            @Override
-                            public void onResponse(Call<Model> call, Response<Model> response) {
-                                Model m = response.body();
-                                list.clear();
-                                copyList.clear();
-                                list.addAll(m.getVidoes());
-                                for(KirinukiView x : list){
-                                    copyList.add(x);
-                                }
-                                kirinukiAdapter.notifyDataSetChanged();
-                            }
-                            @Override
-                            public void onFailure(Call<Model> call, Throwable t) {
-                                Log.d("실패","실패");
-                            }
-                        });
-                    }
-                });
-                getKirinukiData.start();
+                getJsonData();
                 swipyRefreshLayout.setRefreshing(false);
                 listView.setSelection(0); // 리스트뷰 맨 위로
             }
         });
         return view;
     }
-    public void search(String keyword, String country) {
-        if(list!=null) {
-            list.clear();
-            if (keyword.length() == 0) {
-                if (country.equals("전체")) {
-                    list.addAll(copyList);
-                }
-                else {
-                    countrySearch(country);
-                }
-            } else {
-                Log.d("여기옴","?");
-                for (int i = 0; i < copyList.size(); i++) {
-                    if (country.equals("전체")) {
-                        if (copyList.get(i).getTag().contains(keyword)||copyList.get(i).getVideoTitle().contains(keyword)) {
-                            list.add(copyList.get(i));
-                        }
-                    } else {
-                        countrySearch(country);
-                    }
-                }
-            }
-            kirinukiAdapter.notifyDataSetChanged();
-        }
+    public void setCountry(String country) {
+        this.country = country;
     }
-    public void countrySearch(String country){
-        ArrayList<KirinukiView> tempList = new ArrayList<KirinukiView>();
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+    public void setPage(int page){
+        this.page=page;
+    }
+    public void getJsonData(){
         Thread getKirinukiData = new Thread(new Runnable() {
             @Override
             public void run() {
                 DBcon DBconnect = DBConRetrofitObject.getInstance().create(DBcon.class);
-                DBconnect.getKirinukiData(String.valueOf(page), country).enqueue(new Callback<Model>() {
+                DBconnect.getKirinukiData(String.valueOf(page),country,keyword).enqueue(new Callback<Model>() {
                     @Override
                     public void onResponse(Call<Model> call, Response<Model> response) {
                         Model m = response.body();
                         list.clear();
-                        Log.d("asdf",country);
                         copyList.clear();
                         list.addAll(m.getVidoes());
                         for(KirinukiView x : list){

@@ -20,4 +20,6 @@ public interface DBcon {
     Call<Model> getKirinukiData(@Query("KPage") String kPage);
     @GET("/dbcon/Kirinuki")
     Call<Model> getKirinukiData(@Query("KPage") String kPage,@Query("Country") String country);
+    @GET("/dbcon/Kirinuki")
+    Call<Model> getKirinukiData(@Query("KPage") String kPage,@Query("Country") String country,@Query("Keyword") String keyword);
 }
