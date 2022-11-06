@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/gridView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -9,31 +10,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/kirinukiImageLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/kirinukiImageLayout"
+                app:cardCornerRadius="20dp">
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/kirinukiImage"
-                app:layout_constraintDimensionRatio="16:9"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"/>
+            </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            android:id="@+id/ChanelName"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/kirinukiImageLayout"
-            android:layout_marginTop="10dp"
-            android:fontFamily="@font/aramgodic"
-            android:textSize="9.5pt" />
+
 
         <TextView
             android:id="@+id/videoName"
@@ -42,24 +32,34 @@
             android:layout_below="@id/kirinukiImageLayout"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:layout_toRightOf="@id/ChanelName"
             android:fontFamily="@font/aramgodic"
             android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="9.5pt" />
+            android:textSize="9.5pt"
+            android:ellipsize="end"
+            android:maxLines="2"/>
+        <TextView
+            android:id="@+id/ChanelName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/videoName"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/aramgodic"
+            android:textSize="9.5pt"
+            android:layout_marginLeft="5dp"/>
         <TextView
             android:id="@+id/uptime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/ChanelName"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/aramgodic"
             android:gravity="left"
             android:textColor="@color/black"
-            android:textSize="9.5pt" />
+            android:textSize="6pt"
+            android:layout_marginLeft="5dp"/>
     </RelativeLayout>
 
 </RelativeLayout>

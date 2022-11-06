@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                         tweetFragment.setKeyword(search.getText().toString());
                         if(countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
                             tweetFragment.setKeyword(getFavoriteMember());
+                        tweetFragment.setPage(1);
                         tweetFragment.getJsonData();
                         break;
                     case 2:
@@ -144,10 +145,11 @@ public class MainActivity extends AppCompatActivity {
                             liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
                             break;
                         case 1:
-                            tweetFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
+                            tweetFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
                             tweetFragment.setKeyword(search.getText().toString());
                             if(countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
                                 tweetFragment.setKeyword(getFavoriteMember());
+                            tweetFragment.setPage(1);
                             tweetFragment.getJsonData();
                             break;
                         case 2:

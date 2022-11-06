@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="TestView">
-        <attr name="userName" format="string"/>
-        <attr name="profileImageUrl" format="string"/>
-        <attr name="upTime" format="string"/>
-        <attr name="tweetContent" format="string"/>
-        <attr name="mediaUrl" format="string"/>
+        <attr name="profileImageSize" format="integer"/>
+        <attr name="profileImageMarginLeft" format="integer"/>
+        <attr name="upTimeMarginRight" format="integer" />
+        <attr name="mediaMarginRight" format="integer"/>
     </declare-styleable>
 </resources>

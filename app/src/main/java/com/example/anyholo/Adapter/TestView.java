@@ -43,7 +43,6 @@ public class TestView extends RelativeLayout {
 
     public TestView(Context context) {
         super(context);
-        Log.d("TestView context","");
     }
 
     public TestView(Context context, AttributeSet attrs) {
@@ -53,12 +52,10 @@ public class TestView extends RelativeLayout {
 
     public TestView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        Log.d("TestView context attrs def","");
     }
 
     public TestView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        Log.d("TestView context attr def def","");
     }
 
 
@@ -77,6 +74,21 @@ public class TestView extends RelativeLayout {
         media[3] = findViewById(R.id.test_media4);
         mediaDetailLayout[0] = findViewById(R.id.tmedia_detail_layout1);
         mediaDetailLayout[1] = findViewById(R.id.tmedia_detail_layout2);
+        LayoutParams params = (LayoutParams) profileImage.getLayoutParams();
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.TestView);
+        int size = typedArray.getInteger(R.styleable.TestView_profileImageSize,0);
+        params.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,size,getResources().getDisplayMetrics());
+        params.height =(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,size,getResources().getDisplayMetrics());
+        params.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,typedArray.getInteger(R.styleable.TestView_profileImageMarginLeft,0),getResources().getDisplayMetrics());
+        profileImage.setLayoutParams(params);
+        params = (LayoutParams) mediaView.getLayoutParams();
+        params.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,typedArray.getInteger(R.styleable.TestView_mediaMarginRight,0),getResources().getDisplayMetrics());
+        Log.d("라이트 마진",String.valueOf(params.rightMargin));
+        mediaView.setLayoutParams(params);
+        params = (LayoutParams) upTime.getLayoutParams();
+        int a = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,typedArray.getInteger(R.styleable.TestView_upTimeMarginRight,0),getResources().getDisplayMetrics());
+        params.rightMargin=a;
+        upTime.setLayoutParams(params);
     }
     public void setValues(TweetView tweetView){
         Glide.with(this).load(tweetView.getUserProfileUrl()).circleCrop().into(profileImage);
@@ -88,7 +100,6 @@ public class TestView extends RelativeLayout {
         if(tweetView.getMediaUrl()!=null) {
             ((ViewGroup) tweetMain).addView(mediaView);
             String urls[] = tweetView.getMediaUrl().split(";");
-            LinearLayout.LayoutParams[] margin = new LinearLayout.LayoutParams[4];
             ((ViewGroup) mediaDetailLayout[0]).removeView(media[0]);
             ((ViewGroup) mediaDetailLayout[1]).removeView(media[1]);
             ((ViewGroup) mediaDetailLayout[1]).removeView(media[2]);
@@ -135,11 +146,9 @@ public class TestView extends RelativeLayout {
                     media[0].setLayoutParams(imageParams);
                     imageParams = (LinearLayout.LayoutParams) media[1].getLayoutParams();
                     imageParams.leftMargin=marginValue;
-                    imageParams.bottomMargin=marginValue;
                     media[1].setLayoutParams(imageParams);
                     imageParams = (LinearLayout.LayoutParams) media[2].getLayoutParams();
                     imageParams.leftMargin=marginValue;
-                    imageParams.topMargin=marginValue;
                     media[2].setLayoutParams(imageParams);
                     ((ViewGroup) mediaDetailLayout[0]).addView(media[0]);
                     ((ViewGroup) mediaDetailLayout[1]).addView(media[1]);
@@ -188,7 +197,6 @@ public class TestView extends RelativeLayout {
             onedayafter.setTime(sdf.parse(time));
             onedayafter.add(Calendar.DAY_OF_MONTH, +1);
             Calendar now = Calendar.getInstance();
-            //한국이라 9시간 더해줘야함
             now.add(Calendar.HOUR, 9);
             if (now.before(onedayafter)) { // 현재시간은 언제나 업로드 타임보다 앞이라 하루 뒤 시간을 넘었는지만 체크하면됨
                 long diffSec = (now.getTimeInMillis() - uptime.getTimeInMillis()) / 1000;

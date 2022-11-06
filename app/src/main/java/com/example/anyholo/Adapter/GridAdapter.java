@@ -71,7 +71,7 @@ public class GridAdapter extends BaseAdapter {
         }
         else
             view.setBackgroundResource(R.drawable.grid_nolive);
-        Glide.with(view).load(memberView.getImageUrl()).apply(new RequestOptions()).into(imageView);//url를 이용하여 이미지 뷰에 이미지 세팅
+        Glide.with(view).load(memberView.getImageUrl()).apply(new RequestOptions()).circleCrop().into(imageView);//url를 이용하여 이미지 뷰에 이미지 세팅
         textView.setText(memberView.getMemberName());
         CheckBox favoriteBtn = view.findViewById(R.id.favoriteBtn);
         if(favoriteMap.get(memberView.getMemberName())) {

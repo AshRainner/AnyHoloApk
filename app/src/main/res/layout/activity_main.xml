@@ -28,7 +28,7 @@
 
         <Spinner
             android:id="@+id/spinner"
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="match_parent"
             android:padding="5dp"
             android:textAlignment="center"></Spinner>
@@ -51,6 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/search_layout"
         android:background="#b6e2fd"
+        app:tabTextColor="#237ee6"
         app:tabIndicatorHeight="60dp"
         app:tabIndicatorColor="#88d2ff"
         app:tabTextAppearance="@style/tab_text">

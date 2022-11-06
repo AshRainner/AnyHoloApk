@@ -88,33 +88,7 @@ public class TweetFragment extends Fragment {
                     if (page >= 1)
                         page++;
                 }
-                Thread getTweetData = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        DBcon DBconnect = DBConRetrofitObject.getInstance().create(DBcon.class);
-                        DBconnect.getTweetData(String.valueOf(page),country,keyword).enqueue(new Callback<Model>() {
-                            @Override
-                            public void onResponse(Call<Model> call, Response<Model> response) {
-                                Model m = response.body();
-                                list.clear();
-                                copyList.clear();
-                                list.addAll(m.getTweet());
-                                for (TweetView x : list) {
-                                    copyList.add(x);
-                                }
-                                //tweetAdapter.notifyDataSetChanged();
-                                Log.d("페이지 : ", String.valueOf(page));
-                                testAdapter.notifyDataSetChanged();
-                            }
-
-                            @Override
-                            public void onFailure(Call<Model> call, Throwable t) {
-                                Log.d("실패", "실패");
-                            }
-                        });
-                    }
-                });
-                getTweetData.start();
+               getJsonData();
                 swipyRefreshLayout.setRefreshing(false);
                 listView.setSelection(0); // 리스트뷰 맨 위로
             }
@@ -153,5 +127,9 @@ public class TweetFragment extends Fragment {
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
     }
 }

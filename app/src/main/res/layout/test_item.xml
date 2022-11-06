@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/test_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp">
 
     <ImageView
         android:id="@+id/test_profile_image"
@@ -13,12 +15,14 @@
     <TextView
         android:id="@+id/test_user_name"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/test_uptime"
         android:layout_toRightOf="@id/test_profile_image"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="兎田ぺこら👯‍♀️新曲｢ララララビット！！｣歌ったぺこ！"></TextView>
+        android:text="兎田ぺこら👯‍♀️新曲｢ララララビット！！｣歌ったぺこ！"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"></TextView>
 
     <TextView
         android:id="@+id/test_uptime"
@@ -33,6 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/test_user_name"
         android:layout_toRightOf="@id/test_profile_image"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:text="Error2"></TextView>
 
     <com.google.android.material.card.MaterialCardView
@@ -41,7 +47,7 @@
         android:layout_height="200dp"
         android:layout_below="@id/test_content"
         android:layout_toRightOf="@id/test_profile_image"
-        app:cardBackgroundColor="#000000"
+        app:cardBackgroundColor="#88d2ff"
         app:cardCornerRadius="25dp">
 
         <LinearLayout
@@ -70,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/default_image"></ImageView>-
+                    android:src="@drawable/default_image"></ImageView>
             </LinearLayout>
 
             <LinearLayout

@@ -16,7 +16,7 @@
             android:layout_width="190dp"
             android:layout_height="190dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             app:cardCornerRadius="25dp"
             app:strokeColor="#5e91d7"
             app:strokeWidth="3dp">
@@ -32,7 +32,7 @@
             android:layout_width="190dp"
             android:layout_height="190dp"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             app:cardCornerRadius="25dp">
 
@@ -66,9 +66,6 @@
                     android:text="@string/introError"
                     android:textColor="@color/black"
                     android:textSize="20dp"></TextView>
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/nameText">
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
     </RelativeLayout>
@@ -77,7 +74,8 @@
         android:id="@+id/middleLayout"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_below="@id/topLayout">
+        android:layout_below="@id/topLayout"
+        android:layout_marginTop="5dp">
 
         <ImageButton
             android:id="@+id/twitterLogo"

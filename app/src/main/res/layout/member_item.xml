@@ -3,32 +3,30 @@
     android:id="@+id/gridView"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <CheckBox
+        android:id="@+id/favoriteBtn"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:button="@android:drawable/star_on"
+        android:layout_alignParentRight="true"
+        android:focusable="false"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <CheckBox
-            android:id="@+id/favoriteBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@android:drawable/star_on"
-            android:layout_alignParentRight="true"
-            android:focusable="false"/>
 
         <ImageView
             android:id="@+id/memberImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp" />
-
+            android:layout_marginTop="15dp" />
         <TextView
             android:id="@+id/memberName"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/memberImage"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/aramgodic"
             android:gravity="center"
