@@ -7,20 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.anyholo.Adapter.KirinukiAdapter;
-import com.example.anyholo.Adapter.TestAdapter;
 import com.example.anyholo.Adapter.TweetAdapter;
-import com.example.anyholo.Model.KirinukiView;
-import com.example.anyholo.Model.MemberView;
 import com.example.anyholo.Model.Model;
 import com.example.anyholo.Model.TweetView;
 import com.example.anyholo.dbcon.DBConRetrofitObject;
@@ -29,7 +21,6 @@ import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,7 +33,7 @@ public class TweetFragment extends Fragment {
     private ArrayList<TweetView> list;
     private ArrayList<TweetView> copyList;
     private int page = 1;
-    private TestAdapter testAdapter;
+    private TweetAdapter tweetAdapter;
     private String country;
     private String keyword;
 
@@ -57,7 +48,7 @@ public class TweetFragment extends Fragment {
         listView = view.findViewById(R.id.tweet_list);
         swipyRefreshLayout = view.findViewById(R.id.tweetLayout);
         //tweetAdapter = new TweetAdapter();
-        testAdapter = new TestAdapter();
+        tweetAdapter = new TweetAdapter();
         copyList = new ArrayList<TweetView>();
         for (TweetView x : list) {
             copyList.add(x);
@@ -66,7 +57,7 @@ public class TweetFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //TweetView t = (TweetView) tweetAdapter.getItem(i);
-                TweetView t = (TweetView) testAdapter.getItem(i);
+                TweetView t = (TweetView) tweetAdapter.getItem(i);
                 Uri uri = Uri.parse("https://twitter.com/" + t.getUserId() + "/status/" + t.getTweetId());
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -76,8 +67,8 @@ public class TweetFragment extends Fragment {
                 }
             }
         });
-        testAdapter.setItems(list);
-        listView.setAdapter(testAdapter);
+        tweetAdapter.setItems(list);
+        listView.setAdapter(tweetAdapter);
         swipyRefreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh(SwipyRefreshLayoutDirection direction) {
@@ -88,9 +79,7 @@ public class TweetFragment extends Fragment {
                     if (page >= 1)
                         page++;
                 }
-               getJsonData();
-                swipyRefreshLayout.setRefreshing(false);
-                listView.setSelection(0); // 리스트뷰 맨 위로
+                getJsonData();
             }
         });
         return view;
@@ -108,9 +97,10 @@ public class TweetFragment extends Fragment {
                         list.clear();
                         copyList.clear();
                         list.addAll(m.getTweet());
-                        testAdapter.notifyDataSetChanged();
+                        tweetAdapter.notifyDataSetChanged();
+                        swipyRefreshLayout.setRefreshing(false);
+                        listView.setSelection(0);// 리스트뷰 맨 위로
                     }
-
                     @Override
                     public void onFailure(Call<Model> call, Throwable t) {
                         Log.d("실패", "실패");

@@ -1,7 +1,5 @@
 package com.example.anyholo.Adapter;
 
-import static android.widget.GridLayout.LayoutParams.*;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -9,10 +7,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,7 +16,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.example.anyholo.Model.TweetView;
 import com.example.anyholo.R;
 import com.google.android.material.card.MaterialCardView;
 
@@ -30,7 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class TestView extends RelativeLayout {
+public class TweetView extends RelativeLayout {
     private RelativeLayout tweetMain;
     private ImageView profileImage;
     private TextView userName;
@@ -41,39 +35,39 @@ public class TestView extends RelativeLayout {
     private ImageView[] media = new ImageView[4];
     private final int marginValue=3;
 
-    public TestView(Context context) {
+    public TweetView(Context context) {
         super(context);
     }
 
-    public TestView(Context context, AttributeSet attrs) {
+    public TweetView(Context context, AttributeSet attrs) {
         super(context, attrs);
         initializeViews(context,attrs);
     }
 
-    public TestView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TweetView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public TestView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public TweetView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
 
     private void initializeViews(Context context, AttributeSet attrs) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.test_item,this);
+        inflater.inflate(R.layout.tweet_item,this);
         tweetMain = findViewById(R.id.test_main);
-        profileImage = findViewById(R.id.test_profile_image);
-        userName = findViewById(R.id.test_user_name);
-        upTime = findViewById(R.id.test_uptime);
-        content = findViewById(R.id.test_content);
-        mediaView = findViewById(R.id.test_media_view);
-        media[0] = findViewById(R.id.test_media);
-        media[1] = findViewById(R.id.test_media2);
-        media[2] = findViewById(R.id.test_media3);
-        media[3] = findViewById(R.id.test_media4);
-        mediaDetailLayout[0] = findViewById(R.id.tmedia_detail_layout1);
-        mediaDetailLayout[1] = findViewById(R.id.tmedia_detail_layout2);
+        profileImage = findViewById(R.id.tweet_profile_image);
+        userName = findViewById(R.id.tweet_user_name);
+        upTime = findViewById(R.id.tweet_uptime);
+        content = findViewById(R.id.tweet_content);
+        mediaView = findViewById(R.id.tweet_media_view);
+        media[0] = findViewById(R.id.tweet_media);
+        media[1] = findViewById(R.id.tweet_media2);
+        media[2] = findViewById(R.id.tweet_media3);
+        media[3] = findViewById(R.id.tweet_media4);
+        mediaDetailLayout[0] = findViewById(R.id.media_detail_layout1);
+        mediaDetailLayout[1] = findViewById(R.id.media_detail_layout2);
         LayoutParams params = (LayoutParams) profileImage.getLayoutParams();
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.TestView);
         int size = typedArray.getInteger(R.styleable.TestView_profileImageSize,0);
@@ -90,7 +84,7 @@ public class TestView extends RelativeLayout {
         params.rightMargin=a;
         upTime.setLayoutParams(params);
     }
-    public void setValues(TweetView tweetView){
+    public void setValues(com.example.anyholo.Model.TweetView tweetView){
         Glide.with(this).load(tweetView.getUserProfileUrl()).circleCrop().into(profileImage);
         userName.setText(tweetView.getWriteUserName());
         upTime.setText(getTime(tweetView.getWriteDate()));
@@ -197,7 +191,7 @@ public class TestView extends RelativeLayout {
             onedayafter.setTime(sdf.parse(time));
             onedayafter.add(Calendar.DAY_OF_MONTH, +1);
             Calendar now = Calendar.getInstance();
-            now.add(Calendar.HOUR, 9);
+            //now.add(Calendar.HOUR, 9);
             if (now.before(onedayafter)) { // 현재시간은 언제나 업로드 타임보다 앞이라 하루 뒤 시간을 넘었는지만 체크하면됨
                 long diffSec = (now.getTimeInMillis() - uptime.getTimeInMillis()) / 1000;
                 long diffHour = diffSec / (60 * 60);

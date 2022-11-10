@@ -73,7 +73,7 @@ public class KirinukiAdapter extends BaseAdapter {
             onedayafter.add(Calendar.DAY_OF_MONTH,+1);
             Calendar now = Calendar.getInstance();
             //한국이라 9시간 더해줘야함
-            now.add(Calendar.HOUR,9);
+            //now.add(Calendar.HOUR,9);
             if(now.before(onedayafter)) { // 현재시간은 언제나 업로드 타임보다 앞이라 하루 뒤 시간을 넘었는지만 체크하면됨
                 long diffSec = (now.getTimeInMillis()-uptime.getTimeInMillis())/1000;
                 long diffHour = diffSec/(60*60);

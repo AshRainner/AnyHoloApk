@@ -13,32 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
-import com.example.anyholo.Adapter.GridAdapter;
-import com.example.anyholo.Model.KirinukiView;
+import com.example.anyholo.Adapter.LiveAdapter;
 import com.example.anyholo.Model.Model;
 import com.example.anyholo.Model.MemberView;
 import com.example.anyholo.dbcon.DBConRetrofitObject;
 import com.example.anyholo.dbcon.DBcon;
 import com.example.anyholo.inferface.FavoriteHandle;
-import com.google.gson.Gson;
-import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 
-import org.json.simple.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -47,7 +35,7 @@ import retrofit2.Response;
 
 public class LiveFragment extends Fragment implements FavoriteHandle {
     private GridView gridView;
-    private GridAdapter gridAdapter;
+    private LiveAdapter liveAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ArrayList<MemberView> list;//Grid 뷰에 띄워줄 MemberView를 가진 List
     private ArrayList<MemberView> upcomingList;//방송예정중인 멤버
@@ -67,7 +55,7 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
         View view = inflater.inflate(R.layout.live_fragment, container, false);
         gridView = view.findViewById(R.id.member_gird);
         swipeRefreshLayout = view.findViewById(R.id.memberLayout);
-        gridAdapter = new GridAdapter(this);
+        liveAdapter = new LiveAdapter(this);
         upcomingList = new ArrayList<MemberView>();//방송 예정인 멤버들
         noLiveList = new ArrayList<MemberView>(); // 방송을 하고 있지 않은 멤버들
         liveList = new ArrayList<MemberView>(); // 방송 중인 멤버들*/
@@ -75,15 +63,15 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                MemberView m = (MemberView) gridAdapter.getItem(i);
+                MemberView m = (MemberView) liveAdapter.getItem(i);
                 Intent intent = new Intent(getActivity().getApplicationContext(), MemberIntroActivity.class);
                 intent.putExtra("MemberView", m);//누른 그리드 뷰 아이템을 MemberIntroActivity로 전송
                 startActivity(intent);
             }
         });
         sortMember();
-        gridAdapter.setItems(list, favorite);
-        gridView.setAdapter(gridAdapter);
+        liveAdapter.setItems(list, favorite);
+        gridView.setAdapter(liveAdapter);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -98,7 +86,9 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
                                 list.clear();
                                 list.addAll(m.getMemberList());
                                 sortMember();
-                                gridAdapter.notifyDataSetChanged();
+                                liveAdapter.notifyDataSetChanged();
+                                swipeRefreshLayout.setRefreshing(false);
+                                gridView.setSelection(0); // 리스트뷰 맨 위로
                             }
 
                             @Override
@@ -109,8 +99,6 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
                     }
                 });
                 getLiveData.start();
-                swipeRefreshLayout.setRefreshing(false);
-                gridView.setSelection(0); // 리스트뷰 맨 위로
             }
         });
         return view;
@@ -137,7 +125,7 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
         list.addAll(liveList);
         list.addAll(upcomingList);
         list.addAll(noLiveList);
-        gridAdapter.notifyDataSetChanged();
+        liveAdapter.notifyDataSetChanged();
     }
     private void sortMember(ArrayList<MemberView> targetList){
         for (int i = 0; i < targetList.size(); i++) {
@@ -254,7 +242,7 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
                 }
             }
         }
-        gridAdapter.notifyDataSetChanged();
+        liveAdapter.notifyDataSetChanged();
     }
 
     @Override

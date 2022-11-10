@@ -1,7 +1,5 @@
 package com.example.anyholo;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,37 +10,21 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.anyholo.Adapter.KirinukiAdapter;
-import com.example.anyholo.Adapter.TweetAdapter;
 import com.example.anyholo.Model.KirinukiView;
-import com.example.anyholo.Model.MemberView;
 import com.example.anyholo.Model.Model;
-import com.example.anyholo.Model.TweetView;
 import com.example.anyholo.dbcon.DBConRetrofitObject;
 import com.example.anyholo.dbcon.DBcon;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Query;
 
 public class KirinukiFragment extends Fragment {
     private ListView listView;
@@ -92,8 +74,6 @@ public class KirinukiFragment extends Fragment {
                         page++;
                 }
                 getJsonData();
-                swipyRefreshLayout.setRefreshing(false);
-                listView.setSelection(0); // 리스트뷰 맨 위로
             }
         });
         return view;
@@ -121,6 +101,8 @@ public class KirinukiFragment extends Fragment {
                         copyList.clear();
                         list.addAll(m.getVidoes());
                         kirinukiAdapter.notifyDataSetChanged();
+                        swipyRefreshLayout.setRefreshing(false);
+                        listView.setSelection(0);// 리스트뷰 맨 위로
                     }
                     @Override
                     public void onFailure(Call<Model> call, Throwable t) {

@@ -3,19 +3,16 @@ package com.example.anyholo.Adapter;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.anyholo.LiveFragment;
 import com.example.anyholo.Model.MemberView;
 import com.example.anyholo.R;
 import com.example.anyholo.inferface.FavoriteHandle;
@@ -23,12 +20,12 @@ import com.example.anyholo.inferface.FavoriteHandle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class GridAdapter extends BaseAdapter {
+public class LiveAdapter extends BaseAdapter {
     ArrayList<MemberView> items = new ArrayList< MemberView>();
     Context context;
     private FavoriteHandle favorite;
     private HashMap<String,Boolean> favoriteMap;
-    public GridAdapter(FavoriteHandle favorite){
+    public LiveAdapter(FavoriteHandle favorite){
         this.favorite=favorite;
     }
     public void addItem( MemberView imageId){
