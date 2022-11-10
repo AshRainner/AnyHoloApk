@@ -105,7 +105,6 @@ public class MemberIntroActivity extends AppCompatActivity {
         hololiveLogo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { //멤버의 홀로라이브 소개문으로 이동
-                Log.d("hololiveUrl",memberView.getHololiveUrl());
                 startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://hololive.hololivepro.com/talents/"+memberView.getHololiveUrl())));
             }
         });

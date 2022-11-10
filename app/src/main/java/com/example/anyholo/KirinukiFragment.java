@@ -43,7 +43,6 @@ public class KirinukiFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("키리누키 프래그먼트","시작");
         View view = inflater.inflate(R.layout.kirinuki_fragment,container,false);
         listView = view.findViewById(R.id.kirinuki_list);
         swipyRefreshLayout = view.findViewById(R.id.kirinukirLayout);

@@ -248,7 +248,6 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
     @Override
     public void onFavoriteUpdate(String name, boolean values) {
         favorite.replace(name, values);
-        Log.d(name, String.valueOf(values));
         File file = new File(getActivity().getApplication().getFilesDir().getAbsolutePath() + "/" + "Favorite.txt");
         file.delete();
         FileOutputStream outputStream;
@@ -259,7 +258,6 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
                 outputStream.write("\n".getBytes());
             }
             sortMember();
-            Log.d("!@#","업데이트");
             outputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();

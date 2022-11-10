@@ -77,7 +77,6 @@ public class TweetView extends RelativeLayout {
         profileImage.setLayoutParams(params);
         params = (LayoutParams) mediaView.getLayoutParams();
         params.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,typedArray.getInteger(R.styleable.TestView_mediaMarginRight,0),getResources().getDisplayMetrics());
-        Log.d("라이트 마진",String.valueOf(params.rightMargin));
         mediaView.setLayoutParams(params);
         params = (LayoutParams) upTime.getLayoutParams();
         int a = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,typedArray.getInteger(R.styleable.TestView_upTimeMarginRight,0),getResources().getDisplayMetrics());
@@ -113,12 +112,10 @@ public class TweetView extends RelativeLayout {
                                                             Transition<? super Bitmap> transition) {
                                     int w = bitmap.getWidth();
                                     int h = bitmap.getHeight();
-                                    Log.d(String.valueOf(w),String.valueOf(h));
                                     if(w<=h) {
                                         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mediaView.getLayoutParams();
                                         params.height= LayoutParams.WRAP_CONTENT;
                                         mediaView.setLayoutParams(params);
-                                        Log.d(String.valueOf(params.height),String.valueOf(params.width));
                                     }
                                 }
                             });
@@ -140,9 +137,11 @@ public class TweetView extends RelativeLayout {
                     media[0].setLayoutParams(imageParams);
                     imageParams = (LinearLayout.LayoutParams) media[1].getLayoutParams();
                     imageParams.leftMargin=marginValue;
+                    imageParams.bottomMargin=marginValue;
                     media[1].setLayoutParams(imageParams);
                     imageParams = (LinearLayout.LayoutParams) media[2].getLayoutParams();
                     imageParams.leftMargin=marginValue;
+                    imageParams.topMargin=marginValue;
                     media[2].setLayoutParams(imageParams);
                     ((ViewGroup) mediaDetailLayout[0]).addView(media[0]);
                     ((ViewGroup) mediaDetailLayout[1]).addView(media[1]);
@@ -177,7 +176,6 @@ public class TweetView extends RelativeLayout {
                     //3 4
             }
             for (int i = 0; i < urls.length; i++) {
-                Log.d("url : ",urls[i]);
                 Glide.with(this).load(urls[i]).fitCenter().into(media[i]);
             }
         }

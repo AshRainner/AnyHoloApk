@@ -46,7 +46,7 @@ public class LodingActivity extends AppCompatActivity {
 
         Handler handler = new Handler();
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
-        Thread getData = new Thread(new Runnable() {
+        Thread Loading = new Thread(new Runnable() {
             @Override
             public void run() {
                 DBcon DBconnect = DBConRetrofitObject.getInstance().create(DBcon.class);
@@ -57,13 +57,13 @@ public class LodingActivity extends AppCompatActivity {
                         ArrayList<MemberView> memberList= m.getMemberList();
                         ArrayList<KirinukiView> kirinukiList = m.getVidoes();
                         ArrayList<TweetView> tweetList = m.getTweet();
-                        Log.d("크기: ",String.valueOf(tweetList.size()));
                         HashMap<String,Boolean> map = checkCache(memberList);
-                        //tweetListSort(tweetList);
                         intent.putExtra("MemberList", memberList);
                         intent.putExtra("KirinukiList",kirinukiList);
                         intent.putExtra("TweetList",tweetList);
                         intent.putExtra("Favorite",map);
+                        startActivity(intent);
+                        finish();
                     }
                     @Override
                     public void onFailure(Call<Model> call, Throwable t) {
@@ -72,14 +72,7 @@ public class LodingActivity extends AppCompatActivity {
                 });
             }
         });
-        getData.start();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(intent);
-                finish();
-            }
-        }, 3000);
+        Loading.start();
     }
     private void tweetListSort(ArrayList<TweetView> tweetList){
         ArrayList<TweetView> defaultList = new ArrayList<TweetView>();
@@ -132,7 +125,6 @@ public class LodingActivity extends AppCompatActivity {
         HashMap<String,Boolean> map = new HashMap<String,Boolean>();
         if(!file.exists()) {//파일이 없음
             FileOutputStream outputStream;
-            Log.d("파일없음","없음");
             try {
                 outputStream = openFileOutput(fileName, Context.MODE_PRIVATE);
                 for(MemberView mv : m)
@@ -150,7 +142,6 @@ public class LodingActivity extends AppCompatActivity {
         }
         else {
             try {
-                Log.d("있음","있음");
                 FileInputStream fis = new FileInputStream(getApplication().getFilesDir().getAbsolutePath() + "/" + fileName);
                 BufferedReader br = new BufferedReader(new FileReader(file));
                 String line = null;

@@ -159,7 +159,6 @@ public class MainActivity extends AppCompatActivity {
                             kirinukiFragment.getJsonData();
                             break;
                         default:
-                            Log.d("디폴트","");
                     }
                     imm.hideSoftInputFromWindow(search.getWindowToken(),0);
                     return true;
@@ -178,7 +177,6 @@ public class MainActivity extends AppCompatActivity {
     private String getFavoriteMember(){
         File file = new File(getApplication().getFilesDir().getAbsolutePath(),fileName);
             try {
-                Log.d("있음","있음");
                 FileInputStream fis = new FileInputStream(getApplication().getFilesDir().getAbsolutePath() + "/" + fileName);
                 BufferedReader br = new BufferedReader(new FileReader(file));
                 String favoriteMember="";
