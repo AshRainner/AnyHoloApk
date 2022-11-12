@@ -10,25 +10,17 @@
         android:id="@+id/retweet_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
+        android:ellipsize="middle"
         android:maxLines="1"
-        android:text="!@#$###########################################"></TextView>
+        android:text="!@#$###########################################님이 리트윗 하였습니다"></TextView>
 
-    <TextView
-        android:id="@+id/retweet_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/retweet_user"
-        android:maxLines="1"
-        android:text="님이 리트윗 했습니다."></TextView>
-
-    <com.example.anyholo.Adapter.TweetView
+    <com.anyholo.Adapter.TweetView
         android:id="@+id/main_tweet_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/retweet_text"
+        android:layout_below="@id/retweet_user"
         app:profileImageSize="50"
-        app:profileImageMarginLeft="0">/</com.example.anyholo.Adapter.TweetView>
+        app:profileImageMarginLeft="0">/</com.anyholo.Adapter.TweetView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/quotedLayout"
@@ -41,13 +33,13 @@
         android:layout_marginBottom="10dp"
         app:cardBackgroundColor="#b6e2fd"
         app:strokeColor="#b6e2fd">
-        <com.example.anyholo.Adapter.TweetView
+        <com.anyholo.Adapter.TweetView
             android:id="@+id/quoted_tweet_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:profileImageSize="25"
             app:profileImageMarginLeft="10"
             app:upTimeMarginRight="10"
-            app:mediaMarginRight="10"></com.example.anyholo.Adapter.TweetView>
+            app:mediaMarginRight="10"></com.anyholo.Adapter.TweetView>
     </com.google.android.material.card.MaterialCardView>
 </RelativeLayout>
