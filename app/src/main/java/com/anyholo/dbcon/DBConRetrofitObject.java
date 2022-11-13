@@ -7,7 +7,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DBConRetrofitObject {
-    private static final String BASE_URL = "http://222.237.255.159:8081/";//서버 주소
+    private static final String BASE_URL = "http://52.193.142.22//";//서버 주소
     private static Retrofit retrofit;
     private DBConRetrofitObject(){
         retrofit = new Retrofit.Builder()

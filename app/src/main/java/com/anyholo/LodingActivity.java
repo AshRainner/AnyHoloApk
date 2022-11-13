@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -64,7 +65,27 @@ public class LodingActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onFailure(Call<Model> call, Throwable t) {
-                        Log.d("실패","실패");
+                        DBcon DBconnect = DBConRetrofitObject.getInstance().create(DBcon.class);
+                        DBconnect.getData().enqueue(new Callback<Model>() {
+                            @Override
+                            public void onResponse(Call<Model> call, Response<Model> response) {
+                                Model m = response.body();
+                                ArrayList<MemberView> memberList= m.getMemberList();
+                                ArrayList<KirinukiView> kirinukiList = m.getVidoes();
+                                ArrayList<TweetView> tweetList = m.getTweet();
+                                HashMap<String,Boolean> map = checkCache(memberList);
+                                intent.putExtra("MemberList", memberList);
+                                intent.putExtra("KirinukiList",kirinukiList);
+                                intent.putExtra("TweetList",tweetList);
+                                intent.putExtra("Favorite",map);
+                                startActivity(intent);
+                                finish();
+                            }
+                            @Override
+                            public void onFailure(Call<Model> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(),"로딩 실패 앱을 껐다 켜주세요.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
             }

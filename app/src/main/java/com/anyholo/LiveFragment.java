@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 import com.anyholo.Adapter.LiveAdapter;
 import com.anyholo.Model.Model;
@@ -93,7 +94,8 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
 
                             @Override
                             public void onFailure(Call<Model> call, Throwable t) {
-                                Log.d("실패", "실패");
+                                Toast.makeText(getActivity().getApplicationContext(),"다시 시도해주세요", Toast.LENGTH_SHORT).show();
+                                swipeRefreshLayout.setRefreshing(false);
                             }
                         });
                     }

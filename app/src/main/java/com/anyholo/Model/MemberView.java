@@ -23,14 +23,14 @@ public class MemberView implements Serializable {
     private String onAirVideoUrl;
     @SerializedName("channelId")
     private String channelId;
-    @SerializedName("twitterurl")
-    private String twitterurl;
+    @SerializedName("twitterUrl")
+    private String twitterUrl;
     @SerializedName("hololiveUrl")
     private String hololiveUrl;
     @SerializedName("enName")
     private String enName;
 
-    public MemberView(String memberName, String country, String profileUrl, String searchName, String onAir, String onairTitle, String onAirThumnailsUrl, String onAirVideoUrl, String channelId, String twitterurl, String hololiveUrl, String enName) {
+    public MemberView(String memberName, String country, String profileUrl, String searchName, String onAir, String onairTitle, String onAirThumnailsUrl, String onAirVideoUrl, String channelId, String twitterUrl, String hololiveUrl, String enName) {
         this.memberName = memberName;
         this.country = country;
         this.profileUrl = profileUrl;
@@ -40,7 +40,7 @@ public class MemberView implements Serializable {
         this.onAirThumnailsUrl = onAirThumnailsUrl;
         this.onAirVideoUrl = onAirVideoUrl;
         this.channelId = channelId;
-        this.twitterurl = twitterurl;
+        this.twitterUrl = twitterUrl;
         this.hololiveUrl = hololiveUrl;
         this.enName = enName;
     }
@@ -126,11 +126,11 @@ public class MemberView implements Serializable {
     }
 
     public String getTwitterurl() {
-        return twitterurl;
+        return twitterUrl;
     }
 
     public void setTwitterurl(String twitterurl) {
-        this.twitterurl = twitterurl;
+        this.twitterUrl = twitterurl;
     }
 
     public String getHololiveUrl() {

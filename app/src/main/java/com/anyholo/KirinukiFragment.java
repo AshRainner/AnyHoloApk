@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -105,7 +106,8 @@ public class KirinukiFragment extends Fragment {
                     }
                     @Override
                     public void onFailure(Call<Model> call, Throwable t) {
-                        Log.d("실패","실패");
+                        Toast.makeText(getActivity().getApplicationContext(),"다시 시도해주세요", Toast.LENGTH_SHORT).show();
+                        swipyRefreshLayout.setRefreshing(false);
                     }
                 });
             }
