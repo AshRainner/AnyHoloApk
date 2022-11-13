@@ -35,6 +35,7 @@ import retrofit2.Response;
 
 public class LodingActivity extends AppCompatActivity {
     private String fileName = "Favorite.txt";
+    private String version = "1.0.0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +53,12 @@ public class LodingActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<Model> call, Response<Model> response) {
                         Model m = response.body();
+                        if(version.equals(m.getVersion())){
+                            Log.d("버전 같음","ㅇㅇ");
+                        }
+                        else{
+                            Log.d("버전 다름","ㅇㅇ");
+                        }
                         ArrayList<MemberView> memberList= m.getMemberList();
                         ArrayList<KirinukiView> kirinukiList = m.getVidoes();
                         ArrayList<TweetView> tweetList = m.getTweet();

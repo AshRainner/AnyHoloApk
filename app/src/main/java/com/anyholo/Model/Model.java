@@ -15,6 +15,9 @@ public class Model implements Serializable {
     @SerializedName("Tweet")
     private ArrayList<TweetView> Tweet = null;
 
+    @SerializedName("Version")
+    private String version;
+
     public ArrayList<MemberView> getMemberList() {
         return member;
     }
@@ -37,5 +40,13 @@ public class Model implements Serializable {
 
     public void setTweet(ArrayList<TweetView> tweet) {
         Tweet = tweet;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 }
