@@ -39,8 +39,8 @@ public class LodingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loding);
-        ImageView loadingImage = findViewById(R.id.lodingImage);
-        Glide.with(this).load(R.drawable.loding).into(loadingImage);
+        ImageView loadingImage = findViewById(R.id.loadingImage);
+        Glide.with(this).load(R.drawable.loading).into(loadingImage);
 
         Handler handler = new Handler();
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
