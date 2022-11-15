@@ -165,5 +165,5 @@
     <string name="nameError"><b>Error</b></string>
     <string name="introError"><b>그룹</b>&#160;&#160;&#160;&#160; ERROR\n<b>데뷔</b>&#160;&#160;&#160;&#160; ERROR\n<b>생일</b>&#160;&#160;&#160;&#160; ERROR</string>
     <string name="ErrorT">Error</string>
-    <string name="DevText">제작자 <b>페코라스키스기</b>\n디자인 <b>키트【Kitto】</b>\n로딩 GIF <b>Kay Yu</b>\n문의 <b>그을비#8099 or gell8778@naver.com</b></string>
+    <string name="DevText"><b>제작자</b> 페코라스키스기\n<b>디자인</b> 키트【Kitto】\n<b>Loding GIF</b> GIF Kay Yu\n<b>문의</b> 그을비#8099 or gell8778@naver.com</string>
 </resources>
