@@ -56,6 +56,7 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
         View view = inflater.inflate(R.layout.live_fragment, container, false);
         gridView = view.findViewById(R.id.member_gird);
         swipeRefreshLayout = view.findViewById(R.id.memberLayout);
+        swipeRefreshLayout.setDistanceToTriggerSync(80);
         liveAdapter = new LiveAdapter(this);
         upcomingList = new ArrayList<MemberView>();//방송 예정인 멤버들
         noLiveList = new ArrayList<MemberView>(); // 방송을 하고 있지 않은 멤버들

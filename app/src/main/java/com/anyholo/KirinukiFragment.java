@@ -48,8 +48,8 @@ public class KirinukiFragment extends Fragment {
         View view = inflater.inflate(R.layout.kirinuki_fragment,container,false);
         listView = view.findViewById(R.id.kirinuki_list);
         swipyRefreshLayout = view.findViewById(R.id.kirinukirLayout);
+        swipyRefreshLayout.setDistanceToTriggerSync(80);//민감도 설정
         kirinukiAdapter = new KirinukiAdapter();
-        //list = (ArrayList<KirinukiView>) getArguments().getSerializable("KirinukiList");
         copyList = new ArrayList<KirinukiView>();
         for(KirinukiView x : list){
             copyList.add(x);

@@ -48,7 +48,7 @@ public class TweetFragment extends Fragment {
         View view = inflater.inflate(R.layout.tweet_fragment, container, false);
         listView = view.findViewById(R.id.tweet_list);
         swipyRefreshLayout = view.findViewById(R.id.tweetLayout);
-        //tweetAdapter = new TweetAdapter();
+        swipyRefreshLayout.setDistanceToTriggerSync(80);
         tweetAdapter = new TweetAdapter();
         copyList = new ArrayList<TweetView>();
         for (TweetView x : list) {

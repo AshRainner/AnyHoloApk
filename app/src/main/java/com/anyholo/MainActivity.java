@@ -14,7 +14,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.anyholo.Adapter.CustomViewPagerAdapter;
@@ -30,6 +31,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -40,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     제작자 : 인하공업 전문 대학 2학년 이건
      */
     private String fileName = "Favorite.txt";
-    private SwipeRefreshLayout swipeRefreshLayout;
     private EditText search;
     private ViewPager2 viewPager;
     private LiveFragment liveFragment;
@@ -67,12 +68,13 @@ public class MainActivity extends AppCompatActivity {
         tweetList = (ArrayList<TweetView>) intent.getSerializableExtra("TweetList");
         pagerAdapter = new CustomViewPagerAdapter(this);
         createFragment();
+        reduceDragSensitivity(3);
         pagerAdapter.addFragment(liveFragment);
         pagerAdapter.addFragment(tweetFragment);
         pagerAdapter.addFragment(kirinukiFragment);
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setUserInputEnabled(false);
-        InputMethodManager imm = (InputMethodManager)this.getSystemService(INPUT_METHOD_SERVICE);
+        //viewPager.setUserInputEnabled(false);
+        InputMethodManager imm = (InputMethodManager) this.getSystemService(INPUT_METHOD_SERVICE);
         Spinner countrySpinner = findViewById(R.id.spinner);
         new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
@@ -104,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                     case 1:
                         tweetFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
                         tweetFragment.setKeyword(search.getText().toString());
-                        if(countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
+                        if (countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
                             tweetFragment.setKeyword(getFavoriteMember());
                         tweetFragment.setPage(1);
                         tweetFragment.getJsonData();
@@ -112,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                     case 2:
                         kirinukiFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
                         kirinukiFragment.setKeyword(search.getText().toString());
-                        if(countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
+                        if (countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
                             kirinukiFragment.setKeyword(getFavoriteMember());
                         kirinukiFragment.setPage(1);
                         kirinukiFragment.getJsonData();
@@ -136,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
                         case 1:
                             tweetFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
                             tweetFragment.setKeyword(search.getText().toString());
-                            if(countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
+                            if (countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
                                 tweetFragment.setKeyword(getFavoriteMember());
                             tweetFragment.setPage(1);
                             tweetFragment.getJsonData();
@@ -149,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         default:
                     }
-                    imm.hideSoftInputFromWindow(search.getWindowToken(),0);
+                    imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
                     return true;
                 } else {
                     return true;
@@ -157,7 +159,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    private void reduceDragSensitivity(int sensitivity) {
+        try {
+            Field ff = ViewPager2.class.getDeclaredField("mRecyclerView") ;
+            ff.setAccessible(true);
+            RecyclerView recyclerView =  (RecyclerView) ff.get(viewPager);
+            Field touchSlopField = RecyclerView.class.getDeclaredField("mTouchSlop") ;
+            touchSlopField.setAccessible(true);
+            int touchSlop = (int) touchSlopField.get(recyclerView);
+            touchSlopField.set(recyclerView,touchSlop * sensitivity);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
     private void createFragment() {
         liveFragment = new LiveFragment(memberlist, map);
         tweetFragment = new TweetFragment(tweetList);
