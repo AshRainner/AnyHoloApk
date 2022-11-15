@@ -36,6 +36,7 @@ import retrofit2.Response;
 public class LodingActivity extends AppCompatActivity {
     private String fileName = "Favorite.txt";
     private String version = "1.0.0";
+    private int errorCount = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,27 +73,11 @@ public class LodingActivity extends AppCompatActivity {
                     }
                     @Override
                     public void onFailure(Call<Model> call, Throwable t) {
-                        DBcon DBconnect = DBConRetrofitObject.getInstance().create(DBcon.class);
-                        DBconnect.getData().enqueue(new Callback<Model>() {
-                            @Override
-                            public void onResponse(Call<Model> call, Response<Model> response) {
-                                Model m = response.body();
-                                ArrayList<MemberView> memberList= m.getMemberList();
-                                ArrayList<KirinukiView> kirinukiList = m.getVidoes();
-                                ArrayList<TweetView> tweetList = m.getTweet();
-                                HashMap<String,Boolean> map = checkCache(memberList);
-                                intent.putExtra("MemberList", memberList);
-                                intent.putExtra("KirinukiList",kirinukiList);
-                                intent.putExtra("TweetList",tweetList);
-                                intent.putExtra("Favorite",map);
-                                startActivity(intent);
-                                finish();
-                            }
-                            @Override
-                            public void onFailure(Call<Model> call, Throwable t) {
-                                Toast.makeText(getApplicationContext(),"로딩 실패 앱을 껐다 켜주세요.", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        errorCount++;
+                        if(errorCount<6)
+                            call.clone().enqueue(this); //오류날 시 리트라이
+                        else
+                            Toast.makeText(getApplicationContext(),"로딩 실패 앱을 껏다 켜주세요", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

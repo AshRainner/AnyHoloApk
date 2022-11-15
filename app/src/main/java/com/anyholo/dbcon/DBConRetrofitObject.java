@@ -3,6 +3,9 @@ package com.anyholo.dbcon;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -19,9 +22,16 @@ public class DBConRetrofitObject {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()//타임아웃 시간 조절
+                .connectTimeout(2, TimeUnit.SECONDS)
+                .readTimeout(2, TimeUnit.SECONDS)
+                .writeTimeout(2, TimeUnit.SECONDS)
+                .build();
+        //로딩시간 바꾸기
         if(retrofit == null){
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
+                    .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))//gson으로 파싱
                     .build();
         }

@@ -37,7 +37,7 @@ public class TweetFragment extends Fragment {
     private TweetAdapter tweetAdapter;
     private String country;
     private String keyword;
-
+    private int errorCount = 0;
     public TweetFragment(ArrayList<TweetView> list) {
         this.list = list;
     }
@@ -94,6 +94,7 @@ public class TweetFragment extends Fragment {
                 DBconnect.getTweetData(String.valueOf(page), country, keyword).enqueue(new Callback<Model>() {
                     @Override
                     public void onResponse(Call<Model> call, Response<Model> response) {
+                        errorCount=0;
                         Model m = response.body();
                         list.clear();
                         copyList.clear();
@@ -104,8 +105,13 @@ public class TweetFragment extends Fragment {
                     }
                     @Override
                     public void onFailure(Call<Model> call, Throwable t) {
-                        Toast.makeText(getActivity().getApplicationContext(),"다시 시도해주세요", Toast.LENGTH_SHORT).show();
-                        swipyRefreshLayout.setRefreshing(false);
+                        errorCount++;
+                        if(errorCount<6)
+                            call.clone().enqueue(this); //오류날 시 리트라이
+                        else {
+                            Toast.makeText(getActivity().getApplicationContext(), "다시 시도해주세요", Toast.LENGTH_SHORT).show();
+                            swipyRefreshLayout.setRefreshing(false);
+                        }
                     }
                 });
             }

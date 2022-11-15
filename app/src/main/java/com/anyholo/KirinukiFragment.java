@@ -37,6 +37,7 @@ public class KirinukiFragment extends Fragment {
     private String country="전체";
     private String keyword="";
     private final int MAXITEM=10;
+    private int errorCount = 0;
     public KirinukiFragment(ArrayList<KirinukiView> list) {
         this.list = list;
     }
@@ -96,6 +97,7 @@ public class KirinukiFragment extends Fragment {
                 DBconnect.getKirinukiData(String.valueOf(page),country,keyword).enqueue(new Callback<Model>() {
                     @Override
                     public void onResponse(Call<Model> call, Response<Model> response) {
+                        errorCount=0;
                         Model m = response.body();
                         list.clear();
                         copyList.clear();
@@ -106,8 +108,13 @@ public class KirinukiFragment extends Fragment {
                     }
                     @Override
                     public void onFailure(Call<Model> call, Throwable t) {
-                        Toast.makeText(getActivity().getApplicationContext(),"다시 시도해주세요", Toast.LENGTH_SHORT).show();
-                        swipyRefreshLayout.setRefreshing(false);
+                        errorCount++;
+                        if(errorCount<6)
+                            call.clone().enqueue(this); //오류날 시 리트라이
+                        else {
+                            Toast.makeText(getActivity().getApplicationContext(), "다시 시도해주세요", Toast.LENGTH_SHORT).show();
+                            swipyRefreshLayout.setRefreshing(false);
+                        }
                     }
                 });
             }

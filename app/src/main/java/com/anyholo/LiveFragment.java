@@ -44,7 +44,7 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
     private ArrayList<MemberView> liveList;//live하는 멤버들만 모아서 정렬할 리스트
     private HashMap<String, Boolean> favorite;
     private ArrayList<MemberView> favoriteList;
-
+    private int errorCount = 0;
     public LiveFragment(ArrayList<MemberView> list, HashMap<String, Boolean> favorite) {
         this.list = list;
         this.favorite = favorite;
@@ -83,6 +83,7 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
                         DBconnect.getLiveData().enqueue(new Callback<Model>() {
                             @Override
                             public void onResponse(Call<Model> call, Response<Model> response) {
+                                errorCount=0;
                                 Model m = response.body();
                                 list.clear();
                                 list.addAll(m.getMemberList());
@@ -94,8 +95,12 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
 
                             @Override
                             public void onFailure(Call<Model> call, Throwable t) {
-                                Toast.makeText(getActivity().getApplicationContext(),"다시 시도해주세요", Toast.LENGTH_SHORT).show();
-                                swipeRefreshLayout.setRefreshing(false);
+                                if(errorCount<6)
+                                    call.clone().enqueue(this); //오류날 시 리트라이
+                                else {
+                                    Toast.makeText(getActivity().getApplicationContext(), "다시 시도해주세요", Toast.LENGTH_SHORT).show();
+                                    swipeRefreshLayout.setRefreshing(false);
+                                }
                             }
                         });
                     }
