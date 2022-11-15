@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#4f9fef">
+    android:background="#88d2ff">
 
     <ImageView
         android:id="@+id/banner"
@@ -18,4 +18,13 @@
         android:adjustViewBounds="true"
         android:id="@+id/loadingImage"
         android:layout_marginTop="100dp"></ImageView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="@color/black"
+        android:text="@string/DevText"
+        android:textSize="8pt"></TextView>
 </RelativeLayout>
