@@ -44,12 +44,13 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
     private ArrayList<MemberView> liveList;//live하는 멤버들만 모아서 정렬할 리스트
     private HashMap<String, Boolean> favorite;
     private ArrayList<MemberView> favoriteList;
+    private String keyword;
+    private String country;
     private int errorCount = 0;
     public LiveFragment(ArrayList<MemberView> list, HashMap<String, Boolean> favorite) {
         this.list = list;
         this.favorite = favorite;
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -89,6 +90,7 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
                                 list.clear();
                                 list.addAll(m.getMemberList());
                                 sortMember();
+                                search();
                                 liveAdapter.notifyDataSetChanged();
                                 swipeRefreshLayout.setRefreshing(false);
                                 gridView.setSelection(0); // 리스트뷰 맨 위로
@@ -117,6 +119,9 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
         liveList.clear();
         upcomingList.clear();
         noLiveList.clear();
+        ArrayList<MemberView> jpList = new ArrayList<>();
+        ArrayList<MemberView> enList = new ArrayList<>();
+        ArrayList<MemberView> idList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getOnAir().equals("live"))
                 liveList.add(list.get(i));
@@ -175,8 +180,7 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
             }
         }).start();
     }*/
-
-    public void search(String keyword, String country) {
+    public void search() {
         list.clear();
         if (keyword.length() == 0) {
             if (country.equals("전체")) {
@@ -206,51 +210,59 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
             }
         } else {
             for (int i = 0; i < favoriteList.size(); i++) {
-                if (country.equals("전체")) {
-                    if (favoriteList.get(i).getMemberName().contains(keyword)) {
+                if (country.equals("전체")||country.equals("즐겨찾기")) {
+                    if (favoriteList.get(i).getSearchName().contains(keyword)) {
                         list.add(favoriteList.get(i));
                     }
-                } else {
-                    if (favoriteList.get(i).getMemberName().contains(keyword) && favoriteList.get(i).getCountry().equals(country)) {
+                }else{
+                    if (favoriteList.get(i).getSearchName().contains(keyword) && favoriteList.get(i).getCountry().equals(country)) {
                         list.add(favoriteList.get(i));
                     }
                 }
             }
             for (int i = 0; i < liveList.size(); i++) {
                 if (country.equals("전체")) {
-                    if (liveList.get(i).getMemberName().contains(keyword)) {
+                    if (liveList.get(i).getSearchName().contains(keyword)) {
                         list.add(liveList.get(i));
                     }
                 } else {
-                    if (liveList.get(i).getMemberName().contains(keyword) && liveList.get(i).getCountry().equals(country)) {
+                    if (liveList.get(i).getSearchName().contains(keyword) && liveList.get(i).getCountry().equals(country)) {
                         list.add(liveList.get(i));
                     }
                 }
             }
             for (int i = 0; i < upcomingList.size(); i++) {
                 if (country.equals("전체")) {
-                    if (upcomingList.get(i).getMemberName().contains(keyword)) {
+                    if (upcomingList.get(i).getSearchName().contains(keyword)) {
                         list.add(upcomingList.get(i));
                     }
                 } else {
-                    if (upcomingList.get(i).getMemberName().contains(keyword) && upcomingList.get(i).getCountry().equals(country)) {
+                    if (upcomingList.get(i).getSearchName().contains(keyword) && upcomingList.get(i).getCountry().equals(country)) {
                         list.add(upcomingList.get(i));
                     }
                 }
             }
             for (int i = 0; i < noLiveList.size(); i++) {
                 if (country.equals("전체")) {
-                    if (noLiveList.get(i).getMemberName().contains(keyword)) {
+                    if (noLiveList.get(i).getSearchName().contains(keyword)) {
                         list.add(noLiveList.get(i));
                     }
                 } else {
-                    if (noLiveList.get(i).getMemberName().contains(keyword) && noLiveList.get(i).getCountry().equals(country)) {
+                    if (noLiveList.get(i).getSearchName().contains(keyword) && noLiveList.get(i).getCountry().equals(country)) {
                         list.add(noLiveList.get(i));
                     }
                 }
             }
         }
         liveAdapter.notifyDataSetChanged();
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     @Override

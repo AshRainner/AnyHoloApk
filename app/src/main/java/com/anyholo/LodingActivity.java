@@ -107,18 +107,51 @@ public class LodingActivity extends AppCompatActivity {
         else {
             try {
                 FileInputStream fis = new FileInputStream(getApplication().getFilesDir().getAbsolutePath() + "/" + fileName);
-                Log.d("경로",getApplication().getFilesDir().getAbsolutePath() + "/" + fileName);
                 BufferedReader br = new BufferedReader(new FileReader(file));
+                ArrayList<String> names = new ArrayList<>();
+                for(MemberView mv : m)
+                    names.add(mv.getMemberName());
                 String line = null;
+                boolean check = false;
+                int i=0;
                 while ((line = br.readLine()) != null) {
+                    i++;
                     String[] parts = line.split(":");
                     String name = parts[0].trim();
-                    String favorite = parts[1].trim();
-                    if (!name.equals("") && !favorite.equals(""))
-                        map.put(name, Boolean.valueOf(favorite));
+                    if(names.contains(name)) {
+                        String favorite = parts[1].trim();
+                        if (!name.equals("") && !favorite.equals(""))
+                            map.put(name, Boolean.valueOf(favorite));
+                    }
+                    else{
+                        check = true;
+                    }
                 }
                 br.close();
                 fis.close();
+                if(check||i!=names.size()){//만약 데이터베이스에 수정된 내용이 있으면 수정된 부분만 바꿔서 파일 생성
+                    FileOutputStream outputStream;
+                    HashMap<String,Boolean> tempMap = new HashMap<String,Boolean>();
+                    try {
+                        outputStream = openFileOutput(fileName, Context.MODE_PRIVATE);
+                        for(MemberView mv : m) {
+                            if(map.get(mv.getMemberName())==null) // 새로운 멤버가 추가된거면 원래 값이 없기에 null이 나옴 and 수정된 친구도 null이 나옴
+                                tempMap.put(mv.getMemberName(), false);
+                            else
+                                tempMap.put(mv.getMemberName(), map.get(mv.getMemberName()));
+                        }
+                        for(Map.Entry<String,Boolean> entry : tempMap.entrySet()){
+                            outputStream.write((entry.getKey()+":"+entry.getValue()).getBytes());
+                            outputStream.write("\n".getBytes());
+                        }
+                        outputStream.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return tempMap;
+                }
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {

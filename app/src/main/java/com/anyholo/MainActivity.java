@@ -101,7 +101,11 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {//스피너 클릭해서 아이템 클릭하면 서치 메서드 실행
                 switch (tabLayout.getSelectedTabPosition()) {
                     case 0:
-                        liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(i).toString());
+                        liveFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
+                        liveFragment.setKeyword(search.getText().toString());
+                        if (countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
+                            liveFragment.setKeyword(search.getText().toString());
+                        liveFragment.search();
                         break;
                     case 1:
                         tweetFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
@@ -133,7 +137,11 @@ public class MainActivity extends AppCompatActivity {
                 if ((i == EditorInfo.IME_ACTION_SEARCH)) {
                     switch (tabLayout.getSelectedTabPosition()) {
                         case 0:
-                            liveFragment.search(search.getText().toString(), countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
+                            liveFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
+                            liveFragment.setKeyword(search.getText().toString());
+                            if (countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
+                                liveFragment.setKeyword(search.getText().toString());
+                            liveFragment.search();
                             break;
                         case 1:
                             tweetFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
