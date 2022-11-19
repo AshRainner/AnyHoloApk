@@ -92,9 +92,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 2:
                         tab.setText("키리누키");
-                        break;
-                    case 3:
-                        tab.setText("ASDF");
                 }
             }
         }).attach();

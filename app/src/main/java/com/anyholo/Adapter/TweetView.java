@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,7 +34,12 @@ public class TweetView extends RelativeLayout {
     private MaterialCardView mediaView;
     private LinearLayout[] mediaDetailLayout = new LinearLayout[2];
     private ImageView[] media = new ImageView[4];
-    private final int marginValue=3;
+    private MaterialCardView mediaView400dp;
+    private ImageView media400dp;
+    private int w;
+    private int h;
+    private boolean a;
+    private final int marginValue = 3;
 
     public TweetView(Context context) {
         super(context);
@@ -40,7 +47,7 @@ public class TweetView extends RelativeLayout {
 
     public TweetView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initializeViews(context,attrs);
+        initializeViews(context, attrs);
     }
 
     public TweetView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -54,7 +61,7 @@ public class TweetView extends RelativeLayout {
 
     private void initializeViews(Context context, AttributeSet attrs) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.tweet_item,this);
+        inflater.inflate(R.layout.tweet_item, this);
         tweetMain = findViewById(R.id.tweet_main);
         profileImage = findViewById(R.id.tweet_profile_image);
         userName = findViewById(R.id.tweet_user_name);
@@ -65,120 +72,125 @@ public class TweetView extends RelativeLayout {
         media[1] = findViewById(R.id.tweet_media2);
         media[2] = findViewById(R.id.tweet_media3);
         media[3] = findViewById(R.id.tweet_media4);
+        mediaView400dp = findViewById(R.id.tweet_media_view_400dp);
+        media400dp = findViewById(R.id.tweet_media_400dp);
         mediaDetailLayout[0] = findViewById(R.id.media_detail_layout1);
         mediaDetailLayout[1] = findViewById(R.id.media_detail_layout2);
         LayoutParams params = (LayoutParams) profileImage.getLayoutParams();
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.TestView);
-        int size = typedArray.getInteger(R.styleable.TestView_profileImageSize,0);
-        params.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,size,getResources().getDisplayMetrics());
-        params.height =(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,size,getResources().getDisplayMetrics());
-        params.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,typedArray.getInteger(R.styleable.TestView_profileImageMarginLeft,0),getResources().getDisplayMetrics());
+        int size = typedArray.getInteger(R.styleable.TestView_profileImageSize, 0);
+        params.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, getResources().getDisplayMetrics());
+        params.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, size, getResources().getDisplayMetrics());
+        params.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, typedArray.getInteger(R.styleable.TestView_profileImageMarginLeft, 0), getResources().getDisplayMetrics());
         profileImage.setLayoutParams(params);
         params = (LayoutParams) mediaView.getLayoutParams();
-        params.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,typedArray.getInteger(R.styleable.TestView_mediaMarginRight,0),getResources().getDisplayMetrics());
+        params.rightMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, typedArray.getInteger(R.styleable.TestView_mediaMarginRight, 0), getResources().getDisplayMetrics());
         mediaView.setLayoutParams(params);
         params = (LayoutParams) upTime.getLayoutParams();
-        int a = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,typedArray.getInteger(R.styleable.TestView_upTimeMarginRight,0),getResources().getDisplayMetrics());
-        params.rightMargin=a;
+        int a = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, typedArray.getInteger(R.styleable.TestView_upTimeMarginRight, 0), getResources().getDisplayMetrics());
+        params.rightMargin = a;
         upTime.setLayoutParams(params);
     }
-    public void setValues(com.anyholo.Model.TweetView tweetView){
+
+    public void setValues(com.anyholo.Model.TweetView tweetView) {
         Glide.with(this).load(tweetView.getUserProfileUrl()).circleCrop().into(profileImage);
         userName.setText(tweetView.getWriteUserName());
         upTime.setText(getTime(tweetView.getWriteDate()));
         content.setText(tweetView.getTweetContent());
-        ((ViewGroup) tweetMain).removeView(mediaView);
-        ((ViewGroup) mediaDetailLayout[0].getParent()).removeView(mediaDetailLayout[1]);
-        if(tweetView.getMediaUrl()!=null) {
-            ((ViewGroup) tweetMain).addView(mediaView);
+        if (tweetView.getMediaUrl() != null) {
             String urls[] = tweetView.getMediaUrl().split(";");
-            ((ViewGroup) mediaDetailLayout[0]).removeView(media[0]);
-            ((ViewGroup) mediaDetailLayout[1]).removeView(media[1]);
-            ((ViewGroup) mediaDetailLayout[1]).removeView(media[2]);
-            ((ViewGroup) mediaDetailLayout[0]).removeView(media[3]);
-            if(urls.length>1)
-                ((ViewGroup) mediaDetailLayout[0].getParent()).addView(mediaDetailLayout[1]);
-            //int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,200,getResources().getDisplayMetrics());
-            LinearLayout.LayoutParams imageParams;
-            switch (urls.length){
-                case 1:
-                    Glide.with(getContext().getApplicationContext())
-                            .asBitmap()
-                            .load(urls[0])
-                            .into(new SimpleTarget<Bitmap>() {
-                                @Override
-                                public void onResourceReady(Bitmap bitmap,
-                                                            Transition<? super Bitmap> transition) {
-                                    int w = bitmap.getWidth();
-                                    int h = bitmap.getHeight();
-                                    if(w<=h) {
-                                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)mediaView.getLayoutParams();
-                                        params.height= LayoutParams.WRAP_CONTENT;
-                                        mediaView.setLayoutParams(params);
-                                    }
+            Glide.with(getContext().getApplicationContext())
+                    .asBitmap()
+                    .load(urls[0])
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap bitmap,
+                                                    Transition<? super Bitmap> transition) {
+                            w = bitmap.getWidth();
+                            h = bitmap.getHeight();
+                            if (w <= h && urls.length == 1) {
+                            } else {
+                                mediaView400dp.setVisibility(GONE);
+                                mediaView.setVisibility(VISIBLE);
+                                for(int i=0;i<media.length;i++)
+                                    media[i].setVisibility(GONE);
+                                if (urls.length > 1)
+                                    mediaDetailLayout[1].setVisibility(VISIBLE);
+                                //int height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,200,getResources().getDisplayMetrics());
+                                LinearLayout.LayoutParams imageParams;
+                                switch (urls.length) {
+                                    case 1:
+                                        media[0].setVisibility(VISIBLE);
+                                        break;
+                                    case 2:
+                                        imageParams = (LinearLayout.LayoutParams) media[0].getLayoutParams();
+                                        imageParams.rightMargin = marginValue;
+                                        media[0].setLayoutParams(imageParams);
+                                        imageParams = (LinearLayout.LayoutParams) media[1].getLayoutParams();
+                                        imageParams.leftMargin = marginValue;
+                                        media[1].setLayoutParams(imageParams);
+                                        media[0].setVisibility(VISIBLE);
+                                        media[1].setVisibility(VISIBLE);
+                                        break;
+                                    case 3:
+                                        imageParams = (LinearLayout.LayoutParams) media[0].getLayoutParams();
+                                        imageParams.rightMargin = marginValue;
+                                        media[0].setLayoutParams(imageParams);
+                                        imageParams = (LinearLayout.LayoutParams) media[1].getLayoutParams();
+                                        imageParams.leftMargin = marginValue;
+                                        imageParams.bottomMargin = marginValue;
+                                        media[1].setLayoutParams(imageParams);
+                                        imageParams = (LinearLayout.LayoutParams) media[2].getLayoutParams();
+                                        imageParams.leftMargin = marginValue;
+                                        imageParams.topMargin = marginValue;
+                                        media[2].setLayoutParams(imageParams);
+                                        media[0].setVisibility(VISIBLE);
+                                        media[1].setVisibility(VISIBLE);
+                                        media[2].setVisibility(VISIBLE);
+                                        //3개일 시 화면 구성
+                                        //1 2
+                                        //1 3
+                                        break;
+                                    case 4:
+                                        imageParams = (LinearLayout.LayoutParams) media[0].getLayoutParams();
+                                        imageParams.rightMargin = marginValue;
+                                        imageParams.bottomMargin = marginValue;
+                                        media[0].setLayoutParams(imageParams);
+                                        imageParams = (LinearLayout.LayoutParams) media[1].getLayoutParams();
+                                        imageParams.leftMargin = marginValue;
+                                        imageParams.bottomMargin = marginValue;
+                                        media[1].setLayoutParams(imageParams);
+                                        imageParams = (LinearLayout.LayoutParams) media[2].getLayoutParams();
+                                        imageParams.rightMargin = marginValue;
+                                        imageParams.topMargin = marginValue;
+                                        media[2].setLayoutParams(imageParams);
+                                        imageParams = (LinearLayout.LayoutParams) media[2].getLayoutParams();
+                                        imageParams.leftMargin = marginValue;
+                                        imageParams.topMargin = marginValue;
+                                        media[3].setLayoutParams(imageParams);
+                                        media[0].setVisibility(VISIBLE);
+                                        media[1].setVisibility(VISIBLE);
+                                        media[2].setVisibility(VISIBLE);
+                                        media[3].setVisibility(VISIBLE);
+                                        //4개일 시 화면 구성
+                                        //1 2
+                                        //3 4
                                 }
-                            });
-                    ((ViewGroup) mediaDetailLayout[0]).addView(media[0]);
-                    break;
-                case 2:
-                    imageParams = (LinearLayout.LayoutParams) media[0].getLayoutParams();
-                    imageParams.rightMargin=marginValue;
-                    media[0].setLayoutParams(imageParams);
-                    imageParams = (LinearLayout.LayoutParams) media[1].getLayoutParams();
-                    imageParams.leftMargin=marginValue;
-                    media[1].setLayoutParams(imageParams);
-                    ((ViewGroup) mediaDetailLayout[0]).addView(media[0]);
-                    ((ViewGroup) mediaDetailLayout[1]).addView(media[1]);
-                    break;
-                case 3:
-                    imageParams = (LinearLayout.LayoutParams) media[0].getLayoutParams();
-                    imageParams.rightMargin=marginValue;
-                    media[0].setLayoutParams(imageParams);
-                    imageParams = (LinearLayout.LayoutParams) media[1].getLayoutParams();
-                    imageParams.leftMargin=marginValue;
-                    imageParams.bottomMargin=marginValue;
-                    media[1].setLayoutParams(imageParams);
-                    imageParams = (LinearLayout.LayoutParams) media[2].getLayoutParams();
-                    imageParams.leftMargin=marginValue;
-                    imageParams.topMargin=marginValue;
-                    media[2].setLayoutParams(imageParams);
-                    ((ViewGroup) mediaDetailLayout[0]).addView(media[0]);
-                    ((ViewGroup) mediaDetailLayout[1]).addView(media[1]);
-                    ((ViewGroup) mediaDetailLayout[1]).addView(media[2]);
-                    //3개일 시 화면 구성
-                    //1 2
-                    //1 3
-                    break;
-                case 4:
-                    imageParams = (LinearLayout.LayoutParams) media[0].getLayoutParams();
-                    imageParams.rightMargin=marginValue;
-                    imageParams.bottomMargin=marginValue;
-                    media[0].setLayoutParams(imageParams);
-                    imageParams = (LinearLayout.LayoutParams) media[1].getLayoutParams();
-                    imageParams.leftMargin=marginValue;
-                    imageParams.bottomMargin=marginValue;
-                    media[1].setLayoutParams(imageParams);
-                    imageParams = (LinearLayout.LayoutParams) media[2].getLayoutParams();
-                    imageParams.rightMargin=marginValue;
-                    imageParams.topMargin=marginValue;
-                    media[2].setLayoutParams(imageParams);
-                    imageParams = (LinearLayout.LayoutParams) media[2].getLayoutParams();
-                    imageParams.leftMargin=marginValue;
-                    imageParams.topMargin=marginValue;
-                    media[3].setLayoutParams(imageParams);
-                    ((ViewGroup) mediaDetailLayout[0]).addView(media[0]);//1
-                    ((ViewGroup) mediaDetailLayout[1]).addView(media[1]);//2
-                    ((ViewGroup) mediaDetailLayout[1]).addView(media[2]);//4
-                    ((ViewGroup) mediaDetailLayout[0]).addView(media[3]);//3 일부러 순서 바꿈
-                    //4개일 시 화면 구성
-                    //1 2
-                    //3 4
-            }
+                            }
+                        }
+                    });
+            //Log.d("미디어 셋 비지블 : ",String.valueOf(media[0].getVisibility()));
             for (int i = 0; i < urls.length; i++) {
                 Glide.with(this).load(urls[i]).fitCenter().into(media[i]);
             }
+            Glide.with(this).load(urls[0]).fitCenter().into(media400dp);
+        }else{
+            mediaView.setVisibility(GONE);
+            mediaView400dp.setVisibility(GONE);
+            mediaDetailLayout[1].setVisibility(GONE);
         }
     }
+
     private String getTime(String time) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
