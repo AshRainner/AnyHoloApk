@@ -2,6 +2,7 @@ package com.anyholo;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -17,7 +18,6 @@ import com.bumptech.glide.Glide;
 import com.anyholo.Model.MemberView;
 
 public class MemberIntroActivity extends AppCompatActivity {
-    private TextView introduceText;
     private TextView translatedText;
     private TextView introText;
     private TextView nameText;
@@ -28,6 +28,7 @@ public class MemberIntroActivity extends AppCompatActivity {
     private ImageButton youtubeLogo;
     private ImageButton twitterLogo;
     private ImageButton hololiveLogo;
+    private IntroPopupDialog introPopupDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +90,14 @@ public class MemberIntroActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) { //멤버의 홀로라이브 소개문으로 이동
                 startActivity(new Intent(Intent.ACTION_VIEW).setData(Uri.parse("https://hololive.hololivepro.com/talents/"+memberView.getHololiveUrl())));
+            }
+        });
+        introPopupDialog = new IntroPopupDialog(this,translatedText.getText().toString());
+        translatedText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                introPopupDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                introPopupDialog.show();
             }
         });
     }
