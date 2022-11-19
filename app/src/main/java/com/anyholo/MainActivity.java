@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 if ((i == EditorInfo.IME_ACTION_SEARCH)) {
                     liveFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
 
-                    if (countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기")) {
+                    if (countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString().equals("즐겨찾기")) {
                         liveFragment.setKeyword(search.getText().toString());
                         kirinukiFragment.setKeyword(getFavoriteMember());
                         tweetFragment.setKeyword(getFavoriteMember());

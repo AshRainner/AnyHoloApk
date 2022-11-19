@@ -28,22 +28,6 @@ public class MemberIntroActivity extends AppCompatActivity {
     private ImageButton youtubeLogo;
     private ImageButton twitterLogo;
     private ImageButton hololiveLogo;
-    private String[] memberEnName = {//member들의 영어 <b>이름</b>
-            "Sora","Roboco","AZKi","Miko","Suisei",//0기생
-            "Mel","Rogental","Haato","Fubuki","Matsuri",//1기생
-            "Aqua","Shion","Ayame","Choco","Subaru",//2기생
-            "Mio","Okayu","Korone",//게이머즈
-            "Pekora","Flare","Noel","Marine",//3기생
-            "Kanata","Watame","Towa","Luna",//4기생
-            "Lamy","Nene","Botan","Polka",//5기생
-            "Laplus","Lui","Koyori","Chloe","Iroha",//6기생
-            "Calliope","Kiara","Inanis","Gura","Amelia",//EN1기생
-            "IRyS",//EN 프로젝트 HOPE
-            "Sana","Fauna","Kronii","Mumei","Baelz",//EN2기생
-            "Risu","Moona","Iofifteen",//ID1기생
-            "Ollie","Anya","Reine",//ID2기생
-            "Zeta","Kaela","Kobo"//ID3기생
-    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
