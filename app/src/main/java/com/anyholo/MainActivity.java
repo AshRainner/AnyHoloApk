@@ -2,6 +2,7 @@ package com.anyholo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
@@ -68,12 +70,14 @@ public class MainActivity extends AppCompatActivity {
         tweetList = (ArrayList<TweetView>) intent.getSerializableExtra("TweetList");
         pagerAdapter = new CustomViewPagerAdapter(this);
         createFragment();
-        reduceDragSensitivity(3);
+        reduceDragSensitivity(1);
         pagerAdapter.addFragment(liveFragment);
         pagerAdapter.addFragment(tweetFragment);
         pagerAdapter.addFragment(kirinukiFragment);
+        viewPager.setOffscreenPageLimit(2);//이걸 넣어줘야 미리 로딩함
         viewPager.setAdapter(pagerAdapter);
-        //viewPager.setUserInputEnabled(false);
+        Log.d("view Pager size",String.valueOf(pagerAdapter.getItemCount()));
+        //viewPager.setCurrentItem(pagerAdapter.getItemCount());
         InputMethodManager imm = (InputMethodManager) this.getSystemService(INPUT_METHOD_SERVICE);
         Spinner countrySpinner = findViewById(R.id.spinner);
         new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
@@ -88,43 +92,38 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case 2:
                         tab.setText("키리누키");
+                        break;
+                    case 3:
+                        tab.setText("ASDF");
                 }
             }
         }).attach();
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.country,//String Array 설정
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(R.layout.country_spinner);
-
         countrySpinner.setAdapter(adapter);
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {//스피너 클릭해서 아이템 클릭하면 서치 메서드 실행
-                switch (tabLayout.getSelectedTabPosition()) {
-                    case 0:
-                        liveFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
-                        liveFragment.setKeyword(search.getText().toString());
-                        if (countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
-                            liveFragment.setKeyword(search.getText().toString());
-                        liveFragment.search();
-                        break;
-                    case 1:
-                        tweetFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
-                        tweetFragment.setKeyword(search.getText().toString());
-                        if (countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
-                            tweetFragment.setKeyword(getFavoriteMember());
-                        tweetFragment.setPage(1);
-                        tweetFragment.getJsonData();
-                        break;
-                    case 2:
-                        kirinukiFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
-                        kirinukiFragment.setKeyword(search.getText().toString());
-                        if (countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
-                            kirinukiFragment.setKeyword(getFavoriteMember());
-                        kirinukiFragment.setPage(1);
-                        kirinukiFragment.getJsonData();
-                        break;
-                }
+                liveFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
 
+                if (countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기")) {
+                    liveFragment.setKeyword(search.getText().toString());
+                    kirinukiFragment.setKeyword(getFavoriteMember());
+                    tweetFragment.setKeyword(getFavoriteMember());
+                }
+                else{
+                    liveFragment.setKeyword(search.getText().toString());
+                    tweetFragment.setKeyword(search.getText().toString());
+                    kirinukiFragment.setKeyword(search.getText().toString());
+                }
+                liveFragment.search();
+                tweetFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
+                tweetFragment.setPage(1);
+                tweetFragment.getJsonData();
+                kirinukiFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
+                kirinukiFragment.setPage(1);
+                kirinukiFragment.getJsonData();
             }
 
             @Override
@@ -135,30 +134,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if ((i == EditorInfo.IME_ACTION_SEARCH)) {
-                    switch (tabLayout.getSelectedTabPosition()) {
-                        case 0:
-                            liveFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
-                            liveFragment.setKeyword(search.getText().toString());
-                            if (countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
-                                liveFragment.setKeyword(search.getText().toString());
-                            liveFragment.search();
-                            break;
-                        case 1:
-                            tweetFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
-                            tweetFragment.setKeyword(search.getText().toString());
-                            if (countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기"))
-                                tweetFragment.setKeyword(getFavoriteMember());
-                            tweetFragment.setPage(1);
-                            tweetFragment.getJsonData();
-                            break;
-                        case 2:
-                            kirinukiFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
-                            kirinukiFragment.setKeyword(search.getText().toString());
-                            kirinukiFragment.setPage(1);
-                            kirinukiFragment.getJsonData();
-                            break;
-                        default:
+                    liveFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
+
+                    if (countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기")) {
+                        liveFragment.setKeyword(search.getText().toString());
+                        kirinukiFragment.setKeyword(getFavoriteMember());
+                        tweetFragment.setKeyword(getFavoriteMember());
                     }
+                    else{
+                        liveFragment.setKeyword(search.getText().toString());
+                        tweetFragment.setKeyword(search.getText().toString());
+                        kirinukiFragment.setKeyword(search.getText().toString());
+                    }
+                    liveFragment.search();
+                    tweetFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
+                    tweetFragment.setPage(1);
+                    tweetFragment.getJsonData();
+                    kirinukiFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
+                    kirinukiFragment.setPage(1);
+                    kirinukiFragment.getJsonData();
                     imm.hideSoftInputFromWindow(search.getWindowToken(), 0);
                     return true;
                 } else {
