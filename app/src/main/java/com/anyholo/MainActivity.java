@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         tweetList = (ArrayList<TweetView>) intent.getSerializableExtra("TweetList");
         pagerAdapter = new CustomViewPagerAdapter(this);
         createFragment();
-        reduceDragSensitivity(1);
+        reduceDragSensitivity(8);//민감도 수정
         pagerAdapter.addFragment(liveFragment);
         pagerAdapter.addFragment(tweetFragment);
         pagerAdapter.addFragment(kirinukiFragment);
