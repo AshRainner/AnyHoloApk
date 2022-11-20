@@ -1,10 +1,13 @@
 package com.anyholo;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -14,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -70,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         tweetList = (ArrayList<TweetView>) intent.getSerializableExtra("TweetList");
         pagerAdapter = new CustomViewPagerAdapter(this);
         createFragment();
-        reduceDragSensitivity(8);//민감도 수정
+        reduceDragSensitivity(6);//민감도 수정
         pagerAdapter.addFragment(liveFragment);
         pagerAdapter.addFragment(tweetFragment);
         pagerAdapter.addFragment(kirinukiFragment);
@@ -95,8 +99,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).attach();
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.country,//String Array 설정
-                android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.country_spinner,getResources().getStringArray(R.array.country)){
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View v = super.getView(position,convertView,parent);
+                ((TextView)v).setTextColor(Color.parseColor("#000000"));
+                return v;
+            }
+        };
         adapter.setDropDownViewResource(R.layout.country_spinner);
         countrySpinner.setAdapter(adapter);
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -106,13 +117,13 @@ public class MainActivity extends AppCompatActivity {
 
                 if (countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기")) {
                     liveFragment.setKeyword(search.getText().toString());
-                    kirinukiFragment.setKeyword(getFavoriteMember());
+                    kirinukiFragment.setKeyword(getFavoriteMember().replace("미코","사쿠라").replace("라미","유키하나"));
                     tweetFragment.setKeyword(getFavoriteMember());
                 }
                 else{
                     liveFragment.setKeyword(search.getText().toString());
                     tweetFragment.setKeyword(search.getText().toString());
-                    kirinukiFragment.setKeyword(search.getText().toString());
+                    kirinukiFragment.setKeyword(search.getText().toString().replace("미코","사쿠라").replace("라미","유키하나"));
                 }
                 liveFragment.search();
                 tweetFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
@@ -135,13 +146,14 @@ public class MainActivity extends AppCompatActivity {
 
                     if (countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString().equals("즐겨찾기")) {
                         liveFragment.setKeyword(search.getText().toString());
-                        kirinukiFragment.setKeyword(getFavoriteMember());
+                        kirinukiFragment.setKeyword(getFavoriteMember().replace("미코","사쿠라").replace("라미","유키하나"));
                         tweetFragment.setKeyword(getFavoriteMember());
                     }
                     else{
                         liveFragment.setKeyword(search.getText().toString());
                         tweetFragment.setKeyword(search.getText().toString());
-                        kirinukiFragment.setKeyword(search.getText().toString());
+                        Log.d("내용",search.getText().toString().replace("미코","사쿠라").replace("라미","유키하나"));
+                        kirinukiFragment.setKeyword(search.getText().toString().replace("미코","사쿠라").replace("라미","유키하나"));
                     }
                     liveFragment.search();
                     tweetFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
