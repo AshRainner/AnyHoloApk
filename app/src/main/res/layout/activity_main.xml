@@ -38,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/stroke"
+            android:textColor="@color/black"
             android:hint="검색창"
             android:inputType="text"
             android:paddingLeft="10dp"

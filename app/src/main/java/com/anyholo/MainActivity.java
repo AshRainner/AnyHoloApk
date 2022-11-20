@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter.addFragment(kirinukiFragment);
         viewPager.setOffscreenPageLimit(2);//이걸 넣어줘야 미리 로딩함
         viewPager.setAdapter(pagerAdapter);
-        Log.d("view Pager size",String.valueOf(pagerAdapter.getItemCount()));
+        //Log.d("view Pager size",String.valueOf(pagerAdapter.getItemCount()));
         //viewPager.setCurrentItem(pagerAdapter.getItemCount());
         InputMethodManager imm = (InputMethodManager) this.getSystemService(INPUT_METHOD_SERVICE);
         Spinner countrySpinner = findViewById(R.id.spinner);
