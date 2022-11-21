@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     else{
                         liveFragment.setKeyword(search.getText().toString());
                         tweetFragment.setKeyword(search.getText().toString());
-                        Log.d("내용",search.getText().toString().replace("미코","사쿠라").replace("라미","유키하나"));
+                        //Log.d("내용",search.getText().toString().replace("미코","사쿠라").replace("라미","유키하나"));
                         kirinukiFragment.setKeyword(search.getText().toString().replace("미코","사쿠라").replace("라미","유키하나"));
                     }
                     liveFragment.search();

@@ -172,6 +172,7 @@
                         android:paddingTop="10dp"
                         android:paddingBottom="5dp"
                         android:scrollbars="vertical"
+                        android:textColor="#757575"
                         android:text="@string/ErrorT"></TextView>
                 </com.google.android.material.card.MaterialCardView>
 

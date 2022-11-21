@@ -44,11 +44,15 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
     private ArrayList<MemberView> liveList;//live하는 멤버들만 모아서 정렬할 리스트
     private HashMap<String, Boolean> favorite;
     private ArrayList<MemberView> favoriteList;
-    private String keyword;
-    private String country;
+    private ArrayList<MemberView> copyList;
+    private String keyword="";
+    private String country="전체";
     private int errorCount = 0;
     public LiveFragment(ArrayList<MemberView> list, HashMap<String, Boolean> favorite) {
         this.list = list;
+        copyList=new ArrayList<MemberView>();
+        for(MemberView m : list)
+            copyList.add(m);
         this.favorite = favorite;
     }
     @Override
@@ -122,13 +126,13 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
         ArrayList<MemberView> jpList = new ArrayList<>();
         ArrayList<MemberView> enList = new ArrayList<>();
         ArrayList<MemberView> idList = new ArrayList<>();
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getOnAir().equals("live"))
-                liveList.add(list.get(i));
-            else if (list.get(i).getOnAir().equals("upcoming"))
-                upcomingList.add(list.get(i));
+        for (int i = 0; i < copyList.size(); i++) {
+            if (copyList.get(i).getOnAir().equals("live"))
+                liveList.add(copyList.get(i));
+            else if (copyList.get(i).getOnAir().equals("upcoming"))
+                upcomingList.add(copyList.get(i));
             else
-                noLiveList.add(list.get(i));
+                noLiveList.add(copyList.get(i));
         }
         sortMember(liveList);
         sortMember(upcomingList);
@@ -138,6 +142,7 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
         list.addAll(liveList);
         list.addAll(upcomingList);
         list.addAll(noLiveList);
+        search();
         liveAdapter.notifyDataSetChanged();
     }
     private void sortMember(ArrayList<MemberView> targetList){
