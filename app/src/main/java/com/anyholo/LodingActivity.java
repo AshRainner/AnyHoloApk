@@ -58,7 +58,7 @@ public class LodingActivity extends AppCompatActivity {
                             Log.d("버전 같음","ㅇㅇ");
                         }
                         else{
-                            Log.d("버전 다름","ㅇㅇ");
+                            Toast.makeText(getApplicationContext(),"최신 버전이 아닙니다", Toast.LENGTH_SHORT).show();
                         }
                         ArrayList<MemberView> memberList= m.getMemberList();
                         ArrayList<KirinukiView> kirinukiList = m.getVidoes();
