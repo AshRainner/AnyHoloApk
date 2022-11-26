@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {//스피너 클릭해서 아이템 클릭하면 서치 메서드 실행
                 //liveFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
-                liveFragmentTCP.setCountry(countrySpinner.getItemAtPosition(i).toString());
+                liveFragmentTCP.setCountry(countrySpinner.getItemAtPosition(i).toString());//
 
                 if (countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기")) {
                     //liveFragment.setKeyword(search.getText().toString());

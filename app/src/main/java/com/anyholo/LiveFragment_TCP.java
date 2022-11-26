@@ -145,7 +145,7 @@ public class LiveFragment_TCP extends Fragment implements FavoriteHandle,SwipeRe
                     });
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActivity(), "새로고침 오류", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "새로고침 오류2", Toast.LENGTH_SHORT).show();
                     swipeRefreshLayout.setRefreshing(false);
                 }
             }
