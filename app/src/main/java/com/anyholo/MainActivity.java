@@ -76,7 +76,8 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter = new CustomViewPagerAdapter(this);
         createFragment();
         reduceDragSensitivity(6);//민감도 수정
-        pagerAdapter.addFragment(liveFragmentTCP);
+        pagerAdapter.addFragment(liveFragment);
+        //pagerAdapter.addFragment(liveFragmentTCP);
         pagerAdapter.addFragment(tweetFragment);
         pagerAdapter.addFragment(kirinukiFragment);
         viewPager.setOffscreenPageLimit(2);//이걸 넣어줘야 미리 로딩함
@@ -114,23 +115,23 @@ public class MainActivity extends AppCompatActivity {
         countrySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {//스피너 클릭해서 아이템 클릭하면 서치 메서드 실행
-                //liveFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
-                liveFragmentTCP.setCountry(countrySpinner.getItemAtPosition(i).toString());//
+                liveFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
+                //liveFragmentTCP.setCountry(countrySpinner.getItemAtPosition(i).toString());//
 
                 if (countrySpinner.getItemAtPosition(i).toString().equals("즐겨찾기")) {
-                    //liveFragment.setKeyword(search.getText().toString());
-                    liveFragmentTCP.setKeyword(search.getText().toString());
+                    liveFragment.setKeyword(search.getText().toString());
+                    //liveFragmentTCP.setKeyword(search.getText().toString());
                     kirinukiFragment.setKeyword(getFavoriteMember().replace("미코","사쿠라").replace("라미","유키하나"));
                     tweetFragment.setKeyword(getFavoriteMember());
                 }
                 else{
-                    //liveFragment.setKeyword(search.getText().toString());
-                    liveFragmentTCP.setKeyword(search.getText().toString());
+                    liveFragment.setKeyword(search.getText().toString());
+                    //liveFragmentTCP.setKeyword(search.getText().toString());
                     tweetFragment.setKeyword(search.getText().toString());
                     kirinukiFragment.setKeyword(search.getText().toString().replace("미코","사쿠라").replace("라미","유키하나"));
                 }
-                //liveFragment.search();
-                liveFragmentTCP.search();
+                liveFragment.search();
+                //liveFragmentTCP.search();
                 tweetFragment.setCountry(countrySpinner.getItemAtPosition(i).toString());
                 tweetFragment.setPage(1);
                 tweetFragment.getJsonData();
@@ -147,24 +148,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if ((i == EditorInfo.IME_ACTION_SEARCH)) {
-                    //liveFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
-                    liveFragmentTCP.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
+                    liveFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
+                    //liveFragmentTCP.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
 
                     if (countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString().equals("즐겨찾기")) {
-                        //liveFragment.setKeyword(search.getText().toString());
-                        liveFragmentTCP.setKeyword(search.getText().toString());
+                        liveFragment.setKeyword(search.getText().toString());
+                        //liveFragmentTCP.setKeyword(search.getText().toString());
                         kirinukiFragment.setKeyword(getFavoriteMember().replace("미코","사쿠라").replace("라미","유키하나"));
                         tweetFragment.setKeyword(getFavoriteMember());
                     }
                     else{
-                        //liveFragment.setKeyword(search.getText().toString());
-                        liveFragmentTCP.setKeyword(search.getText().toString());
+                        liveFragment.setKeyword(search.getText().toString());
+                        //liveFragmentTCP.setKeyword(search.getText().toString());
                         tweetFragment.setKeyword(search.getText().toString());
                         //Log.d("내용",search.getText().toString().replace("미코","사쿠라").replace("라미","유키하나"));
                         kirinukiFragment.setKeyword(search.getText().toString().replace("미코","사쿠라").replace("라미","유키하나"));
                     }
-                    //liveFragment.search();
-                    liveFragmentTCP.search();
+                    liveFragment.search();
+                    //liveFragmentTCP.search();
                     tweetFragment.setCountry(countrySpinner.getItemAtPosition(countrySpinner.getSelectedItemPosition()).toString());
                     tweetFragment.setPage(1);
                     tweetFragment.getJsonData();
@@ -195,8 +196,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private void createFragment() {
-        //liveFragment = new LiveFragment(memberlist, map);
-        liveFragmentTCP = new LiveFragment_TCP(memberlist,map);
+        liveFragment = new LiveFragment(memberlist, map);
+        //liveFragmentTCP = new LiveFragment_TCP(memberlist,map);
         tweetFragment = new TweetFragment(tweetList);
         kirinukiFragment = new KirinukiFragment(kirinukiList);
     }

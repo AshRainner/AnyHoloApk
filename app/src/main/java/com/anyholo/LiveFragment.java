@@ -93,6 +93,9 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
                                 Model m = response.body();
                                 list.clear();
                                 list.addAll(m.getMemberList());
+                                copyList.clear();
+                                for(MemberView mv : list)
+                                    copyList.add(mv);
                                 sortMember();
                                 search();
                                 liveAdapter.notifyDataSetChanged();
@@ -102,8 +105,10 @@ public class LiveFragment extends Fragment implements FavoriteHandle {
 
                             @Override
                             public void onFailure(Call<Model> call, Throwable t) {
-                                if(errorCount<6)
+                                errorCount++;
+                                if(errorCount<6) {
                                     call.clone().enqueue(this); //오류날 시 리트라이
+                                }
                                 else {
                                     Toast.makeText(getActivity().getApplicationContext(), "다시 시도해주세요", Toast.LENGTH_SHORT).show();
                                     swipeRefreshLayout.setRefreshing(false);

@@ -35,7 +35,7 @@ import retrofit2.Response;
 
 public class LodingActivity extends AppCompatActivity {
     private String fileName = "Favorite.txt";
-    private String version = "1.0.0";
+    private String version = "1.0.1";
     private int errorCount = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
