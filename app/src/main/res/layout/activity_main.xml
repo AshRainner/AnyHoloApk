@@ -15,7 +15,15 @@
         android:adjustViewBounds="true"
         android:src="@drawable/banner"
         tools:ignore="MissingConstraints"></ImageView>
-
+    <Button
+        android:id="@+id/updateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:text="업데이트 내역"
+        android:textColor="@color/black"
+        android:background="#88d2ff"
+        android:layout_alignParentRight="true"
+        style="@style/Widget.AppCompat.Button.Borderless"></Button>
     <LinearLayout
         android:id="@+id/search_layout"
         android:layout_width="match_parent"

@@ -97,7 +97,7 @@
     <string name="SoraIntro"><b>그룹</b>&#160;&#160;&#160;&#160;JP 0기생\n<b>데뷔</b>&#160;&#160;&#160;&#160;17.09.07\n<b>생일</b>&#160;&#160;&#160;&#160;5월 15일</string>
     <string name="SoraTranslatedText">☆홀로라이브 소속 버츄얼 아이돌、토키노 소라입니다！\n요코하마 아레나에서 단독 라이브를 목표로 활동하고 있습니다！！무조건 이루고 싶으니까 응원 부탁드립니다！！！！\n\n재밌었다면 채널 등록 꼭 해주세요!୧(๑•̀ㅁ•́๑)૭✧\n\n\n★니코니코 채널：오피셜 팬클럽★\nhttps://ch.nicovideo.jp/tokinosora\n\n★19/10/07발매 신곡『フレーフレーLOVE』★\nhttps://jvcmusic.lnk.to/Hurray_Hurray_LOVE\n\n★메이저 데뷔 앨범『Dreaming!』사이트★\nhttps://www.jvcmusic.co.jp/tokinosora/65163/\n\n★MF문고 라이트 노벨『토키노 소라 버츄얼 아이돌이지만 응원 해주시겠습니까？』★\nhttps://mfbunkoj.jp/product/tokinosora/321812000134.html\n\n★TV도쿄 드라마『四月一日さん家の』★\nhttps://www.tv-tokyo.co.jp/watanuki/\n\n★굿즈 판매『토키노 소라 공인☆마음이 밝아지는 숍』★\nhttps://ebten.jp/newtype/1371\n\n★보이스 있는 LINE 스탬프★\nhttps://store.line.me/stickershop/product/12242/ja\n\n★TOKYO FM『そらあおと！』팬 커뮤니티★\nhttps://fanicon.net/fancommunities\n\n[Sounds] 포켓 사운드,DOVA-SYNDROME,魔王魂,OtoLogic\n[System] HoloLive (COVER Inc.)</string>
     <string name="WatameName"><b>츠노마키 와타메</b></string>
-    <string name="WatameIntro"><b>그룹</b>&#160;&#160;&#160;&#160;JP 4기생\n<b>데뷔</b>&#160;&#160;&#160;&#160;19.08.08\n<b>생일</b>&#160;&#160;&#160;&#160;11월 24일</string>
+    <string name="WatameIntro"><b>그룹</b>&#160;&#160;&#160;&#160;JP 4기생\n<b>데뷔</b>&#160;&#160;&#160;&#160;19.12.29\n<b>생일</b>&#160;&#160;&#160;&#160;6월 6일</string>
     <string name="WatameTranslatedText">홀로라이브 소속。\n음유시인을 하며 여유롭게 여행하는 양。\n노래를 좋아함。푹신푹신。아무튼 푹신푹신。\n초식계라 포테토칩을 좋아함。\n\n츠노마키 와타메의Member ship 열렸어요。\n『Member sheep』\n아래의 URL에서 할 수 있다고 생각하니까、응원 부탁드립니다！\nhttps://www.youtube.com/channel/UCqm3BQLlJfvkTsX_hvm0UmA/join\n\n문의\n커버 주식회사：http://cover-corp.com/\n公式Twitter:https://twitter.com/hololivetv</string>
     <string name="NoelName"><b>시로가네 노엘</b></string>
     <string name="NoelIntro"><b>그룹</b>&#160;&#160;&#160;&#160;JP 3기생\n<b>데뷔</b>&#160;&#160;&#160;&#160;19.08.08\n<b>생일</b>&#160;&#160;&#160;&#160;11월 24일</string>
@@ -165,5 +165,5 @@
     <string name="nameError"><b>Error</b></string>
     <string name="introError"><b>그룹</b>&#160;&#160;&#160;&#160; ERROR\n<b>데뷔</b>&#160;&#160;&#160;&#160; ERROR\n<b>생일</b>&#160;&#160;&#160;&#160; ERROR</string>
     <string name="ErrorT">Error</string>
-    <string name="DevText"><b>제작자</b> 페코라스키스기\n<b>디자인</b> 키트【Kitto】\n<b>Loding GIF</b> GIF Kay Yu\n<b>문의</b> 그을비#8099 or gell8778@naver.com</string>
+    <string name="DevText"><b>제작자</b> 페코라스키스기\n<b>디자인</b> 키트【Kitto】\n<b>Loding GIF</b> Kay Yu\n<b>문의</b> 그을비#8099 or gell8778@naver.com</string>
 </resources>

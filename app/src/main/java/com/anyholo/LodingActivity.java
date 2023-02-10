@@ -1,11 +1,17 @@
 package com.anyholo;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,17 +41,21 @@ import retrofit2.Response;
 
 public class LodingActivity extends AppCompatActivity {
     private String fileName = "Favorite.txt";
-    private String version = "1.0.1";
+    private String version = "1.0.2";
     private int errorCount = 0;
+    private TextView versionText;
+    private Boolean update = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loding);
         ImageView loadingImage = findViewById(R.id.loadingImage);
+        versionText = findViewById(R.id.versionText);
+        versionText.setText("Version : "+version);
         Glide.with(this).load(R.drawable.loading).into(loadingImage);
-
         Handler handler = new Handler();
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
+
         Thread Loading = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -59,6 +69,7 @@ public class LodingActivity extends AppCompatActivity {
                         }
                         else{
                             Toast.makeText(getApplicationContext(),"최신 버전이 아닙니다", Toast.LENGTH_SHORT).show();
+                            update=false;
                         }
                         ArrayList<MemberView> memberList= m.getMemberList();
                         ArrayList<KirinukiView> kirinukiList = m.getVidoes();
@@ -68,11 +79,15 @@ public class LodingActivity extends AppCompatActivity {
                         intent.putExtra("KirinukiList",kirinukiList);
                         intent.putExtra("TweetList",tweetList);
                         intent.putExtra("Favorite",map);
+                        intent.putExtra("Update",update);
+                        String updateString = m.getUpdateString();
+                        intent.putExtra("UpdateString",updateString);
                         startActivity(intent);
                         finish();
                     }
                     @Override
                     public void onFailure(Call<Model> call, Throwable t) {
+                        Log.d("오류",t.toString());
                         errorCount++;
                         if(errorCount<6)
                             call.clone().enqueue(this); //오류날 시 리트라이

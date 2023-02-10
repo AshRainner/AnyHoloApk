@@ -18,6 +18,17 @@ public class Model implements Serializable {
     @SerializedName("Version")
     private String version;
 
+    @SerializedName("UpdateString")
+    private String updateString;
+
+    public String getUpdateString() {
+        return updateString;
+    }
+
+    public void setUpdateString(String updateString) {
+        this.updateString = updateString;
+    }
+
     public ArrayList<MemberView> getMemberList() {
         return member;
     }

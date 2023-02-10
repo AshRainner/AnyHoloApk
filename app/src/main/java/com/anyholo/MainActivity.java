@@ -1,8 +1,12 @@
 package com.anyholo;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -12,6 +16,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -47,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     무단 전제 및 도용 시 저작권 법에 의해 처벌 받을 수 있습니다.
     제작자 : 인하공업 전문 대학 2학년 이건
      */
+    private String updateString;
+    private String updateLink = "https://github.com/AshRainner/AnyHoloApk/releases";
     private String fileName = "Favorite.txt";
     private EditText search;
     private ViewPager2 viewPager;
@@ -57,14 +64,18 @@ public class MainActivity extends AppCompatActivity {
     private CustomViewPagerAdapter pagerAdapter;
     private TabLayout tabLayout;
     private HashMap<String, Boolean> map;
+    private Boolean update;
+    private Button updateButton;
     ArrayList<MemberView> memberlist;
     ArrayList<KirinukiView> kirinukiList;
     ArrayList<TweetView> tweetList;
 
+    @SuppressLint("SuspiciousIndentation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        updateButton = findViewById(R.id.updateButton);
         search = findViewById(R.id.search_bar);
         viewPager = findViewById(R.id.viewpager);
         tabLayout = findViewById(R.id.tab);
@@ -73,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
         kirinukiList = (ArrayList<KirinukiView>) intent.getSerializableExtra("KirinukiList");
         map = (HashMap<String, Boolean>) intent.getSerializableExtra("Favorite");
         tweetList = (ArrayList<TweetView>) intent.getSerializableExtra("TweetList");
+        update = intent.getBooleanExtra("Update",false);
+        updateString = intent.getStringExtra("UpdateString");
         pagerAdapter = new CustomViewPagerAdapter(this);
         createFragment();
         reduceDragSensitivity(6);//민감도 수정
@@ -179,6 +192,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        if(!update)
+        createAlert();
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createAlert();
+            }
+        });
+
     }
     private void reduceDragSensitivity(int sensitivity) {
         try {
@@ -227,5 +249,26 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         return "";
+    }
+    private void createAlert(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("업데이트 내역")
+                .setMessage(updateString)
+                .setCancelable(false)
+                .setPositiveButton("업데이트", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent update = new Intent(Intent.ACTION_VIEW, Uri.parse(updateLink));
+                        startActivity(update);
+                    }
+                })
+                .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

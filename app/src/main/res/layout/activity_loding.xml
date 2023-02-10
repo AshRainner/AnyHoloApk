@@ -10,7 +10,13 @@
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:src="@drawable/banner"></ImageView>
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/banner"
+        android:layout_marginTop="5dp"
+        android:id="@+id/versionText"
+        android:textColor="@color/black"></TextView>
     <ImageView
         android:layout_below="@id/banner"
         android:layout_width="wrap_content"

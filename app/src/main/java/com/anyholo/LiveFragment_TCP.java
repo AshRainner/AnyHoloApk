@@ -122,9 +122,7 @@ public class LiveFragment_TCP extends Fragment implements FavoriteHandle,SwipeRe
             @Override
             public void run() {
                 try {
-                    Log.d("!","!");
                     Socket socket = new Socket("222.237.255.159", 9092);
-                    Log.d("!2","!2");
                     ObjectInputStream is = new ObjectInputStream(socket.getInputStream());
                     JSONObject obj = (JSONObject) is.readObject();
                     is.close();
@@ -133,6 +131,9 @@ public class LiveFragment_TCP extends Fragment implements FavoriteHandle,SwipeRe
                     Model m = gson.fromJson(obj.toString(), Model.class); // gson으로 json데이터를 직렬화
                     list.clear();
                     list.addAll(m.getMemberList());
+                    copyList.clear();
+                    for(MemberView mv : list)
+                        copyList.add(mv);
                     getActivity().runOnUiThread(new Runnable() { // 메인 스레드 이외에서 바꾸려고하면 오류나서 이걸 써야함
                         @Override
                         public void run() {
@@ -145,7 +146,7 @@ public class LiveFragment_TCP extends Fragment implements FavoriteHandle,SwipeRe
                     });
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActivity(), "새로고침 오류2", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "새로고침 오류", Toast.LENGTH_SHORT).show();
                     swipeRefreshLayout.setRefreshing(false);
                 }
             }

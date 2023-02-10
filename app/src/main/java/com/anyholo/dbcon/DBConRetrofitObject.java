@@ -10,7 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DBConRetrofitObject {
-    private static final String BASE_URL = "http://52.193.142.22//";//서버 주소
+    private static final String BASE_URL = "http://52.193.142.22//";//서버 주소 test용 : "http://192.168.35.9:8081";//
     private static Retrofit retrofit;
     private DBConRetrofitObject(){
         retrofit = new Retrofit.Builder()
@@ -23,9 +23,9 @@ public class DBConRetrofitObject {
                 .setLenient()
                 .create();
         OkHttpClient okHttpClient = new OkHttpClient.Builder()//타임아웃 시간 조절
-                .connectTimeout(2, TimeUnit.SECONDS)
-                .readTimeout(2, TimeUnit.SECONDS)
-                .writeTimeout(2, TimeUnit.SECONDS)
+                .connectTimeout(15, TimeUnit.SECONDS)
+                .readTimeout(15, TimeUnit.SECONDS)
+                .writeTimeout(15, TimeUnit.SECONDS)
                 .build();
         //로딩시간 바꾸기
         if(retrofit == null){
