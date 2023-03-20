@@ -41,7 +41,7 @@ import retrofit2.Response;
 
 public class LodingActivity extends AppCompatActivity {
     private String fileName = "Favorite.txt";
-    private String version = "1.0.2";
+    private String version = "1.0.3";
     private int errorCount = 0;
     private TextView versionText;
     private Boolean update = true;
