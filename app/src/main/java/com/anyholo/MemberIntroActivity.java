@@ -43,6 +43,7 @@ public class MemberIntroActivity extends AppCompatActivity {
         Intent intent = getIntent();
         memberView = (MemberView) intent.getSerializableExtra("MemberView"); // 클릭한 멤버의 정보를 받아옴
         Glide.with(this).load(memberView.getProfileUrl()).into(proFileImage);
+        proFileImage.setScaleType(ImageView.ScaleType.FIT_XY);
         String s=memberView.getEnName()+"Name";
         int identifier = getResources().getIdentifier(s,"string",getPackageName());
         nameText.setText(identifier);
